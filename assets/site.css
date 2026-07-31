@@ -218,6 +218,14 @@ nav.main a.nav-cta{color:var(--accent);font-weight:600;margin-left:4px}
 .bw-off{visibility:hidden}
 .toc a.on{color:var(--accent);font-weight:600}
 @media(max-width:640px){.bw-stepper{font-size:.8rem;gap:8px}}
+
+/* listing header — eyebrow, a claim, a lede saying what the section is FOR.
+   Pattern from structurebeatsmagic /writing/: the header earns its space by
+   telling the reader why the list below matters, not by naming the page type. */
+.listing-head{padding-bottom:8px}
+.listing-head h1{max-width:16ch}
+.listing-head .lede{font-size:1.06rem;color:var(--muted);max-width:60ch;margin:.5em 0 0}
+@media(max-width:700px){.listing-head h1{max-width:none}}
 /* === END shared tokens === */
 
 /* Breakthrough Modeling (BTM) — site.css. No-nonsense, structure-first. Light + dark. */
