@@ -253,6 +253,9 @@ body.toc-off .toc-inner{display:none}
 body.toc-off .toc{width:auto;flex-basis:auto}
 html{scroll-behavior:smooth}
 @media(max-width:900px){.pagewrap{display:block}.toc{display:none}}
+/* a row with no page of its own — rendered, not linked */
+.bw-cell.bw-nolink{cursor:default}
+.bw-cell.bw-nolink:hover{border-color:var(--line)}
 /* === END shared tokens === */
 
 /* Breakthrough Modeling (BTM) — site.css. No-nonsense, structure-first. Light + dark. */
