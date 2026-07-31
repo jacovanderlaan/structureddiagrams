@@ -1,0 +1,32 @@
+# Structured Diagrams — crawl policy
+# A public thesis site. We *want* to be found, indexed and cited — by search
+# engines and AI answer engines alike. Discovery is the point. Privacy is
+# controlled by what we publish (no personal data committed), not by blocking
+# readers.
+
+User-agent: *
+Allow: /
+
+# AI crawlers are explicitly welcome (being quoted/cited is reach, not a leak).
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://structureddiagrams.com/sitemap.xml

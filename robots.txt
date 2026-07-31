@@ -1,0 +1,4 @@
+# ⚠️ TEMPORARILY BLOCKING INDEXING — not ready for search engines yet.
+# Restore robots.txt.golive when ready to go public (see seo-plan-family.md).
+User-agent: *
+Disallow: /

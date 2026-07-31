@@ -107,8 +107,15 @@
 <p>5. <strong><code>mermaid-to-excalidraw</code> is the cheapest model→sketch path</strong> and already exists officially.</p>
 <p>6. <strong>Heptabase gives the conceptual model</strong> (card = unit, board = view, board = AI context) without giving an architecture worth copying.</p>
 <p>7. <strong>Do not build real-time collaboration.</strong> Borrow Miro for the moments that need a room.</p>
+<h3>7. Visual Data Vault — DBML as the interchange bet (added 31 Jul 2026)</h3>
+<p>Launched <strong>30 Jul 2026</strong>, one day after this document was written — a reminder that a landscape scan has a short shelf life. Full assessment sits in the <em>feature matrix</em> research; the format finding belongs here.</p>
+<p><strong>It reads and writes DBML.</strong> That matters beyond one tool: dbdiagram established DBML, and a second serious product adopting it makes it <strong>the most credible open interchange format for the ERD family</strong> — text-based, diffable, human-readable, and now with two independent implementations.</p>
+<p>⚠️ <strong>Their own caveat is the important part:</strong> <em>"DBML exchange is incomplete; it does not preserve every modeling rule."</em> A round-trip through a lossy format returns a drawing, not a model — the Data Vault semantics that made the notation worth having are exactly what falls out. <strong>This is the round-trip problem in miniature:</strong> the format that is easy to exchange is the one that carries the least meaning.</p>
+<p><strong>Practical read:</strong> support DBML as an <em>export</em> target (cheap, real reach) and never as the <em>source of truth</em>.</p>
 <h3>Open follow-ups</h3>
 <ul>
+<li>[ ] Evaluate DBML as an export target — what survives the round-trip, what does not?</li>
+<li>[ ] Watch whether Scalefree wires Visual Data Vault to DataVault4dbt (drawing → generated dbt code). If they do, the middle closes from their side.</li>
 <li>[ ] Test-generate a <code>.canvas</code> from the <code>links</code> table — does Obsidian open it cleanly?</li>
 <li>[ ] Decide: migrate <code>board.yaml</code> → JSON Canvas?</li>
 <li>[ ] Try <code>mermaid-to-excalidraw</code> on a real generated ERD; is the output presentable?</li>
@@ -120,6 +127,7 @@
 <li><a href="https://github.com/obsidianmd/jsoncanvas/blob/main/spec/1.0.md">JSON Canvas spec 1.0</a> · PyPI: <code>PyJSONCanvas</code>, <code>openjsoncanvas</code></li>
 <li><a href="https://www.drawio.com/doc/faq/format-custom-shape-library">draw.io custom shape library format</a></li>
 <li><a href="https://developers.miro.com/reference/overview">Miro REST API v2</a></li>
+<li><a href="https://visualdatavault.com/">Visual Data Vault</a> + <a href="https://www.scalefree.com/blog/tools/introducing-visual-data-vault-a-purpose-built-canvas-for-data-vault-modeling/">launch post</a> (30 jul 2026) — ⚠️ documentation only, not hands-on</li>
 <li><a href="https://heptabase.com">Heptabase</a> — see curated source <code>W:/systems/curated-sources/heptabase/</code></li>
 <li><a href="https://ellie.ai/">Ellie.ai</a> — see research <code>2026-07-31_miro-api-collaborative-visual-experience.md</code></li>
 </ul>

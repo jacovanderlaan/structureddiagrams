@@ -40,7 +40,8 @@
 <div class="research-body">
 <p># Feature matrix — modelling products vs diagramming tools</p>
 <p><strong>Question:</strong> which features do data modelling products and generic diagramming tools offer, how does each score, and <strong>which should we build ourselves?</strong></p>
-<p><strong>The finding that organises the rest:</strong> the two categories fail in opposite directions. Modelling products have the model but treat the picture as an export. Diagramming tools have the picture but no model underneath. Almost nothing sits in the middle — which is where the buildable list comes from.</p>
+<p><strong>The finding that organises the rest:</strong> the two categories fail in opposite directions. Modelling products have the model but treat the picture as an export. Diagramming tools have the picture but no model underneath. The gap between them is where the buildable list comes from.</p>
+<p>⚠️ <strong>Amended the day it was written.</strong> A <strong>third</strong> category surfaced — the <em>notation-native editor</em>: Visual Data Vault, launched 30 Jul 2026, which implements one notation completely, with an open round-trippable format. The middle is not empty; it is being approached from three directions. What still does not exist is <strong>one model, many notations, with impact analysis over the same source.</strong> See §1a and §3.</p>
 <p>⚠️ <strong>Read this as a working assessment, not a benchmark.</strong> Scores are judgements from documentation, hands-on use and the research already in this folder, dated 31 Jul 2026. Vendors move; verify before quoting.</p>
 <p>Scale: <strong>●●●</strong> strong · <strong>●●○</strong> partial · <strong>●○○</strong> weak · <strong>○○○</strong> absent</p>
 <hr>
@@ -65,6 +66,32 @@
 <p><strong>PowerDesigner</strong> is still the most complete on impact analysis, and it treats an impact model as a <strong>first-class saved artifact</strong> rather than a transient report — worth stealing. ⚠️ <strong>End of life 2027.</strong> Decades of enterprise models are locked in a proprietary format that will outlive its tool: <a href="../concepts/gated-knowledge.html">Gated Knowledge</a> with a closing date.</p>
 <p><strong>Ellie.ai</strong> wins on the axis everyone else ignores: real-time browser collaboration with business users, an AI chatbot for first drafts, catalog integration. It is genuinely better at this than we will be. The trade is ownership — the model lives in their cloud.</p>
 <p><strong>dbdiagram</strong> scores unexpectedly well on the bottom four rows for one reason: its source is text. Small tool, correct instinct.</p>
+<h4>1a · Visual Data Vault — the notation-native editor (added 31 Jul 2026)</h4>
+<p><strong>Launched 30 July 2026</strong> by <a href="https://www.scalefree.com/">Scalefree</a>, Data Vault 2 certified specialists. Free, browser-based, at <a href="https://visualdatavault.com/">visualdatavault.com</a>. New enough that this assessment is from documentation and the launch post, <strong>not hands-on use.</strong></p>
+<table class="rtbl">
+<tr><th>Feature</th><th>Visual Data Vault</th></tr>
+<tr><td>Notation-native primitives (Hub · Link · Satellite · PIT · Bridge · Reference)</td><td>●●●</td></tr>
+<tr><td>Column-level metadata (technical name, data type, parent)</td><td>●●○</td></tr>
+<tr><td><strong>Open, diffable source format</strong> (JSON + DBML)</td><td>●●○</td></tr>
+<tr><td><strong>Round-trip</strong> (import <em>and</em> export JSON/DBML)</td><td>●●○</td></tr>
+<tr><td>Naming-convention automation</td><td>●●●</td></tr>
+<tr><td>Multi-notation output</td><td>○○○</td></tr>
+<tr><td>Impact analysis · lineage</td><td>○○○</td></tr>
+<tr><td>Forward/reverse engineering · code generation</td><td>○○○</td></tr>
+<tr><td>Real-time collaboration</td><td>○○○</td></tr>
+<tr><td>Survives its vendor</td><td>●●○</td></tr>
+</table>
+<p><strong>It supports the full DV2 entity vocabulary</strong>, not a generic-box approximation: Reference Hubs, Non-Historized and Hierarchical Links, and Multi-Active, Effectivity, Record-Tracking and Non-Historized Satellites. That specificity is the whole product.</p>
+<p><strong>Their diagnosis is the same as ours.</strong> From the launch post: <em>"General-purpose diagramming tools can draw the shapes, but they do not understand Data Vault."</em> That is <a href="../concepts/model-as-drawing.html">Model as Drawing</a> named from the vendor side — a tool that knows only shapes cannot check whether the shapes are right.</p>
+<p><strong>Their answer is the opposite of ours</strong>, and they say so plainly: <em>"visual clarity and a minimal backend footprint instead of heavy metadata management"</em>, and <em>"Visual Data Vault complements those tools; it does not try to replace them."</em> Explicitly <strong>not</strong> a metadata or lineage platform; it does not generate transformation code or deploy objects.</p>
+<p>⚠️ <strong>This is the honest challenge to the thesis, and it deserves a straight answer.</strong> Their claim is that for the <em>modelling</em> act — the hour at the whiteboard where a Hub either is or is not a business key — a fast notation-aware canvas beats a generation pipeline. <strong>They are right about that hour.</strong> Where the argument holds is everything after it: when the source system adds a column, the Data Vault diagram drawn at the speed of thought is a drawing that was true once.</p>
+<p><strong>What is genuinely worth stealing:</strong></p>
+<ul>
+<li><strong>Notation-native primitives instead of generic boxes.</strong> Exactly <a href="../concepts/generated-palettes.html">Generated Palettes</a> — except theirs are hand-built into the editor, while ours can be <em>generated from the model</em>. Their approach proves the demand; ours removes the maintenance.</li>
+<li><strong>Naming-convention automation.</strong> The tool applies the standard so the modeller cannot drift from it. Cheap to build, disproportionately useful, and it is metadata discipline enforced at the point of drawing.</li>
+<li><strong>DBML as the interchange format.</strong> Text-based, diffable, already supported by dbdiagram — a second serious tool adopting it makes DBML the most credible open interchange target for the ERD family. ⚠️ Their own caveat: <em>"DBML exchange is incomplete; it does not preserve every modeling rule."</em> Round-trip through a lossy format loses exactly the semantics that made the notation worth having.</li>
+</ul>
+<p>⚠️ <strong>Scalefree also maintains <a href="https://www.scalefree.com/consulting/datavault4dbt/">DataVault4dbt</a></strong> — a dbt package that <em>does</em> generate Data Vault transformation code from configuration. So the generation pipeline exists in their portfolio; it is simply not wired to the diagram editor. <strong>The two halves sit in one company and do not talk to each other.</strong> That disconnection is the opportunity, and it is worth watching whether they close it.</p>
 <hr>
 <h3>2 · Generic diagramming tools</h3>
 <table class="rtbl">
@@ -87,15 +114,18 @@
 <h3>3 · The gap between the two tables</h3>
 <p>Read them together and the shape is obvious:</p>
 <table class="rtbl">
-<tr><th></th><th>Modelling products</th><th>Diagramming tools</th></tr>
-<tr><td>Has a model underneath</td><td>✅</td><td>❌</td></tr>
-<tr><td>Open, diffable format</td><td>❌ (except dbdiagram)</td><td>✅</td></tr>
-<tr><td>Impact analysis</td><td>✅ (some)</td><td>❌</td></tr>
-<tr><td>Multi-notation output</td><td>❌</td><td>n/a — each <em>is</em> a notation</td></tr>
-<tr><td>Collaboration</td><td>❌ (except Ellie)</td><td>✅</td></tr>
-<tr><td>Survives its vendor</td><td>❌</td><td>✅</td></tr>
+<tr><th></th><th>Modelling products</th><th>Diagramming tools</th><th><strong>Notation-native editors</strong></th></tr>
+<tr><td>Has a model underneath</td><td>✅</td><td>❌</td><td>⚠️ a <em>notation</em>, not a model</td></tr>
+<tr><td>Open, diffable format</td><td>❌ (except dbdiagram)</td><td>✅</td><td>✅ JSON + DBML</td></tr>
+<tr><td>Impact analysis</td><td>✅ (some)</td><td>❌</td><td>❌</td></tr>
+<tr><td>Multi-notation output</td><td>❌</td><td>n/a — each <em>is</em> a notation</td><td>❌ — one notation, deeply</td></tr>
+<tr><td>Collaboration</td><td>❌ (except Ellie)</td><td>✅</td><td>❌</td></tr>
+<tr><td>Survives its vendor</td><td>❌</td><td>✅</td><td>⚠️ open format, hosted app</td></tr>
 </table>
-<p><strong>Nothing occupies the middle.</strong> A modelling product with an open source format and multi-notation generated output does not exist commercially — which is precisely the position this work already holds, arrived at from the metadata side rather than the tooling side.</p>
+<p><strong>A third category appeared while this document was being written.</strong> The original claim here was <em>"nothing occupies the middle."</em> Visual Data Vault (30 Jul 2026) partly contradicts it, and the correction is more interesting than the original claim: it takes <strong>one notation</strong> and implements it <em>completely</em> — every DV2 entity type as a first-class primitive, with an open round-trippable format.</p>
+<p>So the middle is being approached from a <strong>third</strong> direction: not "model first, picture later" and not "picture with no model", but <strong>notation first, deeply, for one method</strong>.</p>
+<p><strong>What still does not exist commercially:</strong> a tool where <strong>one model generates many notations</strong>, with impact analysis over the same source, in an open diffable format. Visual Data Vault is deliberately one notation. Modelling products are one vendor format. Diagramming tools have no model at all.</p>
+<p>⚠️ <strong>The competitive read is not "we are still alone."</strong> It is that the vacancy is now being filled from three sides, and the defensible position is the one nobody else is taking: <strong>the model as the source, the notation as a rendering choice made late.</strong> A notation-native editor is a better <em>drawing</em> tool than anything here will be. It is not a better <em>source of truth</em> — and those are different jobs.</p>
 <hr>
 <h3>4 · What to build ourselves</h3>
 <p>Ordered by <em>value ÷ effort</em>, judged against what already exists here.</p>
@@ -116,12 +146,14 @@
 <p><strong>The pattern in rows 9–10:</strong> both are products in their own right, both have well-funded incumbents, and neither strengthens the actual thesis.</p>
 <hr>
 <h3>5 · Conclusions</h3>
-<p>1. <strong>The categories fail in opposite directions.</strong> Model without picture; picture without model. The middle is unoccupied.</p>
+<p>1. <strong>The categories fail in opposite directions.</strong> Model without picture; picture without model. ⚠️ <strong>Amended 31 jul:</strong> a <em>third</em> category now exists — the notation-native editor (Visual Data Vault, launched 30 jul) — which implements one notation completely with an open round-trippable format. The middle is being approached from three sides, not standing empty.</p>
 <p>2. <strong>Open format is the dividing line</strong> — again. Every tool that scores well on <em>survives its vendor</em> has a text or documented format.</p>
 <p>3. <strong>PowerDesigner's 2027 EOL is a dated opportunity</strong>, not just a fact. Reverse-engineering <code>.pdm</code> has a shelf life.</p>
-<p>4. <strong>Ellie.ai is better at collaboration and will stay better.</strong> Compete on ownership and generation, not on real-time UX.</p>
+<p>4. <strong>Ellie.ai is better at collaboration and will stay better.</strong> Compete on ownership and generation, not on real-time UX. The same holds for Visual Data Vault on <em>drawing DV diagrams fast</em> — it will stay better at that. <strong>Drawing tool and source of truth are different jobs.</strong></p>
 <p>5. <strong>Eight features are buildable as packaging work.</strong> The generators exist; what is missing is the wrapper.</p>
 <p>6. <strong>Two features should be declined outright</strong> — say so explicitly, so they stop reappearing in planning.</p>
+<p>7. ⭐ <strong>Notation-native primitives + naming-convention automation are the two things worth stealing</strong> from Visual Data Vault. Both are cheap; the second enforces metadata discipline at the moment of drawing, which is the only moment it is not experienced as bureaucracy.</p>
+<p>8. ⚠️ <strong>DBML is becoming the credible open interchange target</strong> for the ERD family — dbdiagram and now Visual Data Vault. Worth supporting as an export. Their own caveat stands: it does not preserve every modelling rule.</p>
 <h3>Open follow-ups</h3>
 <ul>
 <li>[ ] Verify erwin and SqlDBM scores hands-on — currently judged from documentation</li>
@@ -133,6 +165,7 @@
 <ul>
 <li>Internal: ADR-65, ADR-86, ADR-103, ADR-300, ADR-336, ADR-342 (<code>model.duckdb</code> → <code>mdde_adr</code>)</li>
 <li>Prior research in this folder: <em>The visual tool landscape</em> · <em>Miro API and the collaborative visual experience</em> · <em>Claude skills for diagrams and briefs</em></li>
+<li><a href="https://visualdatavault.com/">Visual Data Vault</a> + <a href="https://www.scalefree.com/blog/tools/introducing-visual-data-vault-a-purpose-built-canvas-for-data-vault-modeling/">launch post, 30 jul 2026</a> · <a href="https://www.scalefree.com/consulting/datavault4dbt/">DataVault4dbt</a> — ⚠️ assessed from documentation, <strong>not hands-on</strong></li>
 <li><a href="https://ellie.ai/">Ellie.ai</a> · <a href="https://www.drawio.com/doc/faq/format-custom-shape-library">draw.io shape libraries</a> · <a href="https://docs.excalidraw.com/docs/codebase/json-schema">Excalidraw JSON schema</a> · <a href="https://github.com/obsidianmd/jsoncanvas">JSON Canvas spec</a></li>
 </ul>
 </div>
