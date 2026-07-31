@@ -34,16 +34,23 @@ header.site{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10
 header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
 .brand{font-weight:800;color:var(--fg);letter-spacing:-.02em;font-size:1.02rem;white-space:nowrap;flex:0 0 auto}
 .brand .abbr{color:var(--accent)}
-nav.main{display:flex;align-items:center;flex-wrap:nowrap}
-nav.main a{color:var(--muted);margin-left:18px;font-size:.9rem;font-weight:500;white-space:nowrap}
+/* ADR-127: top level is .navgroup wrappers, not bare <a>. Space the groups with
+   gap on the flex container — margin-left on `a` skipped the group labels and
+   ran them together ("The idea Library Writing Practice About"). */
+nav.main{display:flex;align-items:center;flex-wrap:nowrap;gap:18px}
+nav.main>a,nav.main .navtop{color:var(--muted);font-size:.9rem;font-weight:500;white-space:nowrap}
 nav.main a:hover{color:var(--fg);text-decoration:none}
-nav.main a.cta{color:var(--accent);font-weight:600}
-/* progressive collapse: shrink, then drop secondary links before the nav wraps */
-@media(max-width:940px){nav.main a{margin-left:14px;font-size:.85rem}}
+nav.main .navgroup:hover .navtop{color:var(--fg)}
+nav.main .navtop.on{color:#2563eb;font-weight:600}
+nav.main a.cta{color:var(--accent);font-weight:600;margin-left:6px}
+/* progressive collapse: shrink, then drop whole groups before the nav wraps */
+@media(max-width:940px){nav.main{gap:14px}
+  nav.main>a,nav.main .navtop{font-size:.85rem}}
 @media(max-width:880px){.brand .abbr{display:none}}
-@media(max-width:820px){nav.main a:not(.cta):not([href="#idea"]):not([href="concepts/index.html"]){display:none}}
-@media(max-width:600px){nav.main a{margin-left:12px;font-size:.82rem}
-  nav.main a:not(.cta){display:none}}
+@media(max-width:820px){nav.main .navgroup:nth-of-type(n+4){display:none}}
+@media(max-width:600px){nav.main{gap:12px}
+  nav.main>a,nav.main .navtop{font-size:.82rem}
+  nav.main .navgroup:nth-of-type(n+2){display:none}}
 
 /* hero */
 .hero{padding:72px 22px 44px}
@@ -142,8 +149,7 @@ section h3{margin-top:1.8rem;margin-bottom:.3rem}
 
 /* ---- ADR-127: grouped nav + per-page TOC ---- */
 .navgroup{position:relative;display:inline-block}
-.navgroup>span{cursor:default;padding:.2rem .1rem;color:inherit}
-.navgroup>span.on{color:#2563eb;font-weight:600}
+.navgroup>.navtop{display:inline-block;padding:.2rem .1rem}
 .submenu{display:none;position:absolute;top:100%;left:-.6rem;background:#fff;border:1px solid rgba(15,23,42,.12);
   border-radius:5px;box-shadow:0 6px 24px rgba(15,23,42,.10);padding:.35rem 0;min-width:190px;z-index:40}
 .navgroup:hover .submenu,.navgroup:focus-within .submenu{display:block}
