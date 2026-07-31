@@ -49,6 +49,8 @@
   <p class="sub">The named ideas behind the model &mdash; 14 metadata concepts, grouped by family. Each one is a small, self-contained idea you can point at.</p>
 </div>
 <section class="wrap">
+<div id="browse"></div>
+<div class="bw-fallback">
 <div class="key-section"><h2>Key concepts</h2><p class="muted">The ideas that matter most here &mdash; start with these.</p>
 <div class="cards">
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="business-friendly-data-lineage.html">Business Friendly Data Lineage</a></h3><p>Data lineage made clear and actionable for decision makers.</p></div>
@@ -105,8 +107,18 @@
 <div class="card is-key"><h3><span class="key-badge">Key</span> <a href="visual-thinking.html">Visual Thinking</a></h3><p>The other half of structure — making the model seen, not just real. Structure makes knowledge exist; visual thinking makes it visible enough to trust, question and act on.</p></div>
 </div>
 
+</div>
   <p style="margin-top:34px"><a href="../index.html">&larr; Back home</a></p>
 </section>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../", assets: "assets/",
+    defaults: { view: "cards" }
+  }).then(() => document.body.classList.add("bw-ready"))
+    .catch((e) => console.warn("browse:", e));
+</script>
 <footer><div class="wrap">
   <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
 </div></footer>
