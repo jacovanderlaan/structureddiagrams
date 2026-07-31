@@ -182,3 +182,9 @@ pre.code{background:#0f172a;color:#e2e8f0;border-radius:8px;padding:16px 18px;ov
 pre.code code{background:none;color:inherit;padding:0;font:inherit;white-space:pre}
 .pagebody h4{margin:22px 0 6px;font-size:15px;letter-spacing:.01em;color:#0f172a}
 @media (prefers-color-scheme:dark){pre.code{background:#0b1220;border-color:#243044}}
+
+/* page hero figures (image briefs, ADR-075) */
+.hero-fig,.home-hero-fig{margin:0 0 26px;max-width:100%}
+.home-hero-fig{margin:34px 0 0}
+.hero-fig img,.home-hero-fig img{display:block;width:100%;height:auto;
+  border:1px solid var(--line);border-radius:12px}
