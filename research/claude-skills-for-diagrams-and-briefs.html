@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Claude skills for generating diagrams and briefs — what actually exists — Structured Diagrams</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head><body>
+<header class="site"><div class="wrap">
+<a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main"><a href="index.html">All research</a><a href="../concepts/index.html">Concepts</a>
+<a href="../index.html">Home</a></nav></div></header>
+<div class="wrap">
+<div class="eyebrow">Research</div>
+<h1>Claude skills for generating diagrams and briefs — what actually exists</h1>
+<p class="sub">Is there a usable collection of Claude skills for generating diagrams and briefs? Specifically: is there an ERD skill?</p>
+<p class="muted">2026-07-31 · complete · confidence: high</p>
+<div class="research-body">
+<p># Claude skills for diagrams and briefs — what actually exists</p>
+<p><strong>Question:</strong> is there a usable collection of Claude skills for generating diagrams and briefs? And specifically — <strong>is there an ERD skill?</strong></p>
+<p><strong>Short answer: the ecosystem is real but far thinner than the aggregator sites suggest, and there is no ERD skill.</strong> For anyone modelling data, that gap is the finding.</p>
+<hr>
+<h3>1. What a skill is</h3>
+<p>A skill is a folder with a <code>SKILL.md</code> file: YAML frontmatter plus instructions. Claude loads it through <strong>progressive disclosure</strong> — metadata first (~100 tokens), full instructions only when it judges the skill relevant, bundled resources and code only when needed.</p>
+<p>Install by cloning into <code>~/.claude/skills/</code> or <code>.claude/skills/</code>, or via the plugin marketplace:</p>
+<pre>
+/plugin marketplace add anthropics/skills
+/plugin add /path/to/skill-directory
+</pre>
+<p><strong>Skills are not MCP servers.</strong> A skill activates on context and injects instructions; a server exposes callable tools. Both appear on the same "diagram tooling" lists, which is a common source of confusion when picking one.</p>
+<hr>
+<h3>2. Verified, measured 31 Jul 2026</h3>
+<table class="rtbl">
+<tr><th>Repository</th><th>Stars</th><th>Licence</th><th>Last push</th><th>What it is</th></tr>
+<tr><td><code>anthropics/skills</code></td><td><strong>165,392</strong></td><td>Apache-2.0 (+ source-available)</td><td>2026-07-24</td><td>The official repo</td></tr>
+<tr><td><code>obra/superpowers</code></td><td><strong>264,253</strong></td><td>MIT</td><td>2026-07-28</td><td>Largest community collection</td></tr>
+<tr><td><code>travisvn/awesome-claude-skills</code></td><td>14,438</td><td>—</td><td>2026-04-28</td><td>Curated list</td></tr>
+<tr><td><code>karanb192/awesome-claude-skills</code></td><td>446</td><td>MIT</td><td>2026-07-28</td><td>Curated list, 50+ verified</td></tr>
+<tr><td><code>jgraph/drawio-mcp</code></td><td>5,046</td><td>Apache-2.0</td><td>—</td><td>draw.io MCP server (not a skill)</td></tr>
+</table>
+<p><strong>The official repo, in full</strong> — 17 skills: <code>algorithmic-art</code> · <code>brand-guidelines</code> · <code>canvas-design</code> · <code>claude-api</code> · <code>doc-coauthoring</code> · <code>docx</code> · <code>frontend-design</code> · <code>internal-comms</code> · <code>mcp-builder</code> · <code>pdf</code> · <code>pptx</code> · <code>skill-creator</code> · <code>slack-gif-creator</code> · <code>theme-factory</code> · <code>web-artifacts-builder</code> · <code>webapp-testing</code> · <code>xlsx</code>.</p>
+<p>Licensing splits: most are Apache-2.0; the four document skills (<code>docx</code>, <code>pdf</code>, <code>pptx</code>, <code>xlsx</code>) are <strong>source-available, not open source</strong> — shared as reference implementations of complex production skills.</p>
+<p>⚠️ <strong>Not one of the 17 generates a diagram.</strong> <code>canvas-design</code> and <code>algorithmic-art</code> are visual, but neither turns a model into an ERD, a lineage graph or a flowchart.</p>
+<hr>
+<h3>3. ⚠️ The aggregator problem</h3>
+<p>Several sites confidently name specific diagram skills. Checked against GitHub:</p>
+<table class="rtbl">
+<tr><th>Cited as</th><th>Reality</th></tr>
+<tr><td><code>ryanquinn3/excalidraw-skill</code></td><td><strong>404 — does not exist</strong></td></tr>
+<tr><td><code>jgtolentino/drawio-diagrams-enhanced</code></td><td><strong>404 — does not exist</strong></td></tr>
+<tr><td><code>jgraph/drawio-mcp</code></td><td>✅ exists, 5,046★ — but an <strong>MCP server</strong>, not a skill</td></tr>
+</table>
+<p>A GitHub search for diagram skills returns essentially two results: <code>tEhThing/claude-skills-diagramming</code> (<strong>2 stars</strong>) and <code>ergonzal22/claude-skill-diagram-generator</code> (<strong>0 stars</strong>).</p>
+<p>That is the honest state of it. The blog posts and marketplace pages describing a mature three-skill landscape are describing something that mostly is not there — or is there under a different mechanism (MCP servers, built-in connectors) than the word "skill" implies.</p>
+<p><strong>Method note:</strong> every claim here was checked against the GitHub API rather than taken from the write-ups. Two of three named repos evaporated on contact. Worth remembering for any tooling research — <em>the aggregators are not a source, they are a lead.</em></p>
+<hr>
+<h3>4. 🎯 Is there an ERD skill? No.</h3>
+<p>Searches for ERD, entity-relationship and data-model skills return nothing usable.</p>
+<p><strong>Why that gap is interesting rather than disappointing.</strong> The existing visual skills all start from <em>a description</em> — you tell Claude what to draw, it emits a picture. That is <a href="../concepts/model-as-drawing.html">Model as Drawing</a> with a language model attached: the output looks like a diagram and generates nothing, validates against nothing, and drifts the moment reality changes.</p>
+<p>An ERD skill worth having would start from <strong>the model</strong>, not from a prompt:</p>
+<ul>
+<li>read structure from metadata (YAML, DuckDB, a catalog) — not from a paragraph of prose</li>
+<li>emit deterministically: same model in, same picture out (<a href="../concepts/metadata-first-as-code.html">Metadata as Code</a>)</li>
+<li>render into several notations from one source — Mermaid for a README, draw.io for Confluence, GraphML for a large graph</li>
+<li>carry provenance, so the diagram knows which model version it came from</li>
+<li>round-trip: parse an edited drawing back into metadata</li>
+</ul>
+<p>None of that is exotic. It is exactly what the generators behind this site already do — the missing piece is the thin <code>SKILL.md</code> wrapper that makes them available inside a conversation.</p>
+<p>⚠️ <strong>The distinction that matters.</strong> A skill that draws an ERD <em>from a prompt</em> is a nicer way to make a picture. A skill that generates one <em>from metadata</em> is a view of a model. They look identical in a demo and behave differently in month three.</p>
+<hr>
+<h3>5. Briefs</h3>
+<p>Nothing purpose-built. The nearest neighbours are <code>doc-coauthoring</code> (official) and the document skills for output formats.</p>
+<p>The gap is the same shape as the ERD one: a brief in our sense is <strong>markdown with a metadata header</strong> — a small structured artifact that is reusable, queryable and citable, not a prompt typed once into a chat window. That is a convention plus a template, not a hard skill to write.</p>
+<hr>
+<h3>6. Conclusions</h3>
+<p>1. <strong>The ecosystem is real but thin.</strong> Two enormous repos (<code>anthropics/skills</code>, <code>obra/superpowers</code>) and a handful of curated lists — but essentially nothing for diagrams.</p>
+<p>2. <strong>Not one of the 17 official skills generates a diagram.</strong></p>
+<p>3. <strong>Two of the three widely-cited diagram skills do not exist.</strong> Verify before citing.</p>
+<p>4. <strong><code>jgraph/drawio-mcp</code> is real and useful</strong> — but a server, not a skill. Different install, different activation.</p>
+<p>5. <strong>There is no ERD skill.</strong> For a data-modelling audience, that is an unoccupied space.</p>
+<p>6. <strong>The existing skills draw from prompts, not models.</strong> Which is precisely the anti-pattern this site argues against.</p>
+<p>7. <strong>We already have the generators.</strong> Turning them into skills is packaging work, not invention.</p>
+<h3>Open follow-ups</h3>
+<ul>
+<li>[ ] Write an ERD skill: metadata in, Mermaid/draw.io/GraphML out, deterministic, with provenance</li>
+<li>[ ] Write a brief skill: markdown + frontmatter, the convention as an installable artifact</li>
+<li>[ ] Audit <code>obra/superpowers</code> (264k★) for a diagram skill hiding under another name</li>
+<li>[ ] Publish both under an open licence — a concrete, small, useful contribution to a genuinely empty niche</li>
+</ul>
+<h3>Sources</h3>
+<ul>
+<li><a href="https://github.com/anthropics/skills">anthropics/skills</a> — official, Apache-2.0 + source-available</li>
+<li><a href="https://github.com/obra/superpowers">obra/superpowers</a> — MIT</li>
+<li><a href="https://github.com/karanb192/awesome-claude-skills">karanb192/awesome-claude-skills</a> · <a href="https://github.com/travisvn/awesome-claude-skills">travisvn/awesome-claude-skills</a></li>
+<li><a href="https://github.com/jgraph/drawio-mcp">jgraph/drawio-mcp</a> — MCP server</li>
+<li>All figures via the GitHub API, 31 Jul 2026</li>
+</ul>
+</div>
+<p class="muted"><a href="index.html">&larr; All research</a></p>
+</div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
+part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+</body></html>

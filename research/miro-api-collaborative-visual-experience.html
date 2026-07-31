@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Miro API for collaborative data modelling — and the Collaborative Visual Experience — Structured Diagrams</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head><body>
+<header class="site"><div class="wrap">
+<a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main"><a href="index.html">All research</a><a href="../concepts/index.html">Concepts</a>
+<a href="../index.html">Home</a></nav></div></header>
+<div class="wrap">
+<div class="eyebrow">Research</div>
+<h1>Miro API for collaborative data modelling — and the Collaborative Visual Experience</h1>
+<p class="sub">Can we connect to the Miro API to make modelling a live, shared visual activity — and how does that compare to Ellie.ai and to what we already built?</p>
+<p class="muted">2026-07-31 · complete · confidence: high</p>
+<div class="research-body">
+<p># Miro API for collaborative data modelling</p>
+<p><strong>Question:</strong> can we connect to Miro's API so that modelling becomes a live, shared visual activity — and how does that sit against Ellie.ai and against what already exists in our own stack?</p>
+<p><strong>Short answer:</strong> we already built it. Twice. The interesting question is no longer <em>can we</em> but <em>where this belongs</em> in a family that now includes generated diagrams, generated palettes and an in-house board.</p>
+<hr>
+<h3>1. What already exists (measured, 31 Jul 2026)</h3>
+<p>Two implementations sit in <code>C:/Repos/mdde</code>, together <strong>2,584 lines</strong>:</p>
+<table class="rtbl">
+<tr><th>Path</th><th>What it is</th></tr>
+<tr><td><code>mdde-core/src/mdde/integrations/miro/</code></td><td>The full integration: <code>client.py</code> · <code>exporter.py</code> · <code>importer.py</code> · <code>layout.py</code> · <code>styles.py</code> · <code>types.py</code></td></tr>
+<tr><td><code>mdde-core/src/mdde/documenter/diagrams/miro/</code></td><td>Diagram-side: <code>erd.py</code> · <code>lineage.py</code> · <code>miro_client.py</code> · <code>shapes.py</code></td></tr>
+</table>
+<p>Backed by two decision records:</p>
+<ul>
+<li><strong>ADR-75</strong> <em>Miro Integration for Collaborative Data Modeling</em> — Proposed, 11 Jan 2026. Names the problem: technical teams model in isolation with PowerDesigner or Erwin; business stakeholders cannot engage; feedback arrives late; models drift from requirements.</li>
+<li><strong>ADR-342</strong> <em>Miro Integration — Collaborative Data Modeling</em> — <strong>Implemented, v3.50.0</strong>, 24 Feb 2026. Bi-directional: export MDDE models to Miro as visual ERDs, import shapes back to MDDE entities, style by classification / stereotype / layer.</li>
+</ul>
+<p>The documented flow is a genuine round-trip, not a one-way export:</p>
+<pre>
+MDDE Metadata  ──export──►  Miro Board
+(YAML/DuckDB)  ◄──import──  (Visual ERD)
+      │                          │
+ single source              collaborative
+  of truth                  design reviews
+      ▼                          ▼
+ SQL generation           stakeholder feedback
+</pre>
+<p><strong>Finding:</strong> the capability is built and marked implemented. What is missing is not code but <strong>placement</strong> — where this fits among the other visual modes, and whether it is still the right surface.</p>
+<hr>
+<h3>2. The Miro API in 2026</h3>
+<table class="rtbl">
+<tr><th>Aspect</th><th>Current state</th></tr>
+<tr><td><strong>Version</strong></td><td>REST API <strong>v2</strong>; Miro pushes all developers to migrate off v1</td></tr>
+<tr><td><strong>Auth</strong></td><td>OAuth 2.0 authorization-code flow, mandatory for all apps</td></tr>
+<tr><td><strong>Scopes</strong></td><td><code>boards:read</code> · <code>boards:write</code> (needed to create shapes) · <code>team:read</code> · <code>identity:read</code>; org-level operations need <code>organizations:read/write</code></td></tr>
+<tr><td><strong>Rate limits</strong></td><td>Tiered per endpoint ("Level 2" for shape creation). Reported ceilings vary by source — roughly <strong>100–300 requests/min per token</strong>, with 1000/min cited for some operations. Treat as: <em>assume the low end and implement backoff.</em></td></tr>
+<tr><td><strong>Bulk ops</strong></td><td>Create/update/delete up to <strong>20 items</strong> per call; bulk connectors available</td></tr>
+<tr><td><strong>Ecosystem</strong></td><td>Community n8n node (12 resources, 60+ operations), MCP servers, third-party wrappers — a sign the API is stable enough to build on</td></tr>
+</table>
+<p><strong>Practical consequence.</strong> Rate limits are the real design constraint. A 200-entity model is 200 shapes plus several hundred connectors — at 100–300 req/min with 20-item batching, a full export is minutes, not seconds. That rules out "regenerate the board on every model change" and points at <strong>export once, then sync deltas</strong>.</p>
+<p>⚠️ Nothing found on pricing tiers for API access. Worth confirming before depending on it commercially: whether API use requires a paid plan is a business risk, not a technical one.</p>
+<hr>
+<h3>3. Ellie.ai — the same instinct, productised</h3>
+<p>Ellie.ai is a cloud platform for semantic data modelling. Relevant because it is the clearest commercial expression of <em>collaborative visual modelling</em>:</p>
+<ul>
+<li>Real-time simultaneous modelling in the browser, with comments</li>
+<li>Drag-and-drop ERD creation</li>
+<li>AI chatbot that drafts an initial model for business users</li>
+<li>Conceptual / logical / physical layers, business glossary</li>
+<li>Role-based access, approval workflows</li>
+<li>Catalog integration (Collibra, Purview), 170+ source connectors</li>
+<li>Explicitly targets <strong>non-technical business users</strong> alongside data teams</li>
+</ul>
+<p>Their positioning quote is worth keeping: <em>"there are data governance/business analyst tools, and then there are data design/development tools. I don't see many connections between the two. Ellie seems to fill this gap."</em></p>
+<p><strong>Where we differ, honestly:</strong></p>
+<table class="rtbl">
+<tr><th></th><th>Ellie.ai</th><th>Our approach</th></tr>
+<tr><td>Source of truth</td><td>the platform</td><td><strong>files</strong> (YAML/markdown), platform-independent</td></tr>
+<tr><td>Collaboration</td><td>native, real-time, built in</td><td>borrowed — Miro, draw.io, our own board</td></tr>
+<tr><td>Lock-in</td><td>model lives in their cloud</td><td>model lives in your repo</td></tr>
+<tr><td>Time to value</td><td>immediate, it is a product</td><td>build it yourself</td></tr>
+<tr><td>Business-user access</td><td>designed for it</td><td>the weak spot</td></tr>
+</table>
+<p>Ellie is better at the thing it does. The trade is ownership: their collaboration is excellent <em>and</em> their platform holds your model. Ours is more work <em>and</em> the model stays yours — which is <a href="../concepts/gated-knowledge.html">Gated Knowledge</a> applied to a modelling tool.</p>
+<p><strong>The honest conclusion:</strong> do not compete with Ellie on collaboration UX. Compete on the model being <strong>yours, in files, generating everything else</strong> — and borrow a collaboration surface when one is needed.</p>
+<hr>
+<h3>4. ⭐ Collaborative Visual Experience — the naming question</h3>
+<p>Jaco's phrase, and it is a good one: it names a category the field lacks a word for.</p>
+<p>But it is broader than Miro, and that is its value. It covers <strong>every mode where people look at a model together and change it</strong>:</p>
+<table class="rtbl">
+<tr><th>Surface</th><th>What it is</th><th>Trade-off</th></tr>
+<tr><td><strong>Miro</strong> (API)</td><td>Real-time, multi-user, familiar to business</td><td>Rate limits, external dependency, model leaves the repo</td></tr>
+<tr><td><strong>draw.io + generated palette</strong></td><td>Local, free, correct vocabulary by construction</td><td>Not real-time multi-user</td></tr>
+<tr><td><strong>Our own board</strong> (<code>vault-mobile-site</code>)</td><td>Library rail of real linked objects → canvas → <code>board.yaml</code></td><td>Single-user, ours to maintain</td></tr>
+<tr><td><strong>Ellie.ai</strong></td><td>Purpose-built product</td><td>Platform owns the model</td></tr>
+<tr><td><strong>Free whiteboard</strong></td><td>Nothing constrains it</td><td>Nothing constrains it</td></tr>
+</table>
+<p>The concept worth naming is not <em>"we integrate with Miro"</em> but: <strong>the model should be visitable — by more than one person, in a form they can change, without leaving the source of truth behind.</strong> <a href="../concepts/generated-palettes.html">Generated Palettes</a> is the mechanism; Collaborative Visual Experience would be the goal it serves.</p>
+<p><strong>Recommendation:</strong> write it as a concept, scoped as the <em>goal</em>, with palettes/Miro/board as implementations. Otherwise it reads as a feature list rather than an idea.</p>
+<hr>
+<h3>5. Integrating into our own apps</h3>
+<p>Jaco's question: <em>"can we integrate this functionality into our apps?"</em> Three routes, in increasing cost:</p>
+<p><strong>A · Extend the existing board</strong> (cheapest). <code>vault-mobile-site</code> already has the pattern: library rail, free-drag canvas, <code>board.yaml</code>. Missing is multi-user. Adding real-time is a large step; adding <em>asynchronous</em> collaboration — share a board, comment, diff two versions — is not.</p>
+<p><strong>B · Miro as the collaboration surface, files as truth.</strong> Use the built integration for the moments that need a room: workshops, design reviews, stakeholder walkthroughs. Export → collaborate → import → the model absorbs the outcome. Miro is the meeting room, not the filing cabinet.</p>
+<p><strong>C · Build a real-time collaborative canvas</strong> (most expensive). This is competing with Ellie on their strongest ground, and it is a product in itself. Hard to justify unless collaborative modelling becomes the offering rather than a feature of it.</p>
+<p><strong>Recommendation: B now, A incrementally.</strong> The Miro integration already exists; the marginal cost is documenting and demonstrating it, not building it. Route C is a different company.</p>
+<hr>
+<h3>6. Conclusions</h3>
+<p>1. <strong>Built, not hypothetical.</strong> 2,584 lines across two modules, ADR-342 marked Implemented. The next step is not development but a working demo and an honest write-up.</p>
+<p>2. <strong>Rate limits shape the design.</strong> Export-once-then-delta, not regenerate-on-change. Assume 100 req/min and back off.</p>
+<p>3. <strong>Miro is a meeting room, not a source of truth.</strong> Round-trip only; the model returns to files.</p>
+<p>4. <strong>Do not out-collaborate Ellie.</strong> Compete on ownership and generation, not on real-time UX.</p>
+<p>5. <strong>Name the category.</strong> <em>Collaborative Visual Experience</em> as the goal; palettes, Miro and the board as implementations.</p>
+<p>6. ⚠️ <strong>Open question:</strong> does Miro API access require a paid tier? Unresolved, and a commercial dependency if so.</p>
+<h3>Open follow-ups</h3>
+<ul>
+<li>[ ] Verify Miro API pricing/plan requirements</li>
+<li>[ ] Run the existing integration against a real model — does v3.50.0 still work against the current v2 API?</li>
+<li>[ ] Write the <em>Collaborative Visual Experience</em> concept</li>
+<li>[ ] Decide: document the Miro integration as a site section, or as an article with screenshots?</li>
+</ul>
+<h3>Sources</h3>
+<ul>
+<li><a href="https://developers.miro.com/reference/overview">Miro Developer Platform — API reference</a></li>
+<li><a href="https://developers.miro.com/reference/create-shape-item">Create shape item</a> — <code>boards:write</code>, rate-limit level 2</li>
+<li><a href="https://ellie.ai/">Ellie.ai</a></li>
+<li>Internal: ADR-75, ADR-342 (<code>model.duckdb</code> → <code>mdde_adr</code>); <code>C:/Repos/mdde/mdde-core/src/mdde/integrations/miro/</code></li>
+</ul>
+</div>
+<p class="muted"><a href="index.html">&larr; All research</a></p>
+</div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
+part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+</body></html>

@@ -134,3 +134,8 @@ hr{border:none;border-top:1px solid var(--line);margin:34px 0}
 .artlist a{font-weight:600}
 .soon{font-size:.78em;color:#94a3b8;border:1px solid rgba(148,163,184,.4);border-radius:3px;padding:.05em .4em;margin-left:.35em;white-space:nowrap}
 section h3{margin-top:1.8rem;margin-bottom:.3rem}
+.research-body table.rtbl{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.94em}
+.research-body table.rtbl th{text-align:left;border-bottom:2px solid rgba(15,23,42,.18);padding:.45rem .6rem}
+.research-body table.rtbl td{border-bottom:1px solid rgba(15,23,42,.08);padding:.45rem .6rem;vertical-align:top}
+.research-body blockquote{border-left:3px solid #2563eb;margin:1rem 0;padding:.2rem 0 .2rem 1rem;color:#475569}
+.research-body pre{background:rgba(15,23,42,.05);padding:.8rem 1rem;border-radius:4px;overflow-x:auto;font-size:.9em}

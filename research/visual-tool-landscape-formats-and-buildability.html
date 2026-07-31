@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>The visual tool landscape — file formats, unique features, and what we can build ourselves — Structured Diagrams</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head><body>
+<header class="site"><div class="wrap">
+<a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main"><a href="index.html">All research</a><a href="../concepts/index.html">Concepts</a>
+<a href="../index.html">Home</a></nav></div></header>
+<div class="wrap">
+<div class="eyebrow">Research</div>
+<h1>The visual tool landscape — file formats, unique features, and what we can build ourselves</h1>
+<p class="sub">Which visual/diagramming tools matter (draw.io, yEd, Mermaid, Excalidraw, Obsidian Canvas, Miro, Heptabase, Ellie.ai), what are their file formats, and which of their features can we generate or rebuild ourselves?</p>
+<p class="muted">2026-07-31 · complete · confidence: medium</p>
+<div class="research-body">
+<p># The visual tool landscape — formats and buildability</p>
+<p><strong>Question:</strong> which visual tools matter for structured diagramming, what are their file formats, and — the point of asking — <strong>which of their features can we generate or rebuild ourselves?</strong></p>
+<p><strong>The finding that organises everything else:</strong> the tools split cleanly by <em>where the drawing lives</em>. That single property predicts whether we can generate into it, read back from it, and whether the model stays ours.</p>
+<hr>
+<h3>1. The landscape, sorted by openness</h3>
+<table class="rtbl">
+<tr><th>Tool</th><th>Format</th><th>Open?</th><th>Generate into it?</th><th>Read back?</th></tr>
+<tr><td><strong>Mermaid</strong></td><td>text (its own DSL)</td><td>✅ fully</td><td>trivial — it <em>is</em> text</td><td>✅ parse the text</td></tr>
+<tr><td><strong>JSON Canvas</strong> (Obsidian)</td><td><code>.canvas</code> — JSON, <strong>open spec 1.0</strong></td><td>✅ published spec</td><td>✅ trivial</td><td>✅ trivial</td></tr>
+<tr><td><strong>Excalidraw</strong></td><td><code>.excalidraw</code> — JSON</td><td>✅ documented</td><td>✅ well-documented</td><td>✅</td></tr>
+<tr><td><strong>draw.io</strong></td><td><code>.drawio</code> / <code>mxlibrary</code> XML</td><td>✅ documented</td><td>✅ incl. shape libraries</td><td>✅ (ADR-336, ADR-65)</td></tr>
+<tr><td><strong>PlantUML / Graphviz</strong></td><td>text DSL</td><td>✅</td><td>trivial</td><td>✅</td></tr>
+<tr><td><strong>yEd</strong></td><td>GraphML</td><td>✅ standard</td><td>✅ (published article)</td><td>✅</td></tr>
+<tr><td><strong>Archi</strong></td><td>ArchiMate XML</td><td>✅ standard</td><td>✅ (ADR-86)</td><td>✅</td></tr>
+<tr><td><strong>Miro</strong></td><td>REST API v2</td><td>⚠️ API only, OAuth</td><td>✅ (ADR-342, implemented)</td><td>✅ import back</td></tr>
+<tr><td><strong>Heptabase</strong></td><td>closed</td><td>❌</td><td>❌</td><td>❌</td></tr>
+<tr><td><strong>Ellie.ai</strong></td><td>closed platform</td><td>❌</td><td>❌ (integrations only)</td><td>❌</td></tr>
+<tr><td><strong>PowerDesigner / Erwin</strong></td><td>proprietary binary</td><td>❌</td><td>❌</td><td>⚠️ with a parser</td></tr>
+</table>
+<p><strong>The pattern:</strong> everything in the top half is a <strong>file we control</strong>. Everything in the bottom half is <a href="../concepts/gated-knowledge.html">Gated Knowledge</a> — legible only inside a licence or a login.</p>
+<p>That is not a moral point, it is an architectural one. If the format is open, the diagram can be an output of the model. If it is closed, the diagram becomes a destination the model gets exported <em>to</em> and never returns from.</p>
+<hr>
+<h3>2. Excalidraw — the hand-drawn one</h3>
+<p><strong>Format:</strong> a JSON object with <code>type</code>, <code>version</code>, <code>source</code>, an <code>elements</code> array, an <code>appState</code> object (grid, background), and a <code>files</code> object for embedded images. Every element shares identity/position/style fields; each type adds its own.</p>
+<p><strong>Unique feature worth naming: it looks hand-drawn.</strong> That is not a gimmick. A picture in a sketchy, imperfect style <strong>reads as provisional</strong> — it invites correction in a way a crisp generated ERD does not. Show a stakeholder a polished diagram and they assume it is decided; show them the same content in Excalidraw and they start editing.</p>
+<p>That makes it the right output for <em>proposals</em>, and the wrong one for <em>records</em>.</p>
+<p><strong>Generation:</strong> documented and practical. Excalidraw ships <code>restoreElements</code> / <code>restoreAppState</code>, which fill in defaults and repair minor schema gaps — so a generator can emit structurally-correct-but-incomplete JSON and let the library normalise it. Meaningfully lowers the cost of writing one.</p>
+<p><strong>Export with the scene embedded:</strong> PNG and SVG can carry the original scene data inside the file. <strong>An exported image is still editable</strong> — no separate source file to lose. For documentation and websites this is close to ideal: ship one asset, and it remains the source.</p>
+<p><strong>Also:</strong> <code>mermaid-to-excalidraw</code> exists officially. Mermaid text → editable hand-drawn scene, no bespoke generator required. That is the cheapest possible route from model to sketch.</p>
+<hr>
+<h3>3. Obsidian Canvas / JSON Canvas — the open spec nobody talks about</h3>
+<p><strong>Format:</strong> <code>.canvas</code>, two top-level arrays — <code>nodes</code> and <code>edges</code> — under <strong>JSON Canvas spec 1.0</strong>. Node types: <code>file</code> (references a vault file, optionally a section), <code>text</code> (markdown), <code>link</code> (a URL), <code>group</code>. Required: <code>id</code>, <code>type</code>, <code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>. Edges connect via <code>fromNode</code>/<code>toNode</code> with <code>fromSide</code>/<code>toSide</code>. Array order is z-index. Colours use a dual system: preset identifiers plus custom values, with hex values deliberately left to the application.</p>
+<p><strong>Why this is the most interesting entry in the table.</strong> It is an <strong>open standard for infinite canvases</strong>, published by Obsidian, with Python implementations already on PyPI. Not a vendor format that happens to be readable — a spec written to be implemented by others.</p>
+<p><strong>And the killer property for us: <code>file</code> nodes reference vault files.</strong> A canvas is not a picture <em>of</em> notes, it is a spatial arrangement <em>of the notes themselves</em>. Move a note, the canvas still points at it. Edit the note, the canvas shows the change. <strong>The picture and the content are the same objects</strong> — which is the <a href="../concepts/living-diagrams.html">Living Diagrams</a> argument arriving from the note-taking world instead of the data world.</p>
+<p>This is also the closest existing thing to what the Beacon board already does with <code>board.yaml</code>. ⚠️ <strong>Worth considering: adopt JSON Canvas as the board format instead of a bespoke YAML shape.</strong> Same idea, published spec, existing tooling, and the boards become openable in Obsidian.</p>
+<hr>
+<h3>4. Heptabase — the reference, not the answer</h3>
+<p>Already curated (rel 3 / qual 3 / follow passive). Visual-first PKM: whiteboards plus cards, mindmaps, whiteboard journals, PDF parsing, and since 2025 an AI layer (chat-with-whiteboard, MCP server).</p>
+<p><strong>What to steal, conceptually:</strong></p>
+<ul>
+<li><strong>The card is the unit, the whiteboard is a view.</strong> The same card appears on several whiteboards without being copied. That is exactly the palette idea — vocabulary generated once, arranged many times.</li>
+<li><strong>Whiteboard journals</strong> — spatial thinking that accumulates over time rather than being wiped.</li>
+<li><strong>Chat-with-whiteboard</strong> — the canvas as an AI context boundary. <em>"Answer using only what is on this board"</em> is a genuinely good primitive, and it maps onto our <code>links</code> graph.</li>
+</ul>
+<p><strong>What not to copy:</strong> it is a closed tool. The visual model is worth studying; the architecture is the opposite of ours.</p>
+<hr>
+<h3>5. What we can build ourselves</h3>
+<p>The buildable list, cheapest first:</p>
+<table class="rtbl">
+<tr><th>Build</th><th>Effort</th><th>Why</th></tr>
+<tr><td><strong>Mermaid generation</strong></td><td>trivial</td><td>text out of a model; already done in places (ADR-131)</td></tr>
+<tr><td><strong>JSON Canvas generation</strong></td><td>low</td><td>two arrays; open spec; Python libs exist</td></tr>
+<tr><td><strong>Excalidraw generation</strong></td><td>low-medium</td><td>documented JSON; <code>restoreElements</code> forgives gaps; or route via <code>mermaid-to-excalidraw</code></td></tr>
+<tr><td><strong>draw.io palettes</strong> (<code>mxlibrary</code>)</td><td>low</td><td>XML + JSON array; the [[concept-generated-palettes</td><td>Generated Palettes]] mechanism</td></tr>
+<tr><td><strong>Adopt JSON Canvas in our board</strong></td><td>medium</td><td>replaces bespoke <code>board.yaml</code>; buys Obsidian compatibility</td></tr>
+<tr><td><strong>Card-is-the-unit, board-is-a-view</strong></td><td>medium</td><td>Heptabase's model, already half-present in the board's library rail</td></tr>
+<tr><td><strong>Board-as-AI-context</strong></td><td>medium</td><td><em>"answer only from this board"</em> — our <code>links</code> graph makes it feasible</td></tr>
+<tr><td><strong>Real-time multi-user canvas</strong></td><td>high</td><td>competing with Ellie/Miro on their ground. Probably not.</td></tr>
+</table>
+<p><strong>The honest boundary:</strong> everything up to <em>board-as-AI-context</em> is a weekend-to-fortnight of work each and compounds with what exists. Real-time collaboration is a different product, and the sensible answer there is to borrow Miro rather than rebuild it.</p>
+<hr>
+<h3>6. Conclusions</h3>
+<p>1. <strong>Openness of format is the dividing line.</strong> Open format → the diagram becomes an output of the model. Closed → the diagram becomes a place the model goes to die.</p>
+<p>2. <strong>JSON Canvas is the sleeper.</strong> An open spec for infinite canvases, with <code>file</code> nodes pointing at real notes. Strong candidate to replace the bespoke <code>board.yaml</code>.</p>
+<p>3. <strong>Excalidraw's hand-drawn look is a feature, not styling.</strong> It signals <em>provisional</em>, which changes how people respond. Right for proposals, wrong for records.</p>
+<p>4. <strong>Scene-embedded PNG/SVG solves the documentation problem.</strong> One asset that is also the source.</p>
+<p>5. <strong><code>mermaid-to-excalidraw</code> is the cheapest model→sketch path</strong> and already exists officially.</p>
+<p>6. <strong>Heptabase gives the conceptual model</strong> (card = unit, board = view, board = AI context) without giving an architecture worth copying.</p>
+<p>7. <strong>Do not build real-time collaboration.</strong> Borrow Miro for the moments that need a room.</p>
+<h3>Open follow-ups</h3>
+<ul>
+<li>[ ] Test-generate a <code>.canvas</code> from the <code>links</code> table — does Obsidian open it cleanly?</li>
+<li>[ ] Decide: migrate <code>board.yaml</code> → JSON Canvas?</li>
+<li>[ ] Try <code>mermaid-to-excalidraw</code> on a real generated ERD; is the output presentable?</li>
+<li>[ ] Verify that scene-embedded SVG survives the site build pipeline</li>
+</ul>
+<h3>Sources</h3>
+<ul>
+<li><a href="https://docs.excalidraw.com/docs/codebase/json-schema">Excalidraw JSON schema</a> · <a href="https://docs.excalidraw.com/docs/@excalidraw/mermaid-to-excalidraw/api">mermaid-to-excalidraw API</a></li>
+<li><a href="https://github.com/obsidianmd/jsoncanvas/blob/main/spec/1.0.md">JSON Canvas spec 1.0</a> · PyPI: <code>PyJSONCanvas</code>, <code>openjsoncanvas</code></li>
+<li><a href="https://www.drawio.com/doc/faq/format-custom-shape-library">draw.io custom shape library format</a></li>
+<li><a href="https://developers.miro.com/reference/overview">Miro REST API v2</a></li>
+<li><a href="https://heptabase.com">Heptabase</a> — see curated source <code>W:/systems/curated-sources/heptabase/</code></li>
+<li><a href="https://ellie.ai/">Ellie.ai</a> — see research <code>2026-07-31_miro-api-collaborative-visual-experience.md</code></li>
+</ul>
+</div>
+<p class="muted"><a href="index.html">&larr; All research</a></p>
+</div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
+part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+</body></html>
