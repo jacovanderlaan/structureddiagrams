@@ -38,6 +38,13 @@ export async function initBrowse(mount, opts = {}) {
     return;
   }
 
+  // ⭐ The page type IS the filter. A Skills page shows skills — the reader
+  // should never have to tick "skill" to see them, and must not be able to
+  // untick it into showing concepts. Rows outside the scope are dropped before
+  // anything else runs, so facets and counts only ever describe this page.
+  const scope = opts.itemTypes || [];
+  if (scope.length) rows = rows.filter((r) => scope.includes(r.type));
+
   const state = fromHash(opts.defaults || {});
   let lastSet = [];
   el.innerHTML = shell();
@@ -48,7 +55,7 @@ export async function initBrowse(mount, opts = {}) {
     // Hand the CURRENT filtered set to the detail page, so prev/next steps
     // through what the reader was actually looking at — not a global ordering.
     lastSet = out.map((r) => ({ slug: r.slug, title: r.title, url: r.url }));
-    $(".bw-facets").innerHTML = facets(rows, state);
+    $(".bw-facets").innerHTML = facets(rows, state, scope);
     $(".bw-results").innerHTML = results(out, state, base, assets);
     $(".bw-count").textContent =
       `${out.length} of ${rows.length}` + (out.length === 1 ? " item" : " items");
@@ -193,7 +200,7 @@ function shell() {
   </div>`;
 }
 
-function facets(rows, s) {
+function facets(rows, s, scope = []) {
   const group = (key, label) => {
     const counts = {};
     for (const r of rows) {
@@ -214,7 +221,10 @@ function facets(rows, s) {
           <span>${esc(v)}</span><span class="bw-n">${n}</span>
         </label>`).join("") + "</div>";
   };
-  return group("type", "Type") + group("category", "Category");
+  // A Type facet listing one option is noise: the page already IS that type.
+  // With a mixed scope (concepts + activities + anti-patterns) it still helps.
+  const typeFacet = scope.length === 1 ? "" : group("type", "Type");
+  return typeFacet + group("category", "Category") + group("topic", "Topic");
 }
 
 function results(out, s, base, assets) {

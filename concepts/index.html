@@ -26,7 +26,7 @@
 <a href="../types/index.html">Diagram types</a>
 <a href="../notations/index.html">Notations</a>
 </span></span>
-<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<span class="navgroup"><button class="navtop on" type="button" aria-haspopup="true">Library</button><span class="navmenu">
 <a href="../concepts/index.html">Concepts</a>
 <a href="../anti-patterns/index.html">Anti-patterns</a>
 <a href="../glossary/index.html">Glossary</a>
@@ -120,6 +120,7 @@
   initBrowse("#browse", {
     data: "../data/content_item.parquet",
     base: "../", assets: "assets/",
+    itemTypes: ["concept", "activity"],
     defaults: { view: "cards" }
   }).then(() => document.body.classList.add("bw-ready"))
     .catch((e) => console.warn("browse:", e));

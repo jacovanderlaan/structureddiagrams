@@ -61,7 +61,9 @@
     data: "../data/content_item.parquet",
     base: "../",
     assets: "../concepts/assets/",
-    pageType: "decisions"
+    pageType: "decisions",
+    itemTypes: ["decision"],
+    defaults: {"view": "list", "sort": "newest"}
   }).then(() => document.body.classList.add("bw-ready"));
 </script>
 </section>

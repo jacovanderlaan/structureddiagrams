@@ -82,7 +82,9 @@
     data: "../data/content_item.parquet",
     base: "../",
     assets: "../concepts/assets/",
-    pageType: "ideas"
+    pageType: "ideas",
+    itemTypes: ["idea"],
+    defaults: {"view": "cards", "sort": "newest"}
   }).then(() => document.body.classList.add("bw-ready"));
 </script>
 </section>

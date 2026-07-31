@@ -59,7 +59,9 @@
     data: "../data/content_item.parquet",
     base: "../",
     assets: "../concepts/assets/",
-    pageType: "glossary"
+    pageType: "glossary",
+    itemTypes: ["glossary-term"],
+    defaults: {"view": "list", "sort": "title"}
   }).then(() => document.body.classList.add("bw-ready"));
 </script>
 </section>

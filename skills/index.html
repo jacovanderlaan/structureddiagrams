@@ -76,7 +76,9 @@
     data: "../data/content_item.parquet",
     base: "../",
     assets: "../concepts/assets/",
-    pageType: "skills"
+    pageType: "skills",
+    itemTypes: ["skill"],
+    defaults: {"view": "cards", "sort": "title"}
   }).then(() => document.body.classList.add("bw-ready"));
 </script>
 </section>
