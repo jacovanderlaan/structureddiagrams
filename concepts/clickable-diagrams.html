@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Clickable Diagrams — Structured Metadata</title>
+<meta name="description" content="A generated SVG carries links, so the picture stops being a dead end and becomes the navigation layer of the model." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Architecture</div>
+  <h1>Clickable Diagrams</h1>
+  <p class="sub">A generated SVG carries links, so the picture stops being a dead end and becomes the navigation layer of the model.</p>
+</div>
+<section class="wrap">
+
+<p><strong>A diagram is a picture until you can click it. Then it is an interface.</strong></p>
+<p>SVG is not an image format in the way PNG is. It is markup — every shape is an element, and any element can be wrapped in a link. So a generated diagram can carry, on every box, a route to the thing the box represents: the entity's documentation, its lineage, the mapping that fills it, the decision record that created it, the source table it came from.</p>
+<p>Nothing about that is new technology. `<a xlink:href="…">` has been in the spec for two decades. What makes it powerful is what sits behind it: <strong>when the diagram is generated from metadata, the generator already knows the target of every link.</strong></p>
+<h3>Why this changes what a diagram is for</h3>
+<p>A static picture answers one question — *how do these things relate?* — and then stops. Every follow-up question means leaving the diagram: open the catalog, search the wiki, ask someone.</p>
+<p>A clickable diagram answers the follow-up in the place the question occurred. Click an entity and land on its definition. Click a relationship and see the mapping that implements it. Click a table in a lineage graph and jump to the transformation that writes it.</p>
+<p>That collapses the usual gap between *seeing the architecture* and *finding out about the architecture*. They become the same act, and the diagram stops being documentation about the system and becomes <strong>a way into it</strong>.</p>
+<h3>Why it is nearly free to generate</h3>
+<p>The expensive part of a clickable diagram is knowing where each element should point. Hand-drawn, that is unbearable: hundreds of shapes, each needing a URL, all of them rotting the moment something moves.</p>
+<p>Generated, it costs nothing extra. The generator is already walking the model to decide what to draw; the identifier it uses for a node is the identifier the target page is keyed on. <strong>The link is a by-product of the traversal you were doing anyway.</strong></p>
+<p>This is why hyperlinked diagrams are rare in hand-drawn practice and unremarkable in generated practice. The economics are simply different.</p>
+<h3>What to link to</h3>
+<p>| Element | Sensible target |
+|---|---|
+| Entity / table | its documentation page, or the catalog entry |
+| Attribute | the definition, the glossary term, the DQ rule |
+| Relationship | the mapping or join that implements it |
+| Node in a lineage graph | the transformation, the SQL, the job |
+| Layer or subject area | the subject-area overview |
+| Anything at all | the decision record that explains why it exists |</p>
+<p>That last one is worth dwelling on. <strong>Clicking a box and landing on the ADR that created it</strong> turns a diagram into a provenance interface — the visual counterpart of *why does this exist*, answered at the point where someone is looking at the thing.</p>
+<h3>Practicalities that decide whether it works</h3>
+<p><strong>Where it renders.</strong> SVG links work in a browser and in anything that embeds a live SVG. They are stripped or ignored in most PDF exports and in some wiki renderers. So generate SVG for the web, and keep a plain export for print — the link layer is an enhancement, not the only channel.</p>
+<p><strong>Relative vs absolute.</strong> Relative links survive being moved between environments; absolute ones survive being embedded elsewhere. Pick per destination, do not mix by accident.</p>
+<p><strong>A missing target is worse than no link.</strong> A box that looks clickable and 404s costs more trust than a box that was never a link. Validate targets at generation time and drop links whose target does not exist.</p>
+<p><strong>Titles as well as links.</strong> `<title>` inside a shape gives a native tooltip with no JavaScript — the definition on hover, the link on click. Two layers of depth, zero framework.</p>
+<h3>Where it sits</h3>
+<p>This is <a href="living-diagrams.html">Living Diagrams</a> taken one step further. A generated diagram is always current; a *clickable* generated diagram is also traversable — and it makes the model's structure walkable by a person rather than only queryable by a machine.</p>
+<p>It is also Maps Everywhere with the routes drawn in. A map that tells you where things are is useful. A map you can travel is a different kind of object.</p>
+<div class="c-rel"><h3>Related concepts</h3><ul><li><a href="living-diagrams.html">Living Diagrams</a></li><li><a href="model-as-drawing.html">Model As Drawing</a></li><li><a href="business-friendly-data-lineage.html">Business Friendly Data Lineage</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

@@ -21,6 +21,7 @@
       <a href="#idea">The idea</a>
       <a href="#why">Why it matters</a>
       <a href="#how">How it works</a>
+      <a href="#types">Diagram types</a>
       <a href="#notations">Notations</a>
       <a href="concepts/index.html">Concepts</a>
       <a href="#articles">Articles</a>
@@ -91,9 +92,38 @@
   </div>
 </section>
 
+<section class="wrap" id="types">
+  <h2>Diagram types</h2>
+  <p class="lead">&ldquo;Diagram&rdquo; is not one thing. Each type answers a different question, and picking the wrong one is why so many diagrams get ignored. All of these are generated from the same metadata &mdash; what changes is which slice of the model is projected, and how.</p>
+
+  <h3>ERD &mdash; entity-relationship diagram</h3>
+  <p><strong>Answers:</strong> what things exist, and how are they related? The oldest and most misused type. An ERD of 200 tables is not a diagram, it is wallpaper &mdash; the discipline is choosing the subject area first and letting the generator draw only that. Conceptual, logical and physical are three different ERDs of the same reality, and mixing them is the commonest way to lose an audience.</p>
+  <p class="muted">Concepts: <a href="concepts/living-diagrams.html">Living Diagrams</a> · <a href="concepts/business-friendly-diagramming.html">Business-Friendly Diagramming</a> &nbsp;|&nbsp; Articles: <a href="https://medium.com/@jacovanderlaan/automatically-generating-yed-diagrams-from-metadata-with-python-c0e464915f22">Generating yEd diagrams from metadata</a></p>
+
+  <h3>Lineage &mdash; where did this come from?</h3>
+  <p><strong>Answers:</strong> what feeds this, and what breaks if I change it? Two flavours worth separating: <em>horizontal</em> lineage follows data across systems; <em>vertical</em> lineage follows a single column down through its transformations. Auditors want the first, engineers want the second, and a diagram that tries to be both is usually neither.</p>
+  <p class="muted">Concepts: <a href="concepts/business-friendly-data-lineage.html">Business-Friendly Data Lineage</a> · <a href="concepts/horizontal-vs-vertical-lineage.html">Horizontal vs Vertical Lineage</a> &nbsp;|&nbsp; Articles: <a href="https://medium.com/@jacovanderlaan/dynamic-metadata-lineage-visualizing-relationships-across-data-models-c8a22eeeb2ca">Dynamic Metadata Lineage</a></p>
+
+  <h3>DAG &mdash; the pipeline as a graph</h3>
+  <p><strong>Answers:</strong> in what order does work happen, and what depends on what? A DAG is lineage with execution semantics attached &mdash; the arrows carry <em>runs after</em>, not just <em>flows into</em>. Generated from orchestration metadata rather than drawn, it becomes the one picture that is true at 3am.</p>
+  <p class="muted">The acyclic part is the constraint that makes it useful: a cycle in a DAG is a bug, and drawing it exposes the bug.</p>
+
+  <h3>Knowledge graph &mdash; things and how they mean</h3>
+  <p><strong>Answers:</strong> how do concepts relate across domains? Where an ERD is bounded by a schema, a knowledge graph crosses them &mdash; entities, decisions, documents, people, all in one connected structure. Its shape is a triple: <em>source &middot; relationship &middot; target</em>. That is also the shape of a link table, which is why a vault of notes and an enterprise ontology converge on the same architecture.</p>
+  <p class="muted">Concepts: <a href="concepts/conceptual-constellations.html">Conceptual Constellations</a> &nbsp;|&nbsp; Research: <a href="research/visual-tool-landscape-formats-and-buildability.html">The visual tool landscape</a></p>
+
+  <h3>Context &amp; flow &mdash; the picture for people who do not read schemas</h3>
+  <p><strong>Answers:</strong> what is this system, and where does it sit? Fewest boxes, most deliberation. A context diagram is almost entirely about what you leave out &mdash; which is exactly the human judgement a generator cannot make for you.</p>
+  <p class="muted">Concepts: <a href="concepts/generated-palettes.html">Generated Palettes</a> · <a href="concepts/drawing-it-together.html">Drawing It Together</a></p>
+
+  <div class="callout">
+    <p><strong>One model, several types.</strong> The same metadata produces an ERD for the modeller, a lineage graph for the auditor, a DAG for the engineer and a context diagram for the executive. Hand-drawn that is four artifacts drifting apart. Generated, they cannot contradict each other.</p>
+  </div>
+</section>
+
 <section class="wrap" id="concepts">
   <h2>Concepts</h2>
-  <p class="lead">The named ideas behind the visual layer &mdash; <strong>Living Diagrams</strong>, <strong>Drawing It Together</strong>, <strong>Visual Thinking</strong>, <strong>Business-Friendly Diagramming</strong> &mdash; and the anti-pattern they all argue against: <strong>Model as Drawing</strong>.</p>
+  <p class="lead">The named ideas behind the visual layer &mdash; <strong>Living Diagrams</strong>, <strong>Drawing It Together</strong>, <strong>Visual Thinking</strong>, <strong>Clickable Diagrams</strong> &mdash; and the anti-pattern they all argue against: <strong>Model as Drawing</strong>.</p>
   <p>Each is a small, self-contained idea you can point at in a meeting. Together they make the case that a diagram is an output, not an artifact.</p>
   <div class="cta-row">
     <a class="btn" href="concepts/index.html">Browse the concept library &rarr;</a>

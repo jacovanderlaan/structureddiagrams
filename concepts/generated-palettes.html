@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Generated Palettes — Structured Metadata</title>
+<meta name="description" content="Generate the building blocks, not the picture: a shape library from the model — so a workshop can stay interactive while every block on the canvas is a real concept." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Architecture</div>
+  <h1>Generated Palettes</h1>
+  <p class="sub">Generate the building blocks, not the picture: a shape library from the model — so a workshop can stay interactive while every block on the canvas is a real concept.</p>
+</div>
+<section class="wrap">
+
+<p><strong>Generate the building blocks, not the picture.</strong> A palette — a draw.io shape library, a set of stencils — produced *from the model*, so every entity, every attribute list, every relationship type already exists as a correct, drag-and-droppable shape. The layout stays human. The content cannot be wrong.</p>
+<p>This resolves a tension that generated diagrams alone never quite settle.</p>
+<h3>The tension it solves</h3>
+<p>Full generation is right about correctness and wrong about intent. A generator can lay out two hundred entities and none of them will be misspelled — but it does not know that this particular diagram is about the payment flow, that three tables are irrelevant to the argument, or that the CFO only needs to see four boxes. <strong>Layout carries meaning, and meaning is a human judgement.</strong></p>
+<p>Hand-drawing is the reverse. Perfect intent, no guarantees: entity names drift, attributes go stale, a relationship points the wrong way, and the picture starts lying within a quarter.</p>
+<p>A generated palette takes the half each side is good at. <strong>The model supplies the vocabulary; the person supplies the sentence.</strong> You still arrange, group, emphasise and leave out — but you cannot invent an entity that does not exist, or misname one that does, because you are dragging from a library the model produced.</p>
+<h3>How it works in draw.io</h3>
+<p>A custom shape library is an XML file: an `<mxlibrary>` node wrapping a JSON array, one object per shape. Each entry carries `w`, `h`, the shape as escaped `xml` (an `mxGraphModel` fragment) or `data` for an image, plus optional `title`, `tags`, `aspect` and `style`.</p>
+<p>That is entirely mechanical to produce. Read the model, emit one entry per entity, set `title` to the entity name, put the attribute list in the shape body, add `tags` so search finds it by domain or layer, and lock what should not be edited with `style: "resizable=0;"`. Ship the `.xml`, and the modeller opens draw.io with the organisation's actual entities in the shape panel.</p>
+<p>The same idea travels: <strong>yEd</strong> palettes, <strong>Visio</strong> stencils, Miro templates. The format is a detail; the move is generating the vocabulary rather than the sentence — and then holding the session inside it.</p>
+<h3>The whiteboard is a *use* of the palette, not its opposite</h3>
+<p>The obvious reading is that palettes come after the thinking: whiteboard first, model second, palette third. That is one use, and it is not the interesting one.</p>
+<p>**The stronger move is to whiteboard *with* the palette.<strong> Open draw.io, yEd or Visio with a library of your organisation's real concepts and artifacts loaded, and hold the session there. Now the workshop is interactive and exploratory — people drag, arrange, connect, argue, rearrange — but every block on the canvas is a </strong>real concept from the model**. Nobody invents a fourth definition of "customer" at 3pm on a Thursday, because "customer" is right there in the shape panel with the agreed definition attached.</p>
+<p>That changes the character of the conversation. The discussion stops being *what do we call this* and becomes *how do these relate, and what is missing* — which is the question actually worth a room's time. Half of modelling friction is vocabulary drift; a generated palette removes it as a topic without anyone policing it.</p>
+<p>It also makes the output usable. A session run on a generated palette produces a picture that is already model-consistent: it can be read back, compared against the model, or promoted into a permanent view. A session run on a blank canvas produces a photograph of a whiteboard that somebody has to translate.</p>
+<h3>Three modes, one continuum</h3>
+<p>| Mode | Canvas | Vocabulary | Good for |
+|---|---|---|---|
+| <strong>Free whiteboard</strong> | anything | invented on the spot | discovering something genuinely new — a domain nobody has modelled yet |
+| <strong>Palette whiteboard</strong> | interactive | <strong>generated from the model</strong> | workshops, concept discussions, impact walkthroughs — thinking *inside* an agreed vocabulary |
+| <strong>Generated view</strong> | none | model only | currency at scale — no human input, no drift |</p>
+<p>The middle mode is the one most organisations lack, and it is the one that gets used most. It keeps the exploratory feel of a whiteboard while making the agreed vocabulary the default rather than a correction applied afterwards.</p>
+<p>⚠️ <strong>Keep the free whiteboard available.</strong> When the subject is genuinely unmodelled, constraining the vocabulary constrains the thinking, and you get a room that agrees with the existing model instead of improving it. The palette is for working *within* an agreed language — not for pretending every language is already agreed.</p>
+<h3>A working implementation</h3>
+<p>This is not theory. The pattern runs today in the Beacon control-plane app, in the Board view:</p>
+<p>- <strong>A library rail</strong> built from the segment's actually-linked objects — concepts, highlights, references, glossary terms, diagrams — each a draggable chip with its own icon.
+- <strong>A free-drag canvas</strong> where those chips become positioned nodes, alongside free text objects for the things that do not exist yet.
+- <strong>Two views over one state</strong>: `whiteboard` (human layout) and `graph` (auto-layout). Same nodes, different arrangement — the layout is a lens, not the content.
+- <strong>Persisted as `board.yaml`</strong> in the vault, so the arrangement is a file: diffable, versioned, regenerable. Not a screenshot.
+- <strong>"Send to whiteboard"</strong> from anywhere in the app: encounter a person, a concept or a document and push it onto the board without retyping it.</p>
+<p>The chips-are-real-objects part is the whole point. You arrange freely, and what you arrange is never invented — it already exists, with its reference attached. And because the result is YAML rather than an image, the board can be read back, compared to the model, or promoted into something permanent.</p>
+<h3>Why this is not a retreat from the thesis</h3>
+<p>*Diagrams are generated from metadata* still holds. What gets generated here is the <strong>shape library</strong> rather than the finished picture — and the guarantee survives where it matters: no diagram can contain an entity the model does not have.</p>
+<p>It also fixes the adoption problem honestly. "Stop drawing, we generate everything now" fails in most organisations, because people have legitimate reasons to arrange a picture themselves. A palette does not ask them to stop. It asks them to start from the model — which is the whole battle, won without the fight.</p>
+<div class="c-rel"><h3>Related concepts</h3><ul><li><a href="living-diagrams.html">Living Diagrams</a></li><li><a href="drawing-it-together.html">Drawing It Together</a></li><li><a href="model-as-drawing.html">Model As Drawing</a></li><li><a href="business-friendly-diagramming.html">Business Friendly Diagramming</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>
