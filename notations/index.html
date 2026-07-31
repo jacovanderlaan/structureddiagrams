@@ -32,7 +32,7 @@
 <a href="../relation/index.html">Where this fits</a>
 </div></div>
 <a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
-<div class="wrap pagewrap"><aside class="toc" id="toc"><button class="toc-toggle" onclick="document.body.classList.toggle('toc-off')" title="Show/hide contents">&#9776;</button><div class="toc-inner"><div class="toc-h">On this page</div><ul><li class="l3"><a href="#mermaid">Mermaid</a></li><li class="l3"><a href="#draw-io">draw.io</a></li><li class="l3"><a href="#plantuml-graphviz">PlantUML &amp;amp; Graphviz</a></li><li class="l3"><a href="#yed">yEd</a></li></ul></div></aside>
+<div class="wrap pagewrap"><aside class="toc" id="toc"><button class="toc-toggle" onclick="document.body.classList.toggle('toc-off')" title="Show/hide contents">&#9776;</button><div class="toc-inner"><div class="toc-h">On this page</div><ul><li class="l3"><a href="#mermaid">Mermaid</a></li><li class="l3"><a href="#draw-io">draw.io</a></li><li class="l3"><a href="#plantuml-graphviz">PlantUML &amp; Graphviz</a></li><li class="l3"><a href="#yed">yEd</a></li><li class="l3"><a href="#the-same-model-four-times">The same model, four times</a></li></ul></div></aside>
 <main class="pagebody">
 <div class="eyebrow">The idea</div>
 <h1>One model, many notations</h1>
@@ -46,6 +46,49 @@
   </div>
   <div class="callout">
     <p><strong>Notation is a rendering choice, not an architecture decision.</strong> If switching from Mermaid to PlantUML means redrawing everything, the diagram was never generated in the first place.</p>
+  </div>
+
+  <h3 id="the-same-model-four-times">The same model, four times</h3>
+  <p>A site arguing that diagrams are generated should not illustrate the claim with a picture of a diagram. So below is the actual thing: <strong>one source model</strong>, and the four files a generator produced from it. Nothing here was drawn.</p>
+
+  <h4>The source</h4>
+  <p class="muted">Five entities, six relationships &mdash; small enough to read whole, rich enough to carry cardinality, a self-reference and a many-to-many.</p>
+  <pre class="code"><code>entities:
+  - name: Person
+    attributes:
+      - {name: person_id, type: int, key: pk}
+      - {name: full_name, type: string}
+      - {name: mentor_id, type: int, key: fk}
+  ...
+relationships:
+  - {from: Person, to: Organisation, label: works for, from_card: many, to_card: one}
+  - {from: Person, to: Person,       label: mentored by, self: true}
+  - {from: Talk,   to: Person,       label: given by}</code></pre>
+  <p class="muted"><a href="../demo/model.yaml">model.yaml</a> &mdash; the whole file.</p>
+
+  <h4>The renderings</h4>
+  <p>Each was produced by the same generator in one pass. The interesting column is the last one.</p>
+  <table class="rtbl">
+    <thead><tr><th>Notation</th><th>Output</th><th>What it proves</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Mermaid</strong></td><td><a href="../demo/conference.mmd">conference.mmd</a></td><td>Renders where the code lives &mdash; GitHub, Obsidian, Markdown. Text, so it diffs.</td></tr>
+      <tr><td><strong>draw.io</strong></td><td><a href="../demo/conference.drawio">conference.drawio</a></td><td>Opens and <em>edits</em> in draw.io. Generated output need not be read-only.</td></tr>
+      <tr><td><strong>PlantUML</strong></td><td><a href="../demo/conference.puml">conference.puml</a></td><td>A layout engine places the boxes, not a person with a mouse.</td></tr>
+      <tr><td><strong>yEd</strong></td><td><a href="../demo/conference.graphml">conference.graphml</a></td><td>Carries no coordinates at all &mdash; auto-layout decides, which is the only way large graphs stay readable.</td></tr>
+    </tbody>
+  </table>
+
+  <p>The Mermaid output, in full &mdash; this is what &ldquo;generated&rdquo; actually looks like:</p>
+  <pre class="code"><code>erDiagram
+    Person }o--|| Organisation : "works for"
+    Person }o--|| Person : "mentored by"
+    Talk }o--|| Person : "given by"
+    Talk }o--|| Room : "scheduled in"
+    Attendance }o--|| Person : "by"
+    Attendance }o--|| Talk : "of"</code></pre>
+
+  <div class="callout">
+    <p><strong>The honest part.</strong> None of these four is prettier than a diagram a careful person would draw by hand. That is not the claim. The claim is that when the model changes, all four change &mdash; and nobody opens a drawing tool.</p>
   </div>
 </main></div>
 <footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;

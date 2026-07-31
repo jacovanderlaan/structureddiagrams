@@ -1,0 +1,34 @@
+erDiagram
+    Person }o--|| Organisation : "works for"
+    Person }o--|| Person : "mentored by"
+    Talk }o--|| Person : "given by"
+    Talk }o--|| Room : "scheduled in"
+    Attendance }o--|| Person : "by"
+    Attendance }o--|| Talk : "of"
+    Person {
+        int person_id PK
+        string full_name
+        string email
+        int mentor_id FK
+    }
+    Organisation {
+        int org_id PK
+        string name
+        string country
+    }
+    Talk {
+        int talk_id PK
+        string title
+        int speaker_id FK
+        int room_id FK
+    }
+    Room {
+        int room_id PK
+        string name
+        int capacity
+    }
+    Attendance {
+        int person_id PK
+        int talk_id PK
+        int rating
+    }

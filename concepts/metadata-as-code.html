@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Metadata As Code — Structured Diagrams</title>
+<meta name="description" content="Metadata lives in version-controlled files — reviewed, tested and deployed like code, so the model is an engineering artifact rather than a GUI state." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Metadata OS</div>
+  <h1>Metadata As Code</h1>
+  <p class="sub">Metadata lives in version-controlled files — reviewed, tested and deployed like code, so the model is an engineering artifact rather than a GUI state.</p>
+</div>
+<section class="wrap">
+
+<p><strong>Metadata is a code artifact, not an application's internal state.</strong> Definitions, contracts, mappings and models live in version-controlled files: reviewed in pull requests, tested in CI, deployed like anything else. No metadata trapped in a GUI, a wiki, or a vendor's repository.</p>
+<p>The claim is deceptively small. It is really a claim about <strong>who owns the model</strong> and <strong>what can be done with it</strong> — and almost every other MDDE and BTM capability depends on the answer.</p>
+<h3>What it buys</h3>
+<p><strong>History.</strong> `git log` on a model answers who changed a definition, when, and — with a decent commit message — why. A GUI shows you the current state and nothing else. Metadata without history cannot be audited, only trusted.</p>
+<p><strong>Review before effect.</strong> A change to a definition of "customer" is a diff someone approves, not a field someone edited on a Tuesday. That is the difference between governance and hope.</p>
+<p><strong>Branching.</strong> You can model a change without applying it — a branch, a proposal, a comparison. Modelling becomes something you can *try*, which is what makes iteration safe.</p>
+<p><strong>Testing.</strong> If metadata is a file, CI can check it: completeness, naming, referential integrity, contract compliance. Rules become gates instead of guidance.</p>
+<p><strong>Generation.</strong> Deterministic generation needs a deterministic input. Files give you that; a database behind an application does not, reliably. This is why Deterministic SQL Generation presupposes metadata as code rather than the other way around.</p>
+<h3>Why it matters more now</h3>
+<p>An AI agent can read a repository. It cannot read a modelling tool's internal state, click through a governance portal, or interpret a PNG of your model. <strong>Metadata as code is what makes a model legible to a machine</strong> — the practical precondition for anything AI-native, and one more reason models locked in tools become <a href="gated-knowledge.html">Gated Knowledge</a>.</p>
+<p>It also changes what a model *is*. Trapped in a tool, a model is a picture with a licence attached (<a href="model-as-drawing.html">Model as Drawing</a>). In version control, it is an executable, testable, diffable asset that other things are generated from.</p>
+<h3>What it does not mean</h3>
+<p><strong>Not "hand-write YAML for everything."</strong> People still model in interfaces — visual, collaborative, comfortable. The requirement is that the <strong>file is the source of truth</strong> and the interface is a view over it, not the reverse. Round-trip, not export.</p>
+<p><strong>Not "no database."</strong> Derived stores, catalogues and query layers are fine and useful. The rule is directional: files are authored, databases are mirrored from them. When the two disagree, the file wins.</p>
+<p><strong>Not free.</strong> It demands discipline that a GUI does not: naming, structure, review, merge conflicts on a model. That cost is real, and it is the same cost software engineering already decided was worth paying.</p>
+<div class="c-rel"><h3>Related concepts</h3><ul><li><a href="gated-knowledge.html">Gated Knowledge</a></li><li><a href="model-as-drawing.html">Model As Drawing</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

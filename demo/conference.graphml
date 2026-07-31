@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:y="http://www.yworks.com/xml/graphml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd">
+  <key for="node" id="d0" yfiles.type="nodegraphics"/>
+  <key for="edge" id="d1" yfiles.type="edgegraphics"/>
+  <graph id="Conference" edgedefault="directed">
+    <node id="n0"><data key="d0"><y:ShapeNode><y:Geometry height="80" width="180"/><y:Fill color="#FFFFFF" transparent="false"/><y:BorderStyle color="#0F172A" type="line" width="1.0"/><y:NodeLabel alignment="left" autoSizePolicy="content" textColor="#0F172A">Person
+person_id: int (PK)
+full_name: string
+email: string
+mentor_id: int (FK)</y:NodeLabel><y:Shape type="roundrectangle"/></y:ShapeNode></data></node>
+    <node id="n1"><data key="d0"><y:ShapeNode><y:Geometry height="66" width="180"/><y:Fill color="#FFFFFF" transparent="false"/><y:BorderStyle color="#0F172A" type="line" width="1.0"/><y:NodeLabel alignment="left" autoSizePolicy="content" textColor="#0F172A">Organisation
+org_id: int (PK)
+name: string
+country: string</y:NodeLabel><y:Shape type="roundrectangle"/></y:ShapeNode></data></node>
+    <node id="n2"><data key="d0"><y:ShapeNode><y:Geometry height="80" width="180"/><y:Fill color="#FFFFFF" transparent="false"/><y:BorderStyle color="#0F172A" type="line" width="1.0"/><y:NodeLabel alignment="left" autoSizePolicy="content" textColor="#0F172A">Talk
+talk_id: int (PK)
+title: string
+speaker_id: int (FK)
+room_id: int (FK)</y:NodeLabel><y:Shape type="roundrectangle"/></y:ShapeNode></data></node>
+    <node id="n3"><data key="d0"><y:ShapeNode><y:Geometry height="66" width="180"/><y:Fill color="#FFFFFF" transparent="false"/><y:BorderStyle color="#0F172A" type="line" width="1.0"/><y:NodeLabel alignment="left" autoSizePolicy="content" textColor="#0F172A">Room
+room_id: int (PK)
+name: string
+capacity: int</y:NodeLabel><y:Shape type="roundrectangle"/></y:ShapeNode></data></node>
+    <node id="n4"><data key="d0"><y:ShapeNode><y:Geometry height="66" width="180"/><y:Fill color="#FFFFFF" transparent="false"/><y:BorderStyle color="#0F172A" type="line" width="1.0"/><y:NodeLabel alignment="left" autoSizePolicy="content" textColor="#0F172A">Attendance
+person_id: int (PK)
+talk_id: int (PK)
+rating: int</y:NodeLabel><y:Shape type="roundrectangle"/></y:ShapeNode></data></node>
+    <edge id="e0" source="n0" target="n1"><data key="d1"><y:PolyLineEdge><y:LineStyle color="#2563EB" type="line" width="1.0"/><y:Arrows source="none" target="standard"/><y:EdgeLabel textColor="#0F172A">works for</y:EdgeLabel></y:PolyLineEdge></data></edge>
+    <edge id="e1" source="n0" target="n0"><data key="d1"><y:PolyLineEdge><y:LineStyle color="#2563EB" type="line" width="1.0"/><y:Arrows source="none" target="standard"/><y:EdgeLabel textColor="#0F172A">mentored by</y:EdgeLabel></y:PolyLineEdge></data></edge>
+    <edge id="e2" source="n2" target="n0"><data key="d1"><y:PolyLineEdge><y:LineStyle color="#2563EB" type="line" width="1.0"/><y:Arrows source="none" target="standard"/><y:EdgeLabel textColor="#0F172A">given by</y:EdgeLabel></y:PolyLineEdge></data></edge>
+    <edge id="e3" source="n2" target="n3"><data key="d1"><y:PolyLineEdge><y:LineStyle color="#2563EB" type="line" width="1.0"/><y:Arrows source="none" target="standard"/><y:EdgeLabel textColor="#0F172A">scheduled in</y:EdgeLabel></y:PolyLineEdge></data></edge>
+    <edge id="e4" source="n4" target="n0"><data key="d1"><y:PolyLineEdge><y:LineStyle color="#2563EB" type="line" width="1.0"/><y:Arrows source="none" target="standard"/><y:EdgeLabel textColor="#0F172A">by</y:EdgeLabel></y:PolyLineEdge></data></edge>
+    <edge id="e5" source="n4" target="n2"><data key="d1"><y:PolyLineEdge><y:LineStyle color="#2563EB" type="line" width="1.0"/><y:Arrows source="none" target="standard"/><y:EdgeLabel textColor="#0F172A">of</y:EdgeLabel></y:PolyLineEdge></data></edge>
+  </graph>
+</graphml>

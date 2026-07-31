@@ -1,0 +1,47 @@
+@startuml
+hide circle
+skinparam linetype ortho
+skinparam backgroundColor #f7f8fa
+skinparam entity {
+  BackgroundColor #ffffff
+  BorderColor #0f172a
+}
+entity "Person" as Person {
+  *person_id : int
+  --
+  full_name : string
+  email : string
+  mentor_id : int <<FK>>
+}
+entity "Organisation" as Organisation {
+  *org_id : int
+  --
+  name : string
+  country : string
+}
+entity "Talk" as Talk {
+  *talk_id : int
+  --
+  title : string
+  speaker_id : int <<FK>>
+  room_id : int <<FK>>
+}
+entity "Room" as Room {
+  *room_id : int
+  --
+  name : string
+  capacity : int
+}
+entity "Attendance" as Attendance {
+  *person_id : int
+  *talk_id : int
+  --
+  rating : int
+}
+Person }o--|| Organisation : works for
+Person }o--|| Person : mentored by
+Talk }o--|| Person : given by
+Talk }o--|| Room : scheduled in
+Attendance }o--|| Person : by
+Attendance }o--|| Talk : of
+@enduml

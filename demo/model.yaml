@@ -1,0 +1,47 @@
+# The shared source model for every notation example on structureddiagrams.com.
+# ONE source, four renderings. If a diagram on the site does not come from this
+# file, the site's central claim is not being demonstrated. (ADR-127, briefs.md)
+#
+# Deliberately small: 5 entities, 6 relationships — readable whole at half size,
+# but rich enough to show cardinality, a self-reference, and a many-to-many.
+model:
+  name: Conference
+  description: A small, familiar domain — chosen so the reader spends attention on the rendering, not the subject.
+
+entities:
+  - name: Person
+    attributes:
+      - {name: person_id, type: int, key: pk}
+      - {name: full_name, type: string}
+      - {name: email, type: string}
+      - {name: mentor_id, type: int, key: fk}
+  - name: Organisation
+    attributes:
+      - {name: org_id, type: int, key: pk}
+      - {name: name, type: string}
+      - {name: country, type: string}
+  - name: Talk
+    attributes:
+      - {name: talk_id, type: int, key: pk}
+      - {name: title, type: string}
+      - {name: speaker_id, type: int, key: fk}
+      - {name: room_id, type: int, key: fk}
+  - name: Room
+    attributes:
+      - {name: room_id, type: int, key: pk}
+      - {name: name, type: string}
+      - {name: capacity, type: int}
+  - name: Attendance
+    description: The associative entity resolving the many-to-many between Person and Talk.
+    attributes:
+      - {name: person_id, type: int, key: pk}
+      - {name: talk_id, type: int, key: pk}
+      - {name: rating, type: int}
+
+relationships:
+  - {from: Person, to: Organisation, label: works for, from_card: many, to_card: one}
+  - {from: Person, to: Person, label: mentored by, from_card: many, to_card: one, self: true}
+  - {from: Talk, to: Person, label: given by, from_card: many, to_card: one}
+  - {from: Talk, to: Room, label: scheduled in, from_card: many, to_card: one}
+  - {from: Attendance, to: Person, label: by, from_card: many, to_card: one}
+  - {from: Attendance, to: Talk, label: of, from_card: many, to_card: one}

@@ -169,3 +169,10 @@ body.toc-off .toc-toggle{display:block}
 html{scroll-behavior:smooth}
 .pagebody h2{scroll-margin-top:1.5rem}
 .pagebody h3{scroll-margin-top:1.5rem}
+
+/* code blocks — generated-artifact evidence (ADR-127 notations page) */
+pre.code{background:#0f172a;color:#e2e8f0;border-radius:8px;padding:16px 18px;overflow-x:auto;
+  font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:14px 0;border:1px solid #1e293b}
+pre.code code{background:none;color:inherit;padding:0;font:inherit;white-space:pre}
+.pagebody h4{margin:22px 0 6px;font-size:15px;letter-spacing:.01em;color:#0f172a}
+@media (prefers-color-scheme:dark){pre.code{background:#0b1220;border-color:#243044}}
