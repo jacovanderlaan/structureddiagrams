@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>Ideas — Structured Diagrams</title>
+<meta name="description" content="Ideas on Structured Diagrams — filter, sort and browse." />
+<link rel="canonical" href="https://structureddiagrams.com/ideas/" />
+<meta property="og:title" content="Ideas — Structured Diagrams" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://structureddiagrams.com/ideas/" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main">
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">The idea</button><span class="navmenu">
+<a href="../idea/index.html">The idea</a>
+<a href="../why/index.html">Why it matters</a>
+<a href="../how/index.html">How it works</a>
+<a href="../types/index.html">Diagram types</a>
+<a href="../notations/index.html">Notations</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../anti-patterns/index.html">Anti-patterns</a>
+<a href="../glossary/index.html">Glossary</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Writing</button><span class="navmenu">
+<a href="../articles/index.html">Articles</a>
+<a href="../research/index.html">Research</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Practice</button><span class="navmenu">
+<a href="../skills/index.html">Skills</a>
+<a href="../ideas/index.html">Ideas</a>
+</span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">About</button><span class="navmenu">
+<a href="../references/index.html">References</a>
+<a href="../news/index.html">News</a>
+<a href="../relation/index.html">Where this fits</a>
+</span></span>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="hero wrap" style="padding-bottom:16px">
+  <div class="eyebrow">Listing</div>
+  <h1>Ideas</h1>
+</div>
+<section class="wrap">
+<div id="browse" data-page-type="ideas"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li>Anti-patterns section on the site</li>
+    <li>Article footers — related articles / concepts / terms</li>
+    <li>Clickable SVG output &mdash; <span class="muted">Nearly free — generator already knows every target. Concept written.</span></li>
+    <li>Confirm PowerDesigner EOL date + SAP migration guidance</li>
+    <li>Decide: JSON Canvas for board.yaml?</li>
+    <li>Decisions section — publish 12 diagram ADRs &mdash; <span class="muted">ADR-65, 75, 86, 112, 125, 127, 131, 228, 237, 300, 336, 342</span></li>
+    <li>Drill-down lineage views — scoped + aggregated &mdash; <span class="muted">the fix for unreadable lineage</span></li>
+    <li>ERD skill — metadata → Mermaid/draw.io/GraphML &mdash; <span class="muted">Verified: no such skill exists anywhere. Generators exist; needs the SKILL.md wrapper.</span></li>
+    <li>Excalidraw generation &mdash; <span class="muted">or via official mermaid-to-excalidraw</span></li>
+    <li>Generated draw.io palettes (mxlibrary) &mdash; <span class="muted">Format verified. Unlocks palette-whiteboard mode.</span></li>
+    <li>Graph metadata model section</li>
+    <li>Imagery — hero per page</li>
+    <li>Impact analysis in the PR &mdash; <span class="muted">ADR-103 exists; surfacing is missing</span></li>
+    <li>Impact analysis viewer demo — demo metadata, filters, drill-down &mdash; <span class="muted">You asked for this explicitly</span></li>
+    <li>JSON Canvas as board format &mdash; <span class="muted">needs J6</span></li>
+    <li>Live demo — one metadata source → 4 notations &mdash; <span class="muted">done 31 jul — on /notations/, with the source model and all four downloadable. Remaining upgrade: render them </span></li>
+    <li>Miro integration demo &mdash; <span class="muted">2,584 lines already exist (ADR-342) — this is documentation, not building</span></li>
+    <li>Missing Medium URLs — 14 of 21 articles have no mediumurl in frontmatter</li>
+    <li>NOINDEX removal — decide when each of the 5 sites goes live</li>
+    <li>Photos of the Buro BRAND training</li>
+    <li>PowerDesigner / erwin reverse-engineering &mdash; <span class="muted">⏳ 2027 window</span></li>
+    <li>Research → DuckDB mirror, then site reads the mirror</li>
+    <li>Router DNS cache keeps reverting to Dynadot parking</li>
+    <li>Tools section — draw.io, yEd, Mermaid, Excalidraw, Archi, Miro</li>
+    <li>Two things to steal from Visual Data Vault &mdash; <span class="muted">Naming-convention automation (the tool applies the standard so the modeller cannot drift — metadata discipline</span></li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../concepts/assets/",
+    pageType: "ideas"
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>
+</section>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+</body></html>

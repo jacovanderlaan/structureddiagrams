@@ -3,13 +3,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
 <title>Skills — Structured Diagrams</title>
-<meta name="description" content="Claude skills for diagrams — and the gap where an ERD skill should be." />
+<meta name="description" content="Skills on Structured Diagrams — filter, sort and browse." />
 <link rel="canonical" href="https://structureddiagrams.com/skills/" />
 <meta property="og:title" content="Skills — Structured Diagrams" />
-<meta property="og:description" content="Claude skills for diagrams — and the gap where an ERD skill should be." />
-<meta property="og:type" content="article" />
+<meta property="og:type" content="website" />
 <meta property="og:url" content="https://structureddiagrams.com/skills/" />
-<meta property="og:site_name" content="Structured Diagrams" />
 <meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" /></head>
@@ -24,37 +22,63 @@
 </span></span>
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Library</button><span class="navmenu">
 <a href="../concepts/index.html">Concepts</a>
+<a href="../anti-patterns/index.html">Anti-patterns</a>
 <a href="../glossary/index.html">Glossary</a>
 </span></span>
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Writing</button><span class="navmenu">
 <a href="../articles/index.html">Articles</a>
 <a href="../research/index.html">Research</a>
 </span></span>
+<span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">Practice</button><span class="navmenu">
 <a href="../skills/index.html">Skills</a>
+<a href="../ideas/index.html">Ideas</a>
+</span></span>
 <span class="navgroup"><button class="navtop" type="button" aria-haspopup="true">About</button><span class="navmenu">
 <a href="../references/index.html">References</a>
 <a href="../news/index.html">News</a>
 <a href="../relation/index.html">Where this fits</a>
 </span></span>
 <a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
-<div class="wrap pagewrap">
-<main class="pagebody">
-<div class="eyebrow">Practice</div>
-<h1>Skills</h1>
-<figure class="hero-fig"><img src="../assets/the-missing-erd-skill-hero.png" alt="A shelf holding skill cards for mermaid, plantuml and graphviz, and an empty dashed slot where an erd skill should be." loading="lazy" width="1200" height="800" /></figure>
-
-  <p class="lead">Claude <em>skills</em> are folders with a <code>SKILL.md</code>: frontmatter plus instructions, loaded on demand. They are the obvious way to make a diagram generator available inside a conversation &mdash; so we went looking for the ones that already exist.</p>
-  <p><strong>The finding was thinner than expected.</strong> Anthropic&rsquo;s official repository holds 17 skills and <em>not one generates a diagram</em>. A GitHub search for diagram skills returns two repositories, with 2 and 0 stars. Two of the three skills most commonly cited in write-ups return 404.</p>
-  <div class="callout">
-    <p><strong>There is no ERD skill.</strong> For anyone modelling data, that is an unoccupied space &mdash; and the reason is instructive: the visual skills that do exist draw <em>from a prompt</em>. A useful one would generate <em>from the model</em>: deterministic, multi-notation, carrying provenance, and able to round-trip. Identical in a demo; different in month three.</p>
-  </div>
-  <div class="cta-row">
-    <a class="btn ghost" href="../research/claude-skills-for-diagrams-and-briefs.html">Read the research &rarr;</a>
-  </div>
-  <p class="muted">Skills we intend to publish: an <strong>ERD skill</strong> (metadata in; Mermaid, draw.io and GraphML out) and a <strong>brief skill</strong> (markdown + frontmatter as an installable convention). Both are packaging work &mdash; the generators already exist.</p>
-</main></div>
-<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
-the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>.
-Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
-<p class="muted">Structure beats magic. &copy; Jaco van der Laan.</p></div></footer>
+<div class="hero wrap" style="padding-bottom:16px">
+  <div class="eyebrow">Listing</div>
+  <h1>Skills</h1>
+</div>
+<section class="wrap">
+<div id="browse" data-page-type="skills"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li>/vault-query — retrieve from the vault via the introspected data model &mdash; <span class="muted">name: vault-query</span></li>
+    <li>Article Skill &mdash; <span class="muted">Create and manage technical articles for Medium and other publication platforms.</span></li>
+    <li>Brochure Skill &mdash; <span class="muted">Create business-friendly solution brochures that explain features and capabilities for stakeholders.</span></li>
+    <li>Chat-Import Skill &mdash; <span class="muted">Bring exported AI chat history (ChatGPT, Claude) under structure — parse the export,</span></li>
+    <li>Cleanup Skill &mdash; <span class="muted">Perform a structured cleanup and code review of the repository.</span></li>
+    <li>Cloze CRM Skill &mdash; <span class="muted">Interact with Cloze CRM data - contacts, companies, and agreements.</span></li>
+    <li>Documentation Skill &mdash; <span class="muted">Generate and maintain project documentation including ADRs, READMEs, release notes, and folder-level instructi</span></li>
+    <li>Duckdb Attach Db &mdash; <span class="muted">name: duckdb-attach-db</span></li>
+    <li>Duckdb Docs &mdash; <span class="muted">name: duckdb-docs</span></li>
+    <li>Duckdb Install &mdash; <span class="muted">name: duckdb-install</span></li>
+    <li>Duckdb Query &mdash; <span class="muted">name: duckdb-query</span></li>
+    <li>Duckdb Read File &mdash; <span class="muted">name: duckdb-read-file</span></li>
+    <li>Duckdb Read Memories &mdash; <span class="muted">name: duckdb-read-memories</span></li>
+    <li>Export to Project &mdash; <span class="muted">name: export-to-project</span></li>
+    <li>Profile Skill &mdash; <span class="muted">Query and explore Jaco&#x27;s personal profile data from the D:/ vault.</span></li>
+    <li>Remind Skill &mdash; <span class="muted">Track tasks, questions, and things to remember — routed into Jaco&#x27;s vault</span></li>
+    <li>Runbook Skill &mdash; <span class="muted">Create and maintain operational runbooks for incident response, change management, and standard procedures.</span></li>
+    <li>Skill (skill-authoring) &mdash; <span class="muted">Scaffold, review, and improve Claude Code skills — so new skills match the house</span></li>
+    <li>VSCode Extension Skill &mdash; <span class="muted">Create and extend VSCode extensions for MDDE metadata editing.</span></li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../concepts/assets/",
+    pageType: "skills"
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>
+</section>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
 </body></html>
