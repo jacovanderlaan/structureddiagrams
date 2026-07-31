@@ -126,3 +126,11 @@ hr{border:none;border-top:1px solid var(--line);margin:34px 0}
 .key-section h2{margin-top:1.2rem}
 .card.is-key{border-color:var(--gold,#b88a1b)}
 .c-rel.c-key h3{color:var(--gold,#b88a1b)}
+
+/* article reading line */
+.artlist{list-style:none;padding:0;margin:0 0 1.6rem}
+.artlist li{padding:.55rem 0;border-bottom:1px solid rgba(15,23,42,.08);line-height:1.5}
+.artlist li:last-child{border-bottom:0}
+.artlist a{font-weight:600}
+.soon{font-size:.78em;color:#94a3b8;border:1px solid rgba(148,163,184,.4);border-radius:3px;padding:.05em .4em;margin-left:.35em;white-space:nowrap}
+section h3{margin-top:1.8rem;margin-bottom:.3rem}

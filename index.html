@@ -100,14 +100,51 @@
 
 <section class="wrap" id="articles">
   <h2>Articles</h2>
-  <p class="lead">This is not a new argument here &mdash; it has been worked out in public across two dozen pieces, from choosing a notation to parsing drawings back into metadata.</p>
-  <div class="cards">
-    <div class="card"><h3>The Architecture Diagram Lie</h3><p>Why the diagram on the wall stopped being true, and why nobody noticed. <span class="muted">(Mar 2026)</span></p></div>
-    <div class="card"><h3>From Drawing to Generation</h3><p>Mermaid, draw.io, PlantUML, Graphviz &mdash; what each is actually good for, and when to reach for which. <span class="muted">(Nov 2025)</span></p></div>
-    <div class="card"><h3>Parsing draw.io Diagrams Back into Metadata</h3><p>The round-trip: sketching stays human, but the sketch does not stay stranded. <span class="muted">(Nov 2025)</span></p></div>
-    <div class="card"><h3>Choosing the Right Diagramming Approach</h3><p>The decision framework for model-driven data engineering. <span class="muted">(Sep 2025)</span></p></div>
-  </div>
-  <p class="muted">Articles publish on Medium and <a href="https://structurebeatsmagic.com">Structure Beats Magic</a>. This section links the diagramming pieces as they go live.</p>
+  <p class="lead">This argument was not invented for this site. It has been worked out in public across two dozen pieces since September 2025 &mdash; and they read in an order: <strong>choose an approach &rarr; generate &rarr; close the loop &rarr; follow the meaning &rarr; publish and keep it true</strong>.</p>
+
+  <h3>1 &middot; Choosing an approach</h3>
+  <p>Before generating anything, decide what you are generating <em>into</em> &mdash; and on what grounds.</p>
+  <ul class="artlist">
+    <li><a href="https://medium.com/business-friendly-diagramming/choosing-the-right-diagramming-approach-for-model-driven-data-engineering-2108823fcaba">Choosing the Right Diagramming Approach</a> &mdash; draw.io, GraphML (yEd) or Mermaid: picking by workflow, not by hype. <span class="muted">Oct 2025</span></li>
+    <li><a href="https://medium.com/@jacovanderlaan/from-drawing-to-generation-how-mermaid-draw-io-06832d918736">From Drawing to Generation</a> &mdash; five tools, one shift: diagrams stop being artifacts and become generated views. <span class="muted">Nov 2025</span></li>
+  </ul>
+
+  <h3>2 &middot; Generating from metadata</h3>
+  <p>The mechanics, per notation. Each is a small generator, not a platform.</p>
+  <ul class="artlist">
+    <li><a href="https://medium.com/@jacovanderlaan/automatically-generating-yed-diagrams-from-metadata-with-python-c0e464915f22">Automatically Generating yEd Diagrams from Metadata with Python</a> &mdash; emit GraphML, let yEd&rsquo;s layout engine do the hard part. <span class="muted">Sep 2025</span></li>
+    <li><a href="https://medium.com/@jacovanderlaan/bringing-plantuml-into-a-metadata-driven-diagram-workflow-eac545b028bf">Bringing PlantUML Into a Metadata-Driven Diagram Workflow</a> &mdash; the developer-first text DSL alongside draw.io and Mermaid. <span class="muted">Sep 2025</span></li>
+    <li>Automating draw.io Diagram Generation from Metadata &mdash; YAML or DuckDB into consistent, versioned <code>.drawio</code> files. <span class="soon">coming soon</span></li>
+    <li>From YAML to SQL: Generating Physical Models and Diagrams &mdash; one logical YAML becomes DDL, dbt models <em>and</em> ER diagrams. <span class="soon">coming soon</span></li>
+    <li>Building the Metadata Star Generator &mdash; conceptual constellations as code: a repeatable generator, not a one-off diagram. <span class="soon">coming soon</span></li>
+  </ul>
+
+  <h3>3 &middot; Closing the loop</h3>
+  <p>People sketch. The question is whether the sketch is a dead end.</p>
+  <ul class="artlist">
+    <li>Parsing draw.io Diagrams Back into Metadata &mdash; turning a hand-drawn file into rows you can query, diff and trust. <span class="soon">coming soon</span></li>
+    <li>Canvas-Based Data Model Editing &mdash; modelling tools export to code but never read it back. The two-way-sync canvas. <span class="soon">coming soon</span></li>
+    <li>Organizing Diagrams and Metadata in VSCode &mdash; the editor as the one place where diagrams, mappings and SQL stay in sync. <span class="soon">coming soon</span></li>
+  </ul>
+
+  <h3>4 &middot; Lineage and meaning</h3>
+  <p>Once structure is data, the picture stops being an ERD and starts answering questions.</p>
+  <ul class="artlist">
+    <li><a href="https://medium.com/@jacovanderlaan/dynamic-metadata-lineage-visualizing-relationships-across-data-models-c8a22eeeb2ca">Dynamic Metadata Lineage</a> &mdash; the catalog as an interactive graph: architecture you look at, not search for. <span class="muted">Oct 2025</span></li>
+    <li>From Metadata to Meaning &mdash; ERDs, lineage and glossaries falling out of the same YAML. <span class="soon">coming soon</span></li>
+    <li>From Core Concepts to Metadata Stars &mdash; a generated diagram per business concept, showing drift a spreadsheet cannot. <span class="soon">coming soon</span></li>
+  </ul>
+
+  <h3>5 &middot; Publishing, and keeping it true</h3>
+  <p>A generated diagram nobody sees is still a diagram nobody sees.</p>
+  <ul class="artlist">
+    <li><a href="https://medium.com/@jacovanderlaan/publishing-metadata-and-diagrams-to-confluence-83690870ce77">Publishing Metadata and Diagrams to Confluence</a> &mdash; the last mile: generated output as documentation people actually open. <span class="muted">Nov 2025</span></li>
+    <li><a href="https://medium.com/@jacovanderlaan/architecture-diagrams-as-code-43187fe787bc">Architecture Diagrams as Code</a> &mdash; why visual models should be generated, not drawn. <span class="muted">Mar 2026</span></li>
+    <li>The Architecture Diagram Lie &mdash; manually maintained diagrams drift from day one. <span class="soon">coming soon</span></li>
+    <li>Two Movements, One Graph &mdash; ontology from above, notes from below: both end at a graph, and a diagram is a view of it. <span class="soon">coming soon</span></li>
+  </ul>
+
+  <p class="muted">Articles publish on Medium and <a href="https://structurebeatsmagic.com">Structure Beats Magic</a>. Unlinked pieces are written and queued &mdash; they appear here as they go live.</p>
 </section>
 
 <section class="wrap" id="references">
