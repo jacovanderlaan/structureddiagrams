@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Feature matrix — data modelling products vs generic diagramming tools, and what to build ourselves — Structured Diagrams</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head><body>
+<header class="site"><div class="wrap">
+<a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main"><a href="index.html">All research</a><a href="../concepts/index.html">Concepts</a>
+<a href="../index.html">Home</a></nav></div></header>
+<div class="wrap">
+<div class="eyebrow">Research</div>
+<h1>Feature matrix — data modelling products vs generic diagramming tools, and what to build ourselves</h1>
+<p class="sub">Which features do data modelling products and generic diagramming tools offer, how does each score, and which of them should we build ourselves?</p>
+<p class="muted">2026-07-31 · complete · confidence: medium</p>
+<div class="research-body">
+<p># Feature matrix — modelling products vs diagramming tools</p>
+<p><strong>Question:</strong> which features do data modelling products and generic diagramming tools offer, how does each score, and <strong>which should we build ourselves?</strong></p>
+<p><strong>The finding that organises the rest:</strong> the two categories fail in opposite directions. Modelling products have the model but treat the picture as an export. Diagramming tools have the picture but no model underneath. Almost nothing sits in the middle — which is where the buildable list comes from.</p>
+<p>⚠️ <strong>Read this as a working assessment, not a benchmark.</strong> Scores are judgements from documentation, hands-on use and the research already in this folder, dated 31 Jul 2026. Vendors move; verify before quoting.</p>
+<p>Scale: <strong>●●●</strong> strong · <strong>●●○</strong> partial · <strong>●○○</strong> weak · <strong>○○○</strong> absent</p>
+<hr>
+<h3>1 · Data modelling products</h3>
+<table class="rtbl">
+<tr><th>Feature</th><th>PowerDesigner</th><th>erwin</th><th>Ellie.ai</th><th>SqlDBM</th><th>dbdiagram</th><th><strong>MDDE</strong></th></tr>
+<tr><td>Conceptual / logical / physical layers</td><td>●●●</td><td>●●●</td><td>●●●</td><td>●●○</td><td>●○○</td><td>●●●</td></tr>
+<tr><td>Reverse-engineer from database</td><td>●●●</td><td>●●●</td><td>●●○</td><td>●●●</td><td>●●○</td><td>●●●</td></tr>
+<tr><td>Forward-engineer DDL</td><td>●●●</td><td>●●●</td><td>●●○</td><td>●●●</td><td>●●○</td><td>●●●</td></tr>
+<tr><td><strong>Impact analysis</strong></td><td>●●●</td><td>●●○</td><td>●○○</td><td>●○○</td><td>○○○</td><td>●●●</td></tr>
+<tr><td>Column-level lineage</td><td>●●○</td><td>●●○</td><td>●○○</td><td>●○○</td><td>○○○</td><td>●●●</td></tr>
+<tr><td>Real-time collaboration</td><td>○○○</td><td>●○○</td><td>●●●</td><td>●●○</td><td>●●○</td><td>○○○</td></tr>
+<tr><td>Business-user accessible</td><td>●○○</td><td>●○○</td><td>●●●</td><td>●○○</td><td>●●○</td><td>●●○</td></tr>
+<tr><td>Business glossary</td><td>●●○</td><td>●●●</td><td>●●●</td><td>○○○</td><td>○○○</td><td>●●○</td></tr>
+<tr><td><strong>Open, diffable source format</strong></td><td>○○○</td><td>○○○</td><td>○○○</td><td>●○○</td><td>●●●</td><td>●●●</td></tr>
+<tr><td>Version control (git-native)</td><td>●○○</td><td>●○○</td><td>●○○</td><td>●●○</td><td>●●○</td><td>●●●</td></tr>
+<tr><td>Generated documentation</td><td>●●○</td><td>●●○</td><td>●●○</td><td>●○○</td><td>○○○</td><td>●●●</td></tr>
+<tr><td>Multi-notation output</td><td>●○○</td><td>●○○</td><td>○○○</td><td>●○○</td><td>●●○</td><td>●●●</td></tr>
+<tr><td>AI-readable model</td><td>○○○</td><td>○○○</td><td>●○○</td><td>●○○</td><td>●●○</td><td>●●●</td></tr>
+<tr><td>Survives its vendor</td><td>○○○</td><td>●○○</td><td>●○○</td><td>●○○</td><td>●●○</td><td>●●●</td></tr>
+</table>
+<p><strong>PowerDesigner</strong> is still the most complete on impact analysis, and it treats an impact model as a <strong>first-class saved artifact</strong> rather than a transient report — worth stealing. ⚠️ <strong>End of life 2027.</strong> Decades of enterprise models are locked in a proprietary format that will outlive its tool: <a href="../concepts/gated-knowledge.html">Gated Knowledge</a> with a closing date.</p>
+<p><strong>Ellie.ai</strong> wins on the axis everyone else ignores: real-time browser collaboration with business users, an AI chatbot for first drafts, catalog integration. It is genuinely better at this than we will be. The trade is ownership — the model lives in their cloud.</p>
+<p><strong>dbdiagram</strong> scores unexpectedly well on the bottom four rows for one reason: its source is text. Small tool, correct instinct.</p>
+<hr>
+<h3>2 · Generic diagramming tools</h3>
+<table class="rtbl">
+<tr><th>Feature</th><th>draw.io</th><th>yEd</th><th>Mermaid</th><th>Excalidraw</th><th>Miro</th><th>Visio</th><th>Lucid</th></tr>
+<tr><td>Open / documented format</td><td>●●●</td><td>●●●</td><td>●●●</td><td>●●●</td><td>●○○</td><td>●○○</td><td>○○○</td></tr>
+<tr><td>Programmatic generation</td><td>●●●</td><td>●●●</td><td>●●●</td><td>●●●</td><td>●●○</td><td>●●○</td><td>●○○</td></tr>
+<tr><td>Parse back into metadata</td><td>●●●</td><td>●●●</td><td>●●●</td><td>●●○</td><td>●●○</td><td>●○○</td><td>○○○</td></tr>
+<tr><td>Auto-layout quality</td><td>●●○</td><td>●●●</td><td>●●○</td><td>●○○</td><td>○○○</td><td>●○○</td><td>●●○</td></tr>
+<tr><td>Handles 200+ nodes</td><td>●○○</td><td>●●●</td><td>●○○</td><td>○○○</td><td>●○○</td><td>●○○</td><td>●●○</td></tr>
+<tr><td>Real-time collaboration</td><td>●●○</td><td>○○○</td><td>○○○</td><td>●●●</td><td>●●●</td><td>●●○</td><td>●●●</td></tr>
+<tr><td><strong>Custom shape libraries</strong></td><td>●●●</td><td>●●○</td><td>○○○</td><td>●●○</td><td>●●○</td><td>●●●</td><td>●●○</td></tr>
+<tr><td>Clickable / hyperlinked output</td><td>●●●</td><td>●●○</td><td>●●○</td><td>●○○</td><td>●○○</td><td>●●○</td><td>●●○</td></tr>
+<tr><td>Renders inline in Markdown / git</td><td>●○○</td><td>○○○</td><td>●●●</td><td>●●○</td><td>○○○</td><td>○○○</td><td>○○○</td></tr>
+<tr><td>Free / no licence per reader</td><td>●●●</td><td>●●●</td><td>●●●</td><td>●●●</td><td>●○○</td><td>○○○</td><td>●○○</td></tr>
+<tr><td>Sketchy / provisional look</td><td>○○○</td><td>○○○</td><td>○○○</td><td>●●●</td><td>●●○</td><td>○○○</td><td>○○○</td></tr>
+</table>
+<p><strong>draw.io</strong> is the best all-rounder for our purposes: open format, generatable, parseable, custom libraries, clickable output, free. <strong>yEd</strong> owns exactly one row and owns it completely — the 200-node graph nobody can hand-arrange. <strong>Mermaid</strong> wins the row that matters most in practice: it renders where the code already lives.</p>
+<p><strong>Excalidraw's</strong> sketchy look is a genuine feature, not a limitation — it signals <em>provisional</em> and invites correction where a crisp render says <em>decided</em>.</p>
+<hr>
+<h3>3 · The gap between the two tables</h3>
+<p>Read them together and the shape is obvious:</p>
+<table class="rtbl">
+<tr><th></th><th>Modelling products</th><th>Diagramming tools</th></tr>
+<tr><td>Has a model underneath</td><td>✅</td><td>❌</td></tr>
+<tr><td>Open, diffable format</td><td>❌ (except dbdiagram)</td><td>✅</td></tr>
+<tr><td>Impact analysis</td><td>✅ (some)</td><td>❌</td></tr>
+<tr><td>Multi-notation output</td><td>❌</td><td>n/a — each <em>is</em> a notation</td></tr>
+<tr><td>Collaboration</td><td>❌ (except Ellie)</td><td>✅</td></tr>
+<tr><td>Survives its vendor</td><td>❌</td><td>✅</td></tr>
+</table>
+<p><strong>Nothing occupies the middle.</strong> A modelling product with an open source format and multi-notation generated output does not exist commercially — which is precisely the position this work already holds, arrived at from the metadata side rather than the tooling side.</p>
+<hr>
+<h3>4 · What to build ourselves</h3>
+<p>Ordered by <em>value ÷ effort</em>, judged against what already exists here.</p>
+<table class="rtbl">
+<tr><th>#</th><th>Feature</th><th>Effort</th><th>Why / why not</th></tr>
+<tr><td>1</td><td><strong>ERD skill</strong> (metadata → Mermaid/draw.io/GraphML)</td><td>S</td><td>Generators exist; needs a <code>SKILL.md</code> wrapper. <strong>No such skill exists anywhere</strong> — verified.</td></tr>
+<tr><td>2</td><td><strong>Clickable SVG output</strong></td><td>S</td><td>Nearly free once generated: the generator already knows every target. Turns a picture into navigation.</td></tr>
+<tr><td>3</td><td><strong>Generated draw.io palettes</strong> (<code>mxlibrary</code>)</td><td>S</td><td>XML + JSON array. Unlocks the palette-whiteboard mode nobody else offers.</td></tr>
+<tr><td>4</td><td><strong>Drill-down lineage views</strong> (scoped, aggregated)</td><td>M</td><td>The fix for unreadable lineage. Depth + roll-up as parameters, not new pictures.</td></tr>
+<tr><td>5</td><td><strong>Impact analysis in the PR</strong></td><td>M</td><td>ADR-103 exists; the missing part is surfacing it where the change happens.</td></tr>
+<tr><td>6</td><td><strong>PowerDesigner / erwin reverse-engineering</strong></td><td>M–L</td><td>⭐ Time-boxed by the 2027 EOL. Unlocks decades of locked models — and nobody else is racing to do it.</td></tr>
+<tr><td>7</td><td><strong>JSON Canvas board format</strong></td><td>M</td><td>Open spec, Python libs exist. Replaces bespoke <code>board.yaml</code>, buys Obsidian compatibility.</td></tr>
+<tr><td>8</td><td><strong>Excalidraw generation</strong></td><td>S–M</td><td>Documented JSON; or route via the official <code>mermaid-to-excalidraw</code>. Cheap path to provisional-looking output.</td></tr>
+<tr><td>9</td><td>Real-time collaborative canvas</td><td><strong>XL</strong></td><td>❌ <strong>Don't.</strong> Competing with Ellie and Miro on their strongest ground. Borrow Miro for the moments that need a room.</td></tr>
+<tr><td>10</td><td>Business glossary UI</td><td>L</td><td>❌ Not our differentiator. Catalogs do this adequately.</td></tr>
+</table>
+<p><strong>The pattern in rows 1–8:</strong> every one is <em>packaging work over generators that already exist</em>. None requires inventing anything. That is what makes vibe-coding viable here — the specification is the research, and the research is done.</p>
+<p><strong>The pattern in rows 9–10:</strong> both are products in their own right, both have well-funded incumbents, and neither strengthens the actual thesis.</p>
+<hr>
+<h3>5 · Conclusions</h3>
+<p>1. <strong>The categories fail in opposite directions.</strong> Model without picture; picture without model. The middle is unoccupied.</p>
+<p>2. <strong>Open format is the dividing line</strong> — again. Every tool that scores well on <em>survives its vendor</em> has a text or documented format.</p>
+<p>3. <strong>PowerDesigner's 2027 EOL is a dated opportunity</strong>, not just a fact. Reverse-engineering <code>.pdm</code> has a shelf life.</p>
+<p>4. <strong>Ellie.ai is better at collaboration and will stay better.</strong> Compete on ownership and generation, not on real-time UX.</p>
+<p>5. <strong>Eight features are buildable as packaging work.</strong> The generators exist; what is missing is the wrapper.</p>
+<p>6. <strong>Two features should be declined outright</strong> — say so explicitly, so they stop reappearing in planning.</p>
+<h3>Open follow-ups</h3>
+<ul>
+<li>[ ] Verify erwin and SqlDBM scores hands-on — currently judged from documentation</li>
+<li>[ ] Confirm the exact PowerDesigner EOL date and migration guidance from SAP</li>
+<li>[ ] Prototype #1 (ERD skill) and #2 (clickable SVG) — smallest, highest leverage</li>
+<li>[ ] Time-box a <code>.pdm</code> parser spike before the 2027 window narrows</li>
+</ul>
+<h3>Sources</h3>
+<ul>
+<li>Internal: ADR-65, ADR-86, ADR-103, ADR-300, ADR-336, ADR-342 (<code>model.duckdb</code> → <code>mdde_adr</code>)</li>
+<li>Prior research in this folder: <em>The visual tool landscape</em> · <em>Miro API and the collaborative visual experience</em> · <em>Claude skills for diagrams and briefs</em></li>
+<li><a href="https://ellie.ai/">Ellie.ai</a> · <a href="https://www.drawio.com/doc/faq/format-custom-shape-library">draw.io shape libraries</a> · <a href="https://docs.excalidraw.com/docs/codebase/json-schema">Excalidraw JSON schema</a> · <a href="https://github.com/obsidianmd/jsoncanvas">JSON Canvas spec</a></li>
+</ul>
+</div>
+<p class="muted"><a href="index.html">&larr; All research</a></p>
+</div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
+part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+</body></html>
