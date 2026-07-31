@@ -166,11 +166,15 @@ section h3{margin-top:1.8rem;margin-bottom:.3rem}
 .toc li.l3{padding-left:.8rem;font-size:.94em}
 .toc a{color:#475569;text-decoration:none}
 .toc a:hover{color:#2563eb}
-.toc-toggle{display:none;background:none;border:0;font-size:1.1rem;color:#94a3b8;cursor:pointer;padding:.2rem}
+/* The toggle is ALWAYS visible: it used to appear only on .toc:hover, so on a
+   touch device — and on a mouse before hovering — there was no discoverable way
+   to collapse the TOC. Discoverability beats tidiness for a control. */
+.toc-toggle{display:block;background:none;border:0;font-size:1.15rem;line-height:1;
+  color:#94a3b8;cursor:pointer;padding:.15rem .3rem;margin-bottom:.5rem;border-radius:4px}
+.toc-toggle:hover{color:#2563eb;background:rgba(37,99,235,.08)}
+.toc-toggle:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
 body.toc-off .toc-inner{display:none}
 body.toc-off .toc{width:auto;flex-basis:auto}
-body.toc-off .toc-toggle{display:block}
-.toc:hover .toc-toggle{display:block}
 @media(max-width:900px){.pagewrap{display:block}.toc{display:none}}
 html{scroll-behavior:smooth}
 .pagebody h2{scroll-margin-top:1.5rem}
@@ -188,3 +192,8 @@ pre.code code{background:none;color:inherit;padding:0;font:inherit;white-space:p
 .home-hero-fig{margin:34px 0 0}
 .hero-fig img,.home-hero-fig img{display:block;width:100%;height:auto;
   border:1px solid var(--line);border-radius:12px}
+
+/* Key activities — what the method DOES, as opposed to ideas it names.
+   Jaco's distinction (31 Jul 2026), same split as terms vs concepts. */
+.act-section{background:transparent;border-style:dashed}
+.act-badge{background:var(--accent)}
