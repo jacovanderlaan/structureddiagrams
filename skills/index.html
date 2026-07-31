@@ -2,8 +2,8 @@
 <html lang="en"><head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
-<title>Research — Structured Diagrams</title>
-<meta name="description" content="Questions investigated properly and written down." />
+<title>Skills — Structured Diagrams</title>
+<meta name="description" content="Claude skills for diagrams — and the gap where an ERD skill should be." />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" /></head>
 <body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
@@ -19,11 +19,11 @@
 <a href="../concepts/index.html">Concepts</a>
 <a href="../glossary/index.html">Terms</a>
 </div></div>
-<div class="navgroup"><span class="on">Writing</span><div class="submenu">
+<div class="navgroup"><span>Writing</span><div class="submenu">
 <a href="../articles/index.html">Articles</a>
 <a href="../research/index.html">Research</a>
 </div></div>
-<div class="navgroup"><span>Practice</span><div class="submenu">
+<div class="navgroup"><span class="on">Practice</span><div class="submenu">
 <a href="../skills/index.html">Skills</a>
 </div></div>
 <div class="navgroup"><span>About</span><div class="submenu">
@@ -34,19 +34,18 @@
 <a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
 <div class="wrap pagewrap">
 <main class="pagebody">
-<div class="eyebrow">Writing</div>
-<h1>Research</h1>
+<div class="eyebrow">Practice</div>
+<h1>Skills</h1>
 
-  <p class="lead">Questions investigated properly and written down &mdash; sources checked against the primary record, findings dated, open gaps stated rather than smoothed over. Each is a markdown file with a metadata header; this section is generated from those files.</p>
-  <ul class="artlist">
-    <li><a href="../research/claude-skills-for-diagrams-and-briefs.html">Claude skills for diagrams and briefs</a> &mdash; is there a usable collection, and is there an ERD skill? <strong>No, and the gap is the finding.</strong> Two of three widely-cited diagram skills turn out not to exist. <span class="muted">Jul 2026</span></li>
-    <li><a href="../research/visual-tool-landscape-formats-and-buildability.html">The visual tool landscape</a> &mdash; file formats of draw.io, yEd, Mermaid, Excalidraw, JSON Canvas, Miro and Heptabase, and which features are buildable ourselves. <span class="muted">Jul 2026</span></li>
-    <li><a href="../research/miro-api-collaborative-visual-experience.html">Miro API and the collaborative visual experience</a> &mdash; can modelling become a live shared activity, and how does that compare to Ellie.ai? <span class="muted">Jul 2026</span></li>
-  </ul>
+  <p class="lead">Claude <em>skills</em> are folders with a <code>SKILL.md</code>: frontmatter plus instructions, loaded on demand. They are the obvious way to make a diagram generator available inside a conversation &mdash; so we went looking for the ones that already exist.</p>
+  <p><strong>The finding was thinner than expected.</strong> Anthropic&rsquo;s official repository holds 17 skills and <em>not one generates a diagram</em>. A GitHub search for diagram skills returns two repositories, with 2 and 0 stars. Two of the three skills most commonly cited in write-ups return 404.</p>
   <div class="callout">
-    <p><strong>Why publish research at all?</strong> Because studying how other tools solve the visual problem is not idle curiosity &mdash; it is requirements-gathering with evidence. Write the findings as structured metadata and a specified feature is already halfway built.</p>
+    <p><strong>There is no ERD skill.</strong> For anyone modelling data, that is an unoccupied space &mdash; and the reason is instructive: the visual skills that do exist draw <em>from a prompt</em>. A useful one would generate <em>from the model</em>: deterministic, multi-notation, carrying provenance, and able to round-trip. Identical in a demo; different in month three.</p>
   </div>
-  <div class="cta-row"><a class="btn ghost" href="../research/index.html">All research &rarr;</a></div>
+  <div class="cta-row">
+    <a class="btn ghost" href="../research/claude-skills-for-diagrams-and-briefs.html">Read the research &rarr;</a>
+  </div>
+  <p class="muted">Skills we intend to publish: an <strong>ERD skill</strong> (metadata in; Mermaid, draw.io and GraphML out) and a <strong>brief skill</strong> (markdown + frontmatter as an installable convention). Both are packaging work &mdash; the generators already exist.</p>
 </main></div>
 <footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
 the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>.

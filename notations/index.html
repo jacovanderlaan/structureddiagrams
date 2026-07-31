@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>One model, many notations — Structured Diagrams</title>
+<meta name="description" content="Mermaid, draw.io, PlantUML, yEd — rendering choices." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main">
+<div class="navgroup"><span class="on">The idea</span><div class="submenu">
+<a href="../idea/index.html">The idea</a>
+<a href="../why/index.html">Why it matters</a>
+<a href="../how/index.html">How it works</a>
+<a href="../types/index.html">Diagram types</a>
+<a href="../notations/index.html">Notations</a>
+</div></div>
+<div class="navgroup"><span>Library</span><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../glossary/index.html">Terms</a>
+</div></div>
+<div class="navgroup"><span>Writing</span><div class="submenu">
+<a href="../articles/index.html">Articles</a>
+<a href="../research/index.html">Research</a>
+</div></div>
+<div class="navgroup"><span>Practice</span><div class="submenu">
+<a href="../skills/index.html">Skills</a>
+</div></div>
+<div class="navgroup"><span>About</span><div class="submenu">
+<a href="../references/index.html">References</a>
+<a href="../news/index.html">News</a>
+<a href="../relation/index.html">Where this fits</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="wrap pagewrap"><aside class="toc" id="toc"><button class="toc-toggle" onclick="document.body.classList.toggle('toc-off')" title="Show/hide contents">&#9776;</button><div class="toc-inner"><div class="toc-h">On this page</div><ul><li class="l3"><a href="#mermaid">Mermaid</a></li><li class="l3"><a href="#draw-io">draw.io</a></li><li class="l3"><a href="#plantuml-graphviz">PlantUML &amp;amp; Graphviz</a></li><li class="l3"><a href="#yed">yEd</a></li></ul></div></aside>
+<main class="pagebody">
+<div class="eyebrow">The idea</div>
+<h1>One model, many notations</h1>
+
+  <p class="lead">Different readers need different pictures of the same thing. An executive needs a context diagram; an engineer needs column-level lineage; an auditor needs to know what feeds what. Hand-drawn, that is four artifacts to maintain. Generated, it is four views of one source.</p>
+  <div class="cards">
+    <div class="card"><h3 id="mermaid">Mermaid</h3><p>Text-first, diffable, renders in Markdown and Git. The pragmatic default when the diagram belongs beside the code.</p></div>
+    <div class="card"><h3 id="draw-io">draw.io</h3><p>Where people actually sketch. Worth generating <em>into</em> &mdash; and worth parsing back out of, so the sketch is not a dead end.</p></div>
+    <div class="card"><h3 id="plantuml-graphviz">PlantUML &amp; Graphviz</h3><p>Layout engines that do the hard part. You describe what connects to what; they decide where it goes.</p></div>
+    <div class="card"><h3 id="yed">yEd</h3><p>For the large graph nobody can hand-arrange &mdash; hundreds of entities, laid out automatically and still readable.</p></div>
+  </div>
+  <div class="callout">
+    <p><strong>Notation is a rendering choice, not an architecture decision.</strong> If switching from Mermaid to PlantUML means redrawing everything, the diagram was never generated in the first place.</p>
+  </div>
+</main></div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
+the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>.
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+<p class="muted">Structure beats magic. &copy; Jaco van der Laan.</p></div></footer>
+</body></html>

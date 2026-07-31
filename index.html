@@ -18,18 +18,29 @@
   <div class="wrap">
     <a class="brand" href="index.html">Structured <span class="abbr">Diagrams</span></a>
     <nav class="main">
-      <a href="#idea">The idea</a>
-      <a href="#why">Why it matters</a>
-      <a href="#how">How it works</a>
-      <a href="#types">Diagram types</a>
-      <a href="#notations">Notations</a>
-      <a href="concepts/index.html">Concepts</a>
-      <a href="glossary/index.html">Terms</a>
-      <a href="#articles">Articles</a>
-      <a href="#research">Research</a>
-      <a href="#skills">Skills</a>
-      <a href="#references">References</a>
-      <a href="#news">News</a>
+      <div class="navgroup"><span>The idea</span><div class="submenu">
+        <a href="idea/index.html">The idea</a>
+        <a href="why/index.html">Why it matters</a>
+        <a href="how/index.html">How it works</a>
+        <a href="types/index.html">Diagram types</a>
+        <a href="notations/index.html">Notations</a>
+      </div></div>
+      <div class="navgroup"><span>Library</span><div class="submenu">
+        <a href="concepts/index.html">Concepts</a>
+        <a href="glossary/index.html">Terms</a>
+      </div></div>
+      <div class="navgroup"><span>Writing</span><div class="submenu">
+        <a href="articles/index.html">Articles</a>
+        <a href="research/index.html">Research</a>
+      </div></div>
+      <div class="navgroup"><span>Practice</span><div class="submenu">
+        <a href="skills/index.html">Skills</a>
+      </div></div>
+      <div class="navgroup"><span>About</span><div class="submenu">
+        <a href="references/index.html">References</a>
+        <a href="news/index.html">News</a>
+        <a href="relation/index.html">Where this fits</a>
+      </div></div>
       <a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a>
     </nav>
   </div>
@@ -41,228 +52,40 @@
   <p class="sub">A diagram is not a drawing you maintain. It is a <strong>view generated from the model</strong> &mdash; always current, in whatever notation the reader needs. The rule is directional: <strong>read the picture from the source; never transcribe the source into a picture.</strong></p>
   <div class="formula">one source &middot; many views &middot; always current</div>
   <div class="cta-row">
-    <a class="btn" href="#how">See how it works</a>
+    <a class="btn" href="idea/index.html">Start with the idea</a>
     <a class="btn ghost" href="concepts/index.html">Explore the concepts</a>
   </div>
 </div>
 
-<section class="wrap" id="idea">
-  <h2>The idea in one paragraph</h2>
-  <p class="lead">Every organisation has architecture diagrams that are quietly wrong. Not because anyone was careless &mdash; because a hand-drawn diagram is a <strong>copy</strong>, and copies drift the moment the thing they describe changes. The fix is not more discipline about redrawing. It is to stop copying.</p>
-  <p>If structure lives as metadata &mdash; entities, relationships, mappings, lineage &mdash; then a diagram is just a <em>projection</em> of it. Change the model and every picture changes with it, because there was never a second version to forget. That is the whole argument, and it turns diagramming from maintenance work into generation.</p>
+<section class="wrap">
   <div class="callout">
     <p><strong>The test:</strong> when reality changes, does someone have to open a drawing tool? If yes, you have a picture. If no, you have a view.</p>
   </div>
 </section>
 
-<section class="wrap" id="why">
-  <h2>Why diagrams matter at all</h2>
-  <p class="lead">There is a reason to care about this beyond tidiness. <strong>A structure nobody can see does half its job.</strong> Structure makes knowledge exist in a form you can work with; <em>seeing</em> it is what makes it possible to trust, question and act on.</p>
-  <p>For a data modeller the two were never separate. The core artifact of the trade is a diagram. The conceptual model a business signs off on is a drawing. Structure and its picture are not a thing and a rendering of it &mdash; they are <strong>the same object, seen at the depth each audience needs</strong>.</p>
-  <p>Each half is weak alone. Structure without visualisation is a model only its author can read. Visualisation without structure is a pretty picture with nothing underneath, drifting the moment the world changes. Together you get the rare and valuable thing: a structure that is <strong>real</strong> &mdash; queryable, validated &mdash; and <strong>visible</strong>, so anyone can read it and push back.</p>
-  <div class="callout">
-    <p><strong>That pushing back is the point.</strong> A diagram is where a model meets the people who have to trust it. Make it readable and they will tell you what is wrong &mdash; which is how the model gets better.</p>
-  </div>
-  <div class="cta-row">
-    <a class="btn ghost" href="concepts/visual-thinking.html">Read: Visual Thinking &rarr;</a>
-  </div>
-</section>
-
-<section class="wrap" id="how">
-  <h2>How it works</h2>
-  <p class="lead">Three moves, in order. Each is worthless without the one before it.</p>
+<section class="wrap">
+  <h2>Where to go</h2>
   <div class="cards">
-    <div class="card"><h3>1 &middot; Model, don&rsquo;t draw</h3><p>Capture structure as <strong>metadata</strong>, not as boxes on a canvas. Entities, relationships, cardinality, ownership &mdash; as data. The moment structure is data, everything downstream becomes possible.</p></div>
-    <div class="card"><h3>2 &middot; Generate the view</h3><p>Render from that metadata into whatever notation fits: ERD, lineage graph, context diagram, flow. The generator is deterministic, so the same model always yields the same picture.</p></div>
-    <div class="card"><h3>3 &middot; Round-trip where it helps</h3><p>People still sketch &mdash; sketching <em>is</em> thinking. So parse the drawing back into metadata rather than leaving it stranded. The canvas becomes an input, not a dead end.</p></div>
+    <div class="card"><h3><a href="idea/index.html">The idea</a></h3><p>Why hand-drawn diagrams drift, why that is arithmetic rather than carelessness, and what replaces them. Then: <a href="why/index.html">why it matters</a>, <a href="how/index.html">how it works</a>, <a href="types/index.html">diagram types</a>, <a href="notations/index.html">notations</a>.</p></div>
+    <div class="card"><h3><a href="concepts/index.html">Library</a></h3><p>The named ideas &mdash; Living Diagrams, Generated Palettes, Clickable Diagrams, Impact Analysis &mdash; and the <a href="glossary/index.html">terms</a> we use consistently but did not invent.</p></div>
+    <div class="card"><h3><a href="articles/index.html">Writing</a></h3><p>Two dozen articles in the order they read, and <a href="research/index.html">research</a>: the tool landscape, the Miro question, the missing ERD skill, a feature matrix.</p></div>
+    <div class="card"><h3><a href="skills/index.html">Practice</a></h3><p>What exists in the Claude skills ecosystem for diagrams &mdash; and the gap where an ERD skill should be.</p></div>
   </div>
-  <p class="muted">The order matters. Generating from a model you never built is just a slower way to draw.</p>
 </section>
 
-<section class="wrap" id="notations">
-  <h2>One model, many notations</h2>
-  <p class="lead">Different readers need different pictures of the same thing. An executive needs a context diagram; an engineer needs column-level lineage; an auditor needs to know what feeds what. Hand-drawn, that is four artifacts to maintain. Generated, it is four views of one source.</p>
+<section class="wrap">
+  <h2>The argument in three moves</h2>
   <div class="cards">
-    <div class="card"><h3>Mermaid</h3><p>Text-first, diffable, renders in Markdown and Git. The pragmatic default when the diagram belongs beside the code.</p></div>
-    <div class="card"><h3>draw.io</h3><p>Where people actually sketch. Worth generating <em>into</em> &mdash; and worth parsing back out of, so the sketch is not a dead end.</p></div>
-    <div class="card"><h3>PlantUML &amp; Graphviz</h3><p>Layout engines that do the hard part. You describe what connects to what; they decide where it goes.</p></div>
-    <div class="card"><h3>yEd</h3><p>For the large graph nobody can hand-arrange &mdash; hundreds of entities, laid out automatically and still readable.</p></div>
+    <div class="card"><h3>1 &middot; Model, don&rsquo;t draw</h3><p>Capture structure as metadata, not boxes on a canvas. The moment structure is data, everything downstream becomes possible.</p></div>
+    <div class="card"><h3>2 &middot; Generate the view</h3><p>Render into whatever notation fits &mdash; ERD, lineage, context, flow. Deterministic: same model, same picture.</p></div>
+    <div class="card"><h3>3 &middot; Round-trip where it helps</h3><p>People still sketch, and sketching <em>is</em> thinking. Parse the drawing back rather than leaving it stranded.</p></div>
   </div>
-  <div class="callout">
-    <p><strong>Notation is a rendering choice, not an architecture decision.</strong> If switching from Mermaid to PlantUML means redrawing everything, the diagram was never generated in the first place.</p>
-  </div>
-</section>
-
-<section class="wrap" id="types">
-  <h2>Diagram types</h2>
-  <p class="lead">&ldquo;Diagram&rdquo; is not one thing. Each type answers a different question, and picking the wrong one is why so many diagrams get ignored. All of these are generated from the same metadata &mdash; what changes is which slice of the model is projected, and how.</p>
-
-  <h3>ERD &mdash; entity-relationship diagram</h3>
-  <p><strong>Answers:</strong> what things exist, and how are they related? The oldest and most misused type. An ERD of 200 tables is not a diagram, it is wallpaper &mdash; the discipline is choosing the subject area first and letting the generator draw only that. Conceptual, logical and physical are three different ERDs of the same reality, and mixing them is the commonest way to lose an audience.</p>
-  <p class="muted">Concepts: <a href="concepts/living-diagrams.html">Living Diagrams</a> · <a href="concepts/business-friendly-diagramming.html">Business-Friendly Diagramming</a> &nbsp;|&nbsp; Articles: <a href="https://medium.com/@jacovanderlaan/automatically-generating-yed-diagrams-from-metadata-with-python-c0e464915f22">Generating yEd diagrams from metadata</a></p>
-
-  <h3>Lineage &mdash; where did this come from?</h3>
-  <p><strong>Answers:</strong> what feeds this, and what breaks if I change it? Two flavours worth separating: <em>horizontal</em> lineage follows data across systems; <em>vertical</em> lineage follows a single column down through its transformations. Auditors want the first, engineers want the second, and a diagram that tries to be both is usually neither.</p>
-  <p class="muted">Concepts: <a href="concepts/business-friendly-data-lineage.html">Business-Friendly Data Lineage</a> · <a href="concepts/horizontal-vs-vertical-lineage.html">Horizontal vs Vertical Lineage</a> &nbsp;|&nbsp; Articles: <a href="https://medium.com/@jacovanderlaan/dynamic-metadata-lineage-visualizing-relationships-across-data-models-c8a22eeeb2ca">Dynamic Metadata Lineage</a></p>
-
-  <h3>DAG &mdash; the pipeline as a graph</h3>
-  <p><strong>Answers:</strong> in what order does work happen, and what depends on what? A DAG is lineage with execution semantics attached &mdash; the arrows carry <em>runs after</em>, not just <em>flows into</em>. Generated from orchestration metadata rather than drawn, it becomes the one picture that is true at 3am.</p>
-  <p class="muted">The acyclic part is the constraint that makes it useful: a cycle in a DAG is a bug, and drawing it exposes the bug.</p>
-
-  <h3>Knowledge graph &mdash; things and how they mean</h3>
-  <p><strong>Answers:</strong> how do concepts relate across domains? Where an ERD is bounded by a schema, a knowledge graph crosses them &mdash; entities, decisions, documents, people, all in one connected structure. Its shape is a triple: <em>source &middot; relationship &middot; target</em>. That is also the shape of a link table, which is why a vault of notes and an enterprise ontology converge on the same architecture.</p>
-  <p class="muted">Concepts: <a href="concepts/conceptual-constellations.html">Conceptual Constellations</a> &nbsp;|&nbsp; Research: <a href="research/visual-tool-landscape-formats-and-buildability.html">The visual tool landscape</a></p>
-
-  <h3>Context &amp; flow &mdash; the picture for people who do not read schemas</h3>
-  <p><strong>Answers:</strong> what is this system, and where does it sit? Fewest boxes, most deliberation. A context diagram is almost entirely about what you leave out &mdash; which is exactly the human judgement a generator cannot make for you.</p>
-  <p class="muted">Concepts: <a href="concepts/generated-palettes.html">Generated Palettes</a> · <a href="concepts/drawing-it-together.html">Drawing It Together</a></p>
-
-  <div class="callout">
-    <p><strong>One model, several types.</strong> The same metadata produces an ERD for the modeller, a lineage graph for the auditor, a DAG for the engineer and a context diagram for the executive. Hand-drawn that is four artifacts drifting apart. Generated, they cannot contradict each other.</p>
-  </div>
-</section>
-
-<section class="wrap" id="concepts">
-  <h2>Concepts</h2>
-  <p class="lead">The named ideas behind the visual layer &mdash; <strong>Living Diagrams</strong>, <strong>Drawing It Together</strong>, <strong>Visual Thinking</strong>, <strong>Clickable Diagrams</strong> &mdash; and the anti-pattern they all argue against: <strong>Model as Drawing</strong>.</p>
-  <p>Each is a small, self-contained idea you can point at in a meeting. Together they make the case that a diagram is an output, not an artifact.</p>
-  <div class="cta-row">
-    <a class="btn" href="concepts/index.html">Browse the concept library &rarr;</a>
-  </div>
-</section>
-
-<section class="wrap" id="articles">
-  <h2>Articles</h2>
-  <p class="lead">This argument was not invented for this site. It has been worked out in public across two dozen pieces since September 2025 &mdash; and they read in an order: <strong>choose an approach &rarr; generate &rarr; close the loop &rarr; follow the meaning &rarr; publish and keep it true</strong>.</p>
-
-  <h3>1 &middot; Choosing an approach</h3>
-  <p>Before generating anything, decide what you are generating <em>into</em> &mdash; and on what grounds.</p>
-  <ul class="artlist">
-    <li><a href="https://medium.com/business-friendly-diagramming/choosing-the-right-diagramming-approach-for-model-driven-data-engineering-2108823fcaba">Choosing the Right Diagramming Approach</a> &mdash; draw.io, GraphML (yEd) or Mermaid: picking by workflow, not by hype. <span class="muted">Oct 2025</span></li>
-    <li><a href="https://medium.com/@jacovanderlaan/from-drawing-to-generation-how-mermaid-draw-io-06832d918736">From Drawing to Generation</a> &mdash; five tools, one shift: diagrams stop being artifacts and become generated views. <span class="muted">Nov 2025</span></li>
-  </ul>
-
-  <h3>2 &middot; Generating from metadata</h3>
-  <p>The mechanics, per notation. Each is a small generator, not a platform.</p>
-  <ul class="artlist">
-    <li><a href="https://medium.com/@jacovanderlaan/automatically-generating-yed-diagrams-from-metadata-with-python-c0e464915f22">Automatically Generating yEd Diagrams from Metadata with Python</a> &mdash; emit GraphML, let yEd&rsquo;s layout engine do the hard part. <span class="muted">Sep 2025</span></li>
-    <li><a href="https://medium.com/@jacovanderlaan/bringing-plantuml-into-a-metadata-driven-diagram-workflow-eac545b028bf">Bringing PlantUML Into a Metadata-Driven Diagram Workflow</a> &mdash; the developer-first text DSL alongside draw.io and Mermaid. <span class="muted">Sep 2025</span></li>
-    <li>Automating draw.io Diagram Generation from Metadata &mdash; YAML or DuckDB into consistent, versioned <code>.drawio</code> files. <span class="soon">coming soon</span></li>
-    <li>From YAML to SQL: Generating Physical Models and Diagrams &mdash; one logical YAML becomes DDL, dbt models <em>and</em> ER diagrams. <span class="soon">coming soon</span></li>
-    <li>Building the Metadata Star Generator &mdash; conceptual constellations as code: a repeatable generator, not a one-off diagram. <span class="soon">coming soon</span></li>
-  </ul>
-
-  <h3>3 &middot; Closing the loop</h3>
-  <p>People sketch. The question is whether the sketch is a dead end.</p>
-  <ul class="artlist">
-    <li>Parsing draw.io Diagrams Back into Metadata &mdash; turning a hand-drawn file into rows you can query, diff and trust. <span class="soon">coming soon</span></li>
-    <li>Canvas-Based Data Model Editing &mdash; modelling tools export to code but never read it back. The two-way-sync canvas. <span class="soon">coming soon</span></li>
-    <li>Organizing Diagrams and Metadata in VSCode &mdash; the editor as the one place where diagrams, mappings and SQL stay in sync. <span class="soon">coming soon</span></li>
-  </ul>
-
-  <h3>4 &middot; Lineage and meaning</h3>
-  <p>Once structure is data, the picture stops being an ERD and starts answering questions.</p>
-  <ul class="artlist">
-    <li><a href="https://medium.com/@jacovanderlaan/dynamic-metadata-lineage-visualizing-relationships-across-data-models-c8a22eeeb2ca">Dynamic Metadata Lineage</a> &mdash; the catalog as an interactive graph: architecture you look at, not search for. <span class="muted">Oct 2025</span></li>
-    <li>From Metadata to Meaning &mdash; ERDs, lineage and glossaries falling out of the same YAML. <span class="soon">coming soon</span></li>
-    <li>From Core Concepts to Metadata Stars &mdash; a generated diagram per business concept, showing drift a spreadsheet cannot. <span class="soon">coming soon</span></li>
-  </ul>
-
-  <h3>5 &middot; Publishing, and keeping it true</h3>
-  <p>A generated diagram nobody sees is still a diagram nobody sees.</p>
-  <ul class="artlist">
-    <li><a href="https://medium.com/@jacovanderlaan/publishing-metadata-and-diagrams-to-confluence-83690870ce77">Publishing Metadata and Diagrams to Confluence</a> &mdash; the last mile: generated output as documentation people actually open. <span class="muted">Nov 2025</span></li>
-    <li><a href="https://medium.com/@jacovanderlaan/architecture-diagrams-as-code-43187fe787bc">Architecture Diagrams as Code</a> &mdash; why visual models should be generated, not drawn. <span class="muted">Mar 2026</span></li>
-    <li>The Architecture Diagram Lie &mdash; manually maintained diagrams drift from day one. <span class="soon">coming soon</span></li>
-    <li>Two Movements, One Graph &mdash; ontology from above, notes from below: both end at a graph, and a diagram is a view of it. <span class="soon">coming soon</span></li>
-  </ul>
-
-  <p class="muted">Articles publish on Medium and <a href="https://structurebeatsmagic.com">Structure Beats Magic</a>. Unlinked pieces are written and queued &mdash; they appear here as they go live.</p>
-</section>
-
-<section class="wrap" id="glossary">
-  <h2>Terms</h2>
-  <p class="lead">Not everything with a name is a concept. Most of the vocabulary here is <strong>industry language we use consistently</strong> &mdash; worth defining once so a reader is not guessing, but not ours.</p>
-  <div class="cards">
-    <div class="card"><h3>A term</h3><p>Field vocabulary anyone in data would recognise: <em>ERD</em>, <em>DAG</em>, <em>impact analysis</em>, <em>round-trip</em>, <em>blast radius</em>. We clarify it and link it. We did not invent it.</p></div>
-    <div class="card"><h3>A concept</h3><p>A named idea this work coined and owns: <em>Living Diagrams</em>, <em>Generated Palettes</em>, <em>Model as Drawing</em>. You would not find it in someone else&rsquo;s glossary.</p></div>
-  </div>
-  <div class="callout">
-    <p><strong>The layer is deliberately volatile.</strong> A term that keeps recurring, earns its own article, or grows a distinctive angle gets promoted to a concept. And the reverse: something we treated as a concept, which turns out to be standard vocabulary, moves back down. Being honest about which is which is the point &mdash; a glossary padded with borrowed terms dressed as original ideas helps nobody.</p>
-  </div>
-  <div class="cta-row"><a class="btn ghost" href="glossary/index.html">Browse the terms &rarr;</a></div>
-</section>
-
-<section class="wrap" id="research">
-  <h2>Research</h2>
-  <p class="lead">Questions investigated properly and written down &mdash; sources checked against the primary record, findings dated, open gaps stated rather than smoothed over. Each is a markdown file with a metadata header; this section is generated from those files.</p>
-  <ul class="artlist">
-    <li><a href="research/claude-skills-for-diagrams-and-briefs.html">Claude skills for diagrams and briefs</a> &mdash; is there a usable collection, and is there an ERD skill? <strong>No, and the gap is the finding.</strong> Two of three widely-cited diagram skills turn out not to exist. <span class="muted">Jul 2026</span></li>
-    <li><a href="research/visual-tool-landscape-formats-and-buildability.html">The visual tool landscape</a> &mdash; file formats of draw.io, yEd, Mermaid, Excalidraw, JSON Canvas, Miro and Heptabase, and which features are buildable ourselves. <span class="muted">Jul 2026</span></li>
-    <li><a href="research/miro-api-collaborative-visual-experience.html">Miro API and the collaborative visual experience</a> &mdash; can modelling become a live shared activity, and how does that compare to Ellie.ai? <span class="muted">Jul 2026</span></li>
-  </ul>
-  <div class="callout">
-    <p><strong>Why publish research at all?</strong> Because studying how other tools solve the visual problem is not idle curiosity &mdash; it is requirements-gathering with evidence. Write the findings as structured metadata and a specified feature is already halfway built.</p>
-  </div>
-  <div class="cta-row"><a class="btn ghost" href="research/index.html">All research &rarr;</a></div>
-</section>
-
-<section class="wrap" id="skills">
-  <h2>Skills</h2>
-  <p class="lead">Claude <em>skills</em> are folders with a <code>SKILL.md</code>: frontmatter plus instructions, loaded on demand. They are the obvious way to make a diagram generator available inside a conversation &mdash; so we went looking for the ones that already exist.</p>
-  <p><strong>The finding was thinner than expected.</strong> Anthropic&rsquo;s official repository holds 17 skills and <em>not one generates a diagram</em>. A GitHub search for diagram skills returns two repositories, with 2 and 0 stars. Two of the three skills most commonly cited in write-ups return 404.</p>
-  <div class="callout">
-    <p><strong>There is no ERD skill.</strong> For anyone modelling data, that is an unoccupied space &mdash; and the reason is instructive: the visual skills that do exist draw <em>from a prompt</em>. A useful one would generate <em>from the model</em>: deterministic, multi-notation, carrying provenance, and able to round-trip. Identical in a demo; different in month three.</p>
-  </div>
-  <div class="cta-row">
-    <a class="btn ghost" href="research/claude-skills-for-diagrams-and-briefs.html">Read the research &rarr;</a>
-  </div>
-  <p class="muted">Skills we intend to publish: an <strong>ERD skill</strong> (metadata in; Mermaid, draw.io and GraphML out) and a <strong>brief skill</strong> (markdown + frontmatter as an installable convention). Both are packaging work &mdash; the generators already exist.</p>
-</section>
-
-<section class="wrap" id="references">
-  <h2>References</h2>
-  <p class="lead">The people and tools worth following on the visual side. Curated, not collected &mdash; each is here for a stated reason, including the ones that argue against this site&rsquo;s position.</p>
-  <div class="cards">
-    <div class="card"><h3><a href="https://visual-thinking-workshop.com">Visual Thinking Workshop</a></h3><p>Zsolt Vicziá&#769;n &mdash; maker of the Obsidian Excalidraw plugin. The rare source that covers both the <em>format</em> (open, generatable JSON) and the <em>method</em> (sketching to think). <span class="muted">Most relevant of the four.</span></p></div>
-    <div class="card"><h3><a href="https://burobrand.nl">Buro BRAND &mdash; Willemien Brand</a></h3><p>Visual facilitation and visual minutes: what happens in the room when a group draws together. The human half of modelling, practised as a craft. Author of <strong>Visual Thinking</strong>, <strong>Visual Doing</strong>, <strong>Visual Working</strong> and <strong>My Icon Library</strong>. <span class="muted">Trained there &mdash; see News.</span></p></div>
-    <div class="card"><h3><a href="https://verbaltovisual.com">Verbal to Visual</a></h3><p>Doug Neill on sketchnoting and visual journals. Furthest from metadata, closest to the reason any of this works: drawing while listening is how understanding forms. <span class="muted">Quiet since March 2026.</span></p></div>
-    <div class="card"><h3><a href="https://napkin.one">Napkin</a></h3><p>Included as the honest counter-argument: <em>&ldquo;I don&rsquo;t want to be in control of my ideas.&rdquo;</em> Structuring too early kills connections you had not yet seen. Worth answering, not dismissing.</p></div>
-  </div>
-  <p class="muted">Also tracked: <a href="https://heptabase.com">Heptabase</a> (card-as-unit, board-as-view) and <a href="https://vault-ld.org">Vault-LD</a> (notes as linked data).</p>
-
-  <h3>Books</h3>
-  <p>Willemien Brand&rsquo;s four titles (BIS Publishers) are the most accessible route into visual working:</p>
-  <div class="cards">
-    <div class="card"><h3>Visual Thinking</h3><p>The foundation &mdash; why drawing improves thinking, and why everyone can do it.</p></div>
-    <div class="card"><h3>Visual Doing</h3><p>Applying it: from idea to something other people can see and respond to.</p></div>
-    <div class="card"><h3>Visual Working</h3><p>Business drawing as a daily routine, step by step.</p></div>
-    <div class="card"><h3>My Icon Library</h3><p>Building a personal icon vocabulary. <strong>Conceptually the closest to this site:</strong> a library assembled once and reused endlessly &mdash; the same idea as a generated palette, produced by hand.</p></div>
-  </div>
-</section>
-
-<section class="wrap" id="news">
-  <h2>News</h2>
-  <div class="cards">
-    <div class="card"><h3>Visual Thinking Workshop &mdash; Cohort 3</h3><p>Zsolt Vicziá&#769;n&rsquo;s workshop, starting March 2023: Excalidraw in Obsidian, and the <strong>book-on-a-page</strong> method &mdash; compressing an entire book into a single visual summary. Forces the question every model has to answer: <em>what actually matters here?</em> <span class="muted">March 2023.</span></p></div>
-    <div class="card"><h3>Zakelijk Tekenen FUNdamentals &mdash; Buro BRAND</h3><p>Den Haag, with a follow-up Q&amp;A. Willemien Brand&rsquo;s facilitation craft first-hand &mdash; how a group draws its way from conversation to decision. The counterweight to everything generated: some pictures have to be made by people, in a room, together. <span class="muted">October 2021.</span></p></div>
-    <div class="card"><h3>structureddiagrams.com goes live</h3><p>The visual layer of Breakthrough Modeling gets its own home &mdash; 25 articles, a concept library, and research on the tool landscape. <span class="muted">31 July 2026.</span></p></div>
-  </div>
-  <p class="muted">Two trainings, two halves of the same craft: one on compressing meaning into a single page, one on drawing it out of a room. Neither is generated &mdash; and that is the point.</p>
-</section>
-
-<section class="wrap" id="relation">
-  <h2>Where this fits</h2>
-  <p>This is the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>. <a href="https://structuredmetadata.com">Structured Metadata</a> is the model &mdash; <em>what</em> the structure is. This site is the rendering &mdash; <em>how</em> you show it, to whom, in which notation.</p>
-  <div class="cta-row">
-    <a class="btn" href="https://breakthroughmodeling.com">See the method &rarr;</a>
-    <a class="btn ghost" href="https://structuredmetadata.com">See the model</a>
-  </div>
+  <p class="muted"><a href="how/index.html">How it works &rarr;</a></p>
 </section>
 
 <footer>
   <div class="wrap">
-    <p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash; the visual layer of Breakthrough Modeling. Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+    <p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash; the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>. Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
     <p class="muted">Structure beats magic. &copy; Jaco van der Laan. Shared for discussion, not redistribution.</p>
   </div>
 </footer>

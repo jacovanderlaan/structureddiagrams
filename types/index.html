@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>Diagram types — Structured Diagrams</title>
+<meta name="description" content="ERD, lineage, DAG, knowledge graph, context." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main">
+<div class="navgroup"><span class="on">The idea</span><div class="submenu">
+<a href="../idea/index.html">The idea</a>
+<a href="../why/index.html">Why it matters</a>
+<a href="../how/index.html">How it works</a>
+<a href="../types/index.html">Diagram types</a>
+<a href="../notations/index.html">Notations</a>
+</div></div>
+<div class="navgroup"><span>Library</span><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../glossary/index.html">Terms</a>
+</div></div>
+<div class="navgroup"><span>Writing</span><div class="submenu">
+<a href="../articles/index.html">Articles</a>
+<a href="../research/index.html">Research</a>
+</div></div>
+<div class="navgroup"><span>Practice</span><div class="submenu">
+<a href="../skills/index.html">Skills</a>
+</div></div>
+<div class="navgroup"><span>About</span><div class="submenu">
+<a href="../references/index.html">References</a>
+<a href="../news/index.html">News</a>
+<a href="../relation/index.html">Where this fits</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="wrap pagewrap"><aside class="toc" id="toc"><button class="toc-toggle" onclick="document.body.classList.toggle('toc-off')" title="Show/hide contents">&#9776;</button><div class="toc-inner"><div class="toc-h">On this page</div><ul><li class="l3"><a href="#erd-entity-relationship-diagram">ERD &amp;mdash; entity-relationship diagram</a></li><li class="l3"><a href="#lineage-where-did-this-come-from">Lineage &amp;mdash; where did this come from?</a></li><li class="l3"><a href="#dag-the-pipeline-as-a-graph">DAG &amp;mdash; the pipeline as a graph</a></li><li class="l3"><a href="#knowledge-graph-things-and-how-they-mean">Knowledge graph &amp;mdash; things and how they mean</a></li><li class="l3"><a href="#context-flow-the-picture-for-people-who-do-not-r">Context &amp;amp; flow &amp;mdash; the picture for people who do not read schemas</a></li></ul></div></aside>
+<main class="pagebody">
+<div class="eyebrow">The idea</div>
+<h1>Diagram types</h1>
+
+  <p class="lead">&ldquo;Diagram&rdquo; is not one thing. Each type answers a different question, and picking the wrong one is why so many diagrams get ignored. All of these are generated from the same metadata &mdash; what changes is which slice of the model is projected, and how.</p>
+
+  <h3 id="erd-entity-relationship-diagram">ERD &mdash; entity-relationship diagram</h3>
+  <p><strong>Answers:</strong> what things exist, and how are they related? The oldest and most misused type. An ERD of 200 tables is not a diagram, it is wallpaper &mdash; the discipline is choosing the subject area first and letting the generator draw only that. Conceptual, logical and physical are three different ERDs of the same reality, and mixing them is the commonest way to lose an audience.</p>
+  <p class="muted">Concepts: <a href="../concepts/living-diagrams.html">Living Diagrams</a> · <a href="../concepts/business-friendly-diagramming.html">Business-Friendly Diagramming</a> &nbsp;|&nbsp; Articles: <a href="https://medium.com/@jacovanderlaan/automatically-generating-yed-diagrams-from-metadata-with-python-c0e464915f22">Generating yEd diagrams from metadata</a></p>
+
+  <h3 id="lineage-where-did-this-come-from">Lineage &mdash; where did this come from?</h3>
+  <p><strong>Answers:</strong> what feeds this, and what breaks if I change it? Two flavours worth separating: <em>horizontal</em> lineage follows data across systems; <em>vertical</em> lineage follows a single column down through its transformations. Auditors want the first, engineers want the second, and a diagram that tries to be both is usually neither.</p>
+  <p class="muted">Concepts: <a href="../concepts/business-friendly-data-lineage.html">Business-Friendly Data Lineage</a> · <a href="../concepts/horizontal-vs-vertical-lineage.html">Horizontal vs Vertical Lineage</a> &nbsp;|&nbsp; Articles: <a href="https://medium.com/@jacovanderlaan/dynamic-metadata-lineage-visualizing-relationships-across-data-models-c8a22eeeb2ca">Dynamic Metadata Lineage</a></p>
+
+  <h3 id="dag-the-pipeline-as-a-graph">DAG &mdash; the pipeline as a graph</h3>
+  <p><strong>Answers:</strong> in what order does work happen, and what depends on what? A DAG is lineage with execution semantics attached &mdash; the arrows carry <em>runs after</em>, not just <em>flows into</em>. Generated from orchestration metadata rather than drawn, it becomes the one picture that is true at 3am.</p>
+  <p class="muted">The acyclic part is the constraint that makes it useful: a cycle in a DAG is a bug, and drawing it exposes the bug.</p>
+
+  <h3 id="knowledge-graph-things-and-how-they-mean">Knowledge graph &mdash; things and how they mean</h3>
+  <p><strong>Answers:</strong> how do concepts relate across domains? Where an ERD is bounded by a schema, a knowledge graph crosses them &mdash; entities, decisions, documents, people, all in one connected structure. Its shape is a triple: <em>source &middot; relationship &middot; target</em>. That is also the shape of a link table, which is why a vault of notes and an enterprise ontology converge on the same architecture.</p>
+  <p class="muted">Concepts: <a href="../concepts/conceptual-constellations.html">Conceptual Constellations</a> &nbsp;|&nbsp; Research: <a href="../research/visual-tool-landscape-formats-and-buildability.html">The visual tool landscape</a></p>
+
+  <h3 id="context-flow-the-picture-for-people-who-do-not-r">Context &amp; flow &mdash; the picture for people who do not read schemas</h3>
+  <p><strong>Answers:</strong> what is this system, and where does it sit? Fewest boxes, most deliberation. A context diagram is almost entirely about what you leave out &mdash; which is exactly the human judgement a generator cannot make for you.</p>
+  <p class="muted">Concepts: <a href="../concepts/generated-palettes.html">Generated Palettes</a> · <a href="../concepts/drawing-it-together.html">Drawing It Together</a></p>
+
+  <div class="callout">
+    <p><strong>One model, several types.</strong> The same metadata produces an ERD for the modeller, a lineage graph for the auditor, a DAG for the engineer and a context diagram for the executive. Hand-drawn that is four artifacts drifting apart. Generated, they cannot contradict each other.</p>
+  </div>
+</main></div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
+the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>.
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+<p class="muted">Structure beats magic. &copy; Jaco van der Laan.</p></div></footer>
+</body></html>

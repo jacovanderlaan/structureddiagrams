@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
+<title>Articles — Structured Diagrams</title>
+<meta name="description" content="Two dozen pieces, in the order they read." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head>
+<body><header class="site"><div class="wrap"><a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main">
+<div class="navgroup"><span>The idea</span><div class="submenu">
+<a href="../idea/index.html">The idea</a>
+<a href="../why/index.html">Why it matters</a>
+<a href="../how/index.html">How it works</a>
+<a href="../types/index.html">Diagram types</a>
+<a href="../notations/index.html">Notations</a>
+</div></div>
+<div class="navgroup"><span>Library</span><div class="submenu">
+<a href="../concepts/index.html">Concepts</a>
+<a href="../glossary/index.html">Terms</a>
+</div></div>
+<div class="navgroup"><span class="on">Writing</span><div class="submenu">
+<a href="../articles/index.html">Articles</a>
+<a href="../research/index.html">Research</a>
+</div></div>
+<div class="navgroup"><span>Practice</span><div class="submenu">
+<a href="../skills/index.html">Skills</a>
+</div></div>
+<div class="navgroup"><span>About</span><div class="submenu">
+<a href="../references/index.html">References</a>
+<a href="../news/index.html">News</a>
+<a href="../relation/index.html">Where this fits</a>
+</div></div>
+<a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
+<div class="wrap pagewrap"><aside class="toc" id="toc"><button class="toc-toggle" onclick="document.body.classList.toggle('toc-off')" title="Show/hide contents">&#9776;</button><div class="toc-inner"><div class="toc-h">On this page</div><ul><li class="l3"><a href="#1-choosing-an-approach">1 &amp;middot; Choosing an approach</a></li><li class="l3"><a href="#2-generating-from-metadata">2 &amp;middot; Generating from metadata</a></li><li class="l3"><a href="#3-closing-the-loop">3 &amp;middot; Closing the loop</a></li><li class="l3"><a href="#4-lineage-and-meaning">4 &amp;middot; Lineage and meaning</a></li><li class="l3"><a href="#5-publishing-and-keeping-it-true">5 &amp;middot; Publishing, and keeping it true</a></li></ul></div></aside>
+<main class="pagebody">
+<div class="eyebrow">Writing</div>
+<h1>Articles</h1>
+
+  <p class="lead">This argument was not invented for this site. It has been worked out in public across two dozen pieces since September 2025 &mdash; and they read in an order: <strong>choose an approach &rarr; generate &rarr; close the loop &rarr; follow the meaning &rarr; publish and keep it true</strong>.</p>
+
+  <h3 id="1-choosing-an-approach">1 &middot; Choosing an approach</h3>
+  <p>Before generating anything, decide what you are generating <em>into</em> &mdash; and on what grounds.</p>
+  <ul class="artlist">
+    <li><a href="https://medium.com/business-friendly-diagramming/choosing-the-right-diagramming-approach-for-model-driven-data-engineering-2108823fcaba">Choosing the Right Diagramming Approach</a> &mdash; draw.io, GraphML (yEd) or Mermaid: picking by workflow, not by hype. <span class="muted">Oct 2025</span></li>
+    <li><a href="https://medium.com/@jacovanderlaan/from-drawing-to-generation-how-mermaid-draw-io-06832d918736">From Drawing to Generation</a> &mdash; five tools, one shift: diagrams stop being artifacts and become generated views. <span class="muted">Nov 2025</span></li>
+  </ul>
+
+  <h3 id="2-generating-from-metadata">2 &middot; Generating from metadata</h3>
+  <p>The mechanics, per notation. Each is a small generator, not a platform.</p>
+  <ul class="artlist">
+    <li><a href="https://medium.com/@jacovanderlaan/automatically-generating-yed-diagrams-from-metadata-with-python-c0e464915f22">Automatically Generating yEd Diagrams from Metadata with Python</a> &mdash; emit GraphML, let yEd&rsquo;s layout engine do the hard part. <span class="muted">Sep 2025</span></li>
+    <li><a href="https://medium.com/@jacovanderlaan/bringing-plantuml-into-a-metadata-driven-diagram-workflow-eac545b028bf">Bringing PlantUML Into a Metadata-Driven Diagram Workflow</a> &mdash; the developer-first text DSL alongside draw.io and Mermaid. <span class="muted">Sep 2025</span></li>
+    <li>Automating draw.io Diagram Generation from Metadata &mdash; YAML or DuckDB into consistent, versioned <code>.drawio</code> files. <span class="soon">coming soon</span></li>
+    <li>From YAML to SQL: Generating Physical Models and Diagrams &mdash; one logical YAML becomes DDL, dbt models <em>and</em> ER diagrams. <span class="soon">coming soon</span></li>
+    <li>Building the Metadata Star Generator &mdash; conceptual constellations as code: a repeatable generator, not a one-off diagram. <span class="soon">coming soon</span></li>
+  </ul>
+
+  <h3 id="3-closing-the-loop">3 &middot; Closing the loop</h3>
+  <p>People sketch. The question is whether the sketch is a dead end.</p>
+  <ul class="artlist">
+    <li>Parsing draw.io Diagrams Back into Metadata &mdash; turning a hand-drawn file into rows you can query, diff and trust. <span class="soon">coming soon</span></li>
+    <li>Canvas-Based Data Model Editing &mdash; modelling tools export to code but never read it back. The two-way-sync canvas. <span class="soon">coming soon</span></li>
+    <li>Organizing Diagrams and Metadata in VSCode &mdash; the editor as the one place where diagrams, mappings and SQL stay in sync. <span class="soon">coming soon</span></li>
+  </ul>
+
+  <h3 id="4-lineage-and-meaning">4 &middot; Lineage and meaning</h3>
+  <p>Once structure is data, the picture stops being an ERD and starts answering questions.</p>
+  <ul class="artlist">
+    <li><a href="https://medium.com/@jacovanderlaan/dynamic-metadata-lineage-visualizing-relationships-across-data-models-c8a22eeeb2ca">Dynamic Metadata Lineage</a> &mdash; the catalog as an interactive graph: architecture you look at, not search for. <span class="muted">Oct 2025</span></li>
+    <li>From Metadata to Meaning &mdash; ERDs, lineage and glossaries falling out of the same YAML. <span class="soon">coming soon</span></li>
+    <li>From Core Concepts to Metadata Stars &mdash; a generated diagram per business concept, showing drift a spreadsheet cannot. <span class="soon">coming soon</span></li>
+  </ul>
+
+  <h3 id="5-publishing-and-keeping-it-true">5 &middot; Publishing, and keeping it true</h3>
+  <p>A generated diagram nobody sees is still a diagram nobody sees.</p>
+  <ul class="artlist">
+    <li><a href="https://medium.com/@jacovanderlaan/publishing-metadata-and-diagrams-to-confluence-83690870ce77">Publishing Metadata and Diagrams to Confluence</a> &mdash; the last mile: generated output as documentation people actually open. <span class="muted">Nov 2025</span></li>
+    <li><a href="https://medium.com/@jacovanderlaan/architecture-diagrams-as-code-43187fe787bc">Architecture Diagrams as Code</a> &mdash; why visual models should be generated, not drawn. <span class="muted">Mar 2026</span></li>
+    <li>The Architecture Diagram Lie &mdash; manually maintained diagrams drift from day one. <span class="soon">coming soon</span></li>
+    <li>Two Movements, One Graph &mdash; ontology from above, notes from below: both end at a graph, and a diagram is a view of it. <span class="soon">coming soon</span></li>
+  </ul>
+
+  <p class="muted">Articles publish on Medium and <a href="https://structurebeatsmagic.com">Structure Beats Magic</a>. Unlinked pieces are written and queued &mdash; they appear here as they go live.</p>
+</main></div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
+the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>.
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+<p class="muted">Structure beats magic. &copy; Jaco van der Laan.</p></div></footer>
+</body></html>

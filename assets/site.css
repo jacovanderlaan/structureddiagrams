@@ -139,3 +139,33 @@ section h3{margin-top:1.8rem;margin-bottom:.3rem}
 .research-body table.rtbl td{border-bottom:1px solid rgba(15,23,42,.08);padding:.45rem .6rem;vertical-align:top}
 .research-body blockquote{border-left:3px solid #2563eb;margin:1rem 0;padding:.2rem 0 .2rem 1rem;color:#475569}
 .research-body pre{background:rgba(15,23,42,.05);padding:.8rem 1rem;border-radius:4px;overflow-x:auto;font-size:.9em}
+
+/* ---- ADR-127: grouped nav + per-page TOC ---- */
+.navgroup{position:relative;display:inline-block}
+.navgroup>span{cursor:default;padding:.2rem .1rem;color:inherit}
+.navgroup>span.on{color:#2563eb;font-weight:600}
+.submenu{display:none;position:absolute;top:100%;left:-.6rem;background:#fff;border:1px solid rgba(15,23,42,.12);
+  border-radius:5px;box-shadow:0 6px 24px rgba(15,23,42,.10);padding:.35rem 0;min-width:190px;z-index:40}
+.navgroup:hover .submenu,.navgroup:focus-within .submenu{display:block}
+.submenu a{display:block;padding:.4rem .9rem;white-space:nowrap;font-weight:500}
+.submenu a:hover{background:rgba(37,99,235,.07)}
+
+.pagewrap{display:flex;gap:2.5rem;align-items:flex-start}
+.pagebody{flex:1;min-width:0}
+.toc{position:sticky;top:1.5rem;width:210px;flex:0 0 210px;font-size:.9em}
+.toc-inner{border-left:2px solid rgba(15,23,42,.10);padding-left:.9rem}
+.toc-h{font-size:.75em;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.5rem}
+.toc ul{list-style:none;padding:0;margin:0}
+.toc li{padding:.22rem 0;line-height:1.35}
+.toc li.l3{padding-left:.8rem;font-size:.94em}
+.toc a{color:#475569;text-decoration:none}
+.toc a:hover{color:#2563eb}
+.toc-toggle{display:none;background:none;border:0;font-size:1.1rem;color:#94a3b8;cursor:pointer;padding:.2rem}
+body.toc-off .toc-inner{display:none}
+body.toc-off .toc{width:auto;flex-basis:auto}
+body.toc-off .toc-toggle{display:block}
+.toc:hover .toc-toggle{display:block}
+@media(max-width:900px){.pagewrap{display:block}.toc{display:none}}
+html{scroll-behavior:smooth}
+.pagebody h2{scroll-margin-top:1.5rem}
+.pagebody h3{scroll-margin-top:1.5rem}
