@@ -31,11 +31,15 @@ export async function initBrowse(mount, opts = {}) {
   try {
     rows = await loadRows(dataUrl);
   } catch (err) {
-    // Never leave the reader stranded: the static listing is always present.
-    el.innerHTML = `<p class="bw-err">Interactive filter unavailable — the full
-      list is below.</p>`;
-    console.warn("browse:", err);
-    return;
+    // ⚠️ THROW, do not return. The caller does
+    //     .then(() => document.body.classList.add("bw-ready"))
+    // and `.bw-ready .bw-fallback{display:none}` hides the static list. Returning
+    // normally resolved that promise, so a failed filter hid the very fallback
+    // it was supposed to fall back to — an empty page with the data sitting in
+    // the HTML. Throwing keeps the fallback visible and lets .catch() log it.
+    el.innerHTML = "";
+    console.warn("browse: falling back to the static list —", err);
+    throw err;
   }
 
   // ⭐ The page type IS the filter. A Skills page shows skills — the reader
@@ -136,15 +140,23 @@ function fromHash(defaults) {
 /* ---- data ---------------------------------------------------------------- */
 
 async function loadRows(url) {
+  // ⚠️ Copied from structuredmetadata/browser.html, in production since June.
+  // duckdb.createWorker() does NOT exist in the 1.28 ESM build — using it threw,
+  // and the page silently fell back to the static list. The worker must be a
+  // Blob that importScripts() the bundle.
   const duckdb = await import(DUCKDB_CDN);
   const bundle = await duckdb.selectBundle(duckdb.getJsDelivrBundles());
-  const worker = await duckdb.createWorker(bundle.mainWorker);
-  const db = new duckdb.AsyncDuckDB(new duckdb.ConsoleLogger(duckdb.LogLevel.WARNING), worker);
+  const workerUrl = URL.createObjectURL(new Blob(
+    [`importScripts("${bundle.mainWorker}");`], { type: "text/javascript" }));
+  const worker = new Worker(workerUrl);
+  const db = new duckdb.AsyncDuckDB(new duckdb.ConsoleLogger(), worker);
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+  URL.revokeObjectURL(workerUrl);
+
   const conn = await db.connect();
   const abs = new URL(url, location.href).href;
   await db.registerFileURL("content.parquet", abs, duckdb.DuckDBDataProtocol.HTTP, false);
-  const res = await conn.query(`SELECT * FROM read_parquet('content.parquet')`);
+  const res = await conn.query("SELECT * FROM read_parquet('content.parquet')");
   const rows = res.toArray().map((r) => JSON.parse(JSON.stringify(r)));
   await conn.close();
   return rows;
