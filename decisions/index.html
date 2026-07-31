@@ -2,12 +2,12 @@
 <html lang="en"><head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
-<title>Anti-patterns — Structured Diagrams</title>
-<meta name="description" content="Anti-patterns on Structured Diagrams — filter, sort and browse." />
-<link rel="canonical" href="https://structureddiagrams.com/anti-patterns/" />
-<meta property="og:title" content="Anti-patterns — Structured Diagrams" />
+<title>Decisions — Structured Diagrams</title>
+<meta name="description" content="Decisions on Structured Diagrams — filter, sort and browse." />
+<link rel="canonical" href="https://structureddiagrams.com/decisions/" />
+<meta property="og:title" content="Decisions — Structured Diagrams" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://structureddiagrams.com/anti-patterns/" />
+<meta property="og:url" content="https://structureddiagrams.com/decisions/" />
 <meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" /></head>
@@ -42,15 +42,17 @@
 <a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
 <div class="hero wrap" style="padding-bottom:16px">
   <div class="eyebrow">Listing</div>
-  <h1>Anti-patterns</h1>
+  <h1>Decisions</h1>
 </div>
 <section class="wrap">
-<div id="browse" data-page-type="anti-patterns"></div>
+<div id="browse" data-page-type="decisions"></div>
 <div class="bw-fallback">
   <p class="muted">All items:</p>
   <ul class="artlist">
-    <li><a href="../concepts/gated-knowledge.html">Gated knowledge</a> &mdash; <span class="muted">The anti-pattern: understanding locked behind a person, a licence or a login — access controlled by whoever ho</span></li>
-    <li><a href="../concepts/model-as-drawing.html">Model as drawing</a> &mdash; <span class="muted">The anti-pattern: treating the model as a picture to be drawn rather than knowledge to be captured — so it inf</span></li>
+    <li>A database behind the static sites — Parquet shipped as an artifact, queried in the browser &mdash; <span class="muted">Jaco: &quot;jacovanderlaan.com still runs on WordPress, which has a DB underneath. Our static sites don&#x27;t use a dat</span></li>
+    <li>Public site repos contain published artifacts only — generators stay private &mdash; <span class="muted">Accepted, 31 July 2026. Five brand sites are served from public GitHub Pages repositories: structurebeatsmagic</span></li>
+    <li>Shared design base across the sites — tokens and menu, not a shared app shell &mdash; <span class="muted">Five published sites plus the Beacon app (C:/Repos/vault-mobile-site), grown at different times, had drifted a</span></li>
+    <li>Site information architecture — grouped menus and a page per section, not one homepage &mdash; <span class="muted">Accepted, 31 July 2026. structureddiagrams.com grew in a single session from 4 sections to 13, all on one page</span></li>
   </ul>
 </div>
 <script type="module">
@@ -59,7 +61,7 @@
     data: "../data/content_item.parquet",
     base: "../",
     assets: "../concepts/assets/",
-    pageType: "anti-patterns"
+    pageType: "decisions"
   }).then(() => document.body.classList.add("bw-ready"));
 </script>
 </section>
