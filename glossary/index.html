@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Glossary — Structured Diagrams</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" /></head><body>
+<header class="site"><div class="wrap">
+<a class="brand" href="../index.html">Structured <span class="abbr">Diagrams</span></a>
+<nav class="main"><a href="../concepts/index.html">Concepts</a><a href="../research/index.html">Research</a>
+<a href="../index.html">Home</a></nav></div></header>
+<div class="wrap">
+<div class="eyebrow">Glossary</div>
+<h1>Terms</h1>
+<div class="research-body">
+<p>The <strong>non-concept vocabulary</strong> of the visual layer: diagram types, notations, borrowed field terms and distinctions that deserve a shared definition and a link — but are <strong>not ownable coined concepts</strong> (those live in the [[mdde-concepts-index|concept library]]).</p>
+<blockquote><strong>Terms vs concepts.</strong> A <em>term</em> is industry vocabulary we clarify and use consistently — anyone in the field would recognise it. A <em>concept</em> is a named idea this brand coined and owns; you would not find it elsewhere. "Impact analysis" is a term. "Model as Drawing" is a concept.</blockquote>
+<blockquote></blockquote>
+<blockquote>This is a <strong>volatile, promotable layer</strong>: a term that keeps recurring, earns its own article, or grows a distinctive angle gets promoted to a concept. Movement in the other direction happens too — a "concept" that turns out to be standard vocabulary belongs here.</blockquote>
+<blockquote>Format: <code><strong>Term</strong> — one-line definition. → related concept / article.</code></blockquote>
+<h3>Diagram types</h3>
+<ul class="glist">
+<li><strong>ERD (Entity-Relationship Diagram)</strong> — Boxes for entities, lines for relationships, marks for cardinality. Exists at three altitudes — conceptual, logical, physical — and mixing them in one picture is the commonest way to lose an audience. → <a href="../concepts/living-diagrams.html">Living Diagrams</a> · <a href="../concepts/business-friendly-diagramming.html">Business Friendly Diagramming</a>.</li>
+<li><strong>DAG (Directed Acyclic Graph)</strong> — Lineage with execution semantics: the arrows mean <em>runs after</em>, not merely <em>flows into</em>. The acyclic constraint is the useful part — a cycle is a bug the picture exposes.</li>
+<li><strong>Knowledge graph</strong> — Entities and their relationships across domains rather than within one schema. Shape is a triple: <em>source · relationship · target</em> — the same shape as a link table, which is why note-vaults and enterprise ontologies converge.</li>
+<li><strong>Context diagram</strong> — The fewest boxes, the most deliberation: what this system is and what surrounds it. Almost entirely defined by what you leave out.</li>
+<li><strong>Lineage diagram</strong> — Where data comes from and where it goes. Two axes worth navigating separately. → <a href="../concepts/horizontal-vs-vertical-lineage.html">Horizontal Vs Vertical Lineage</a>.</li>
+<li><strong>Impact analysis</strong> <em>(a.k.a. reverse lineage, downstream analysis)</em> — Lineage traversed forward: <em>what breaks if I change this?</em> The prospective question that gates action, where lineage answers the retrospective one. → <a href="../concepts/impact-analysis.html">Impact Analysis</a>.</li>
+</ul>
+<h3>Notations & formats</h3>
+<ul class="glist">
+<li><strong>Mermaid</strong> — Text-based diagram DSL that renders inline in Markdown, GitHub and Obsidian. The pragmatic default when the diagram belongs beside the code.</li>
+<li><strong>GraphML</strong> — XML graph interchange format; yEd's native input. Where auto-layout earns its keep on graphs nobody can hand-arrange.</li>
+<li><strong>mxGraph / <code>.drawio</code></strong> — draw.io's XML format. Also the basis of <code>mxlibrary</code>, the shape-library format behind <a href="../concepts/generated-palettes.html">Generated Palettes</a>.</li>
+<li><strong>JSON Canvas</strong> — Open spec (1.0) for infinite canvases: <code>nodes</code> + <code>edges</code>, with <code>file</code> nodes referencing real notes. Published by Obsidian, implementable by anyone.</li>
+<li><strong>Excalidraw</strong> — JSON format for hand-drawn-style diagrams. The sketchy look is a feature: it reads as <em>provisional</em> and invites correction.</li>
+<li><strong>ArchiMate</strong> — Enterprise-architecture modelling language; Archi is the common open tool. → MDDE ADR-86.</li>
+<li><strong>PlantUML / Graphviz</strong> — Text-to-diagram tools whose value is the layout engine: you say what connects, they decide where it goes.</li>
+</ul>
+<h3>Techniques</h3>
+<ul class="glist">
+<li><strong>Round-trip</strong> — Generating <em>into</em> a format and parsing back <em>out of</em> it, so an edited drawing returns to the model instead of stranding. The difference between a canvas as input and a canvas as dead end.</li>
+<li><strong>Drill-down</strong> — Opening a collapsed node in place rather than navigating to another artifact. What makes aggregation honest instead of merely hiding.</li>
+<li><strong>Aggregation (roll-up)</strong> — Collapsing a set of nodes into one until the reader asks for detail. The move that makes large graphs legible without deleting anything.</li>
+<li><strong>Blast radius</strong> — The bounded set of things affected by a change. Impact analysis without a depth limit returns the whole platform and answers nothing.</li>
+<li><strong>Layout engine</strong> — The algorithm that decides where nodes go. Solves arrangement, never scope — a well-routed hairball is still a hairball.</li>
+<li><strong>Scene-embedded export</strong> — PNG/SVG carrying its own source data, so the exported image remains editable. One asset that is also the source.</li>
+</ul>
+<h3>Borrowed from the field</h3>
+<ul class="glist">
+<li><strong>Visual facilitation</strong> — Guiding a group to a shared picture of a contested idea (sketchnoting, graphic recording). A neighbouring profession, not ours. → <a href="../concepts/drawing-it-together.html">Drawing It Together</a>.</li>
+<li><strong>Book-on-a-page</strong> — Compressing an entire book into one visual summary. A modelling exercise in disguise: it forces the question <em>what actually matters here?</em></li>
+<li><strong>Sketchnoting</strong> — Visual note-taking during listening. The evidence that drawing is cognition rather than decoration.</li>
+<li><strong>Bus factor</strong> — How many people must disappear before something becomes unmaintainable. → <a href="../concepts/bus-factor-of-one.html">Bus Factor Of One</a>.</li>
+</ul>
+<h3>Promotion candidates</h3>
+<p>Terms recurring often enough to be worth watching:</p>
+<table class="rtbl">
+<tr><th>Term</th><th>Why it might become a concept</th></tr>
+<tr><td><strong>Blast radius</strong></td><td>Already doing conceptual work in the impact-analysis argument</td></tr>
+<tr><td><strong>Round-trip</strong></td><td>Central to the thesis; may deserve its own name</td></tr>
+<tr><td><strong>Drill-down</strong></td><td>Currently generic; the <em>generated</em> version has a distinctive angle</td></tr>
+</table>
+</div>
+</div>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
+part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
+</body></html>

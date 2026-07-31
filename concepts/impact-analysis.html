@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Impact Analysis — Structured Metadata</title>
+<meta name="description" content="Lineage traversed backwards: what breaks if I change this? The question every engineer asks before touching anything, and the one most platforms cannot answer." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Lineage & governance</div>
+  <h1>Impact Analysis</h1>
+  <p class="sub">Lineage traversed backwards: what breaks if I change this? The question every engineer asks before touching anything, and the one most platforms cannot answer.</p>
+</div>
+<section class="wrap">
+
+<p><strong>Lineage answers "where did this come from". Impact analysis answers "what breaks if I change it".</strong> Same graph, opposite direction — and the reverse question is the one people actually ask before doing anything.</p>
+<p>Sometimes called *reverse lineage*, *downstream analysis* or *dependency analysis*. The naming varies; the move does not. Start at a node, walk the edges <strong>forward</strong> instead of back, and collect everything that would be affected.</p>
+<h3>Why it matters more than lineage</h3>
+<p>Lineage is retrospective. It explains a number after someone has questioned it — useful, occasionally urgent, but a report on the past.</p>
+<p>Impact analysis is <strong>prospective</strong>, and it gates action. Nobody drops a column, renames a field, changes a filter or deprecates a source without first asking what depends on it. When the platform cannot answer, the question does not disappear — it gets answered badly:</p>
+<p>- by asking around, and getting the recollection of whoever happens to be present
+- by grepping the codebase and hoping the SQL is not generated
+- by shipping it and finding out on Monday
+- most often, <strong>by not changing it at all</strong></p>
+<p>That last one is the real cost. A platform without impact analysis does not become safer; it becomes rigid. Nobody dares touch anything, so debt accumulates and the model calcifies around whatever was true three years ago. <strong>Fear of unknown consequences is the most expensive form of technical debt</strong>, because it is invisible in every metric.</p>
+<h3>The questions it answers</h3>
+<p>| Question | What it traverses |
+|---|---|
+| What consumes this source table? | entities downstream of a source |
+| Where is this transformation function used? | mappings referencing a function |
+| What does this filter exclude, and for whom? | entities affected by a predicate |
+| Which reports touch personal data? | classification propagated forward |
+| If this job fails tonight, what is stale tomorrow? | the execution DAG, downstream |
+| Can I deprecate this? | the absence of consumers — the answer nobody can give confidently |</p>
+<p>That last row is the quiet one. <strong>Deprecation is impossible without impact analysis</strong>, because you cannot prove a negative by asking around. Which is why data platforms accumulate tables nobody has read since 2019 and nobody dares delete.</p>
+<h3>Blast radius, not the full graph</h3>
+<p>The naive implementation returns everything reachable downstream, which for any real platform is most of the platform. Technically correct, practically another wall.</p>
+<p>What makes it usable is <strong>bounded traversal</strong>:</p>
+<p>- <strong>Depth</strong> — one hop shows direct consumers; three shows the realistic blast radius; unbounded shows the warehouse.
+- <strong>Direction</strong> — downstream (what breaks) or upstream (what would I need to fix first). Both matter; showing both at once shows neither.
+- <strong>Severity</strong> — a column referenced in a `WHERE` clause breaks differently from one merely selected. Not every edge is the same edge.
+- <strong>Aggregation</strong> — "14 reports in Finance" is more actionable than fourteen unfamiliar report names.</p>
+<p>A good impact analysis is a <strong>short, ranked list with a picture attached</strong>, not a graph dump.</p>
+<h3>Why generated metadata is the precondition</h3>
+<p>Impact analysis is only as good as the edges it can see. That is the whole difficulty, and it is why so many catalogues promise it and disappoint.</p>
+<p>If transformation logic lives in hand-written SQL, the platform has to parse it correctly — every dialect, every dynamic query, every stored procedure — to know that a column is used. Coverage is partial by construction, and partial impact analysis is arguably worse than none: it produces a confident, incomplete answer, and confidence is what people act on.</p>
+<p>When the mapping is <strong>modelled rather than buried</strong> — the SELECT list as data, the join as a row, the filter as a predicate the platform knows about — the dependency graph is not inferred. It is read. Column-level impact stops being a parsing achievement and becomes a query.</p>
+<p>⚠️ <strong>The honest caveat:</strong> nothing sees consumers outside the platform. A spreadsheet someone built from a CSV export, a dashboard on a personal database, a script on someone's laptop — these are real dependencies and no impact analysis will find them. Treat the answer as *what is knowable*, not *everything that exists*, and keep the [seams declared](concept-decoupling) so the unknowable set stays small.</p>
+<h3>Where it belongs</h3>
+<p>Not in a portal someone visits occasionally. Impact analysis earns its keep when it is <strong>in the path of the change</strong>: in the pull request, next to the model, on the diagram. Click an entity in a generated ERD and see its consumers (<a href="clickable-diagrams.html">Clickable Diagrams</a>). Open a PR that drops a column and have the affected reports listed in the check.</p>
+<p>An answer available at the moment of the decision changes the decision. An answer available in a tool you have to remember to open does not.</p>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="horizontal-vs-vertical-lineage.html">Horizontal Vs Vertical Lineage</a></li><li><a href="business-friendly-data-lineage.html">Business Friendly Data Lineage</a></li><li><a href="clickable-diagrams.html">Clickable Diagrams</a></li></ul></div><div class="c-rel"><h3>Related concepts</h3><ul><li><a href="decoupling.html">Decoupling</a></li></ul></div>
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>

@@ -21,7 +21,7 @@
   </div>
 </header>
 <div class="hero wrap" style="padding-bottom:20px">
-  <div class="eyebrow">Anti-pattern</div>
+  <div class="eyebrow"><span class="key-badge">Key concept</span> Anti-pattern</div>
   <h1>Model As Drawing</h1>
   <p class="sub">The anti-pattern: treating the model as a picture to be drawn rather than knowledge to be captured — so it informs nobody and generates nothing.</p>
 </div>
@@ -36,14 +36,14 @@
 <p>- <strong>No generation.</strong> DDL, pipelines, tests and documentation are written by hand, next to a diagram that claims to describe them. They drift, and the diagram is blamed for being wrong.
 - <strong>No provenance.</strong> An entity exists; why it exists, who agreed it and which interview produced it are nowhere. The next modeller re-derives it or, more often, overrides it.
 - <strong>No validation.</strong> Nothing checks whether the data honours the model, so the model becomes an aspiration.
-- <strong>Gates.</strong> Drawings live in tools (Gated Knowledge) and get shared as flat images — readable by people with a licence, invisible to everything else.
+- <strong>Gates.</strong> Drawings live in tools (<a href="gated-knowledge.html">Gated Knowledge</a>) and get shared as flat images — readable by people with a licence, invisible to everything else.
 - <strong>Unreadable to AI.</strong> A PNG of a model carries none of its semantics. The moment you want an agent to reason over your architecture, a drawn model contributes nothing.</p>
 <h3>The distinction that matters</h3>
 <p><strong>Diagrams are not the problem — hand-maintained diagrams are.</strong> A diagram generated from the model is one of the most useful artifacts there is: always current, cheap to regenerate, and different views for different audiences (<a href="living-diagrams.html">Living Diagrams</a>). The rule is directional: <strong>read the picture from the source; never transcribe the source into a picture.</strong></p>
 <p>Sketching by hand *during* modelling is also fine, and often essential — that is thinking, and thinking on a shared canvas is how agreement happens. The anti-pattern is when the sketch becomes the deliverable.</p>
 <h3>The test</h3>
 <p><strong>What does this model produce?</strong> If the honest answer is "a picture in a document", it is a drawing. If it produces schemas, tests, documentation, diagrams and answers to questions about provenance, it is a model.</p>
-<div class="c-rel"><h3>Related concepts</h3><ul><li><a href="living-diagrams.html">Living Diagrams</a></li></ul></div>
+<div class="c-rel c-key"><h3>Key concepts</h3><ul><li><a href="living-diagrams.html">Living Diagrams</a></li></ul></div><div class="c-rel"><h3>Related concepts</h3><ul><li><a href="gated-knowledge.html">Gated Knowledge</a></li></ul></div>
   <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
 </section>
 <footer><div class="wrap">

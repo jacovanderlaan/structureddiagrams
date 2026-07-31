@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX: remove at go-live -->
+<title>Decoupling — Structured Metadata</title>
+<meta name="description" content="Systems meet only at agreed interfaces — inbound and outbound — so each side can change independently. The contract is the seam, and it is monitored." />
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="../assets/site.css" />
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Structured <span class="abbr">Metadata</span></a>
+    <nav class="main">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Concepts</a>
+      <a class="cta" href="https://structurebeatsmagic.com">The method &rarr;</a>
+    </nav>
+  </div>
+</header>
+<div class="hero wrap" style="padding-bottom:20px">
+  <div class="eyebrow">Architecture</div>
+  <h1>Decoupling</h1>
+  <p class="sub">Systems meet only at agreed interfaces — inbound and outbound — so each side can change independently. The contract is the seam, and it is monitored.</p>
+</div>
+<section class="wrap">
+
+<p><strong>Systems meet only at agreed interfaces — never in each other's internals.</strong> Every system has an <strong>inbound</strong> side (what it accepts) and an <strong>outbound</strong> side (what it promises), and between two systems sits a data contract: agreed up front, versioned, and <strong>continuously monitored</strong>.</p>
+<p>That last word is what separates decoupling from a diagram. Boundaries drawn on a slide are not boundaries; boundaries that break a build when violated are.</p>
+<h3>Why it is a BTM key concept</h3>
+<p>Coupling is the reason modelling work does not survive contact with reality. A model that reaches into another system's tables inherits that system's every change, and the dependency is invisible until something breaks at 3am. Decoupling makes the dependency <strong>explicit, named, and testable</strong> — the same instinct as Just to Be Clear, applied to system boundaries instead of definitions.</p>
+<p>It is also what makes independent movement possible. Structure and movement only unify if the seams hold: you cannot model transformation across systems that reach into each other arbitrarily. <strong>Decoupling is the precondition for the rest of BTM</strong>, not a nice-to-have alongside it.</p>
+<h3>The anatomy</h3>
+<p>| Part | What it is | What breaks without it |
+|---|---|---|
+| <strong>Inbound interface</strong> | What this system accepts, in what shape, at what quality | Upstream mess leaks in and shapes your model — see Anti-Corruption Layer |
+| <strong>Outbound interface</strong> | What this system promises to deliver | Consumers reverse-engineer your internals and freeze them by accident |
+| <strong>The contract</strong> | The agreement between the two: shape, semantics, quality, cadence, ownership | "It used to work" — with nobody accountable for the change |
+| <strong>Monitoring</strong> | Continuous checks that the contract still holds | The contract becomes documentation, and documentation rots |</p>
+<h3>What decoupling is not</h3>
+<p><strong>Not isolation.</strong> Decoupled systems talk constantly — they just talk through the front door. The goal is not fewer connections but *declared* ones.</p>
+<p><strong>Not microservices.</strong> This is an architectural property, not a deployment style. A monolith with clean internal contracts is more decoupled than a hundred services reaching into each other's databases.</p>
+<p><strong>Not free.</strong> Every seam is a thing to design, version and monitor. Draw boundaries where change actually happens — around ownership and rate of change — not everywhere you can.</p>
+<h3>The failure it prevents</h3>
+<p>The tightly coupled system is the one nobody dares to change. Every modification requires knowing what else will break, so knowledge of the whole becomes a precondition for touching any part of it — which is a Bus Factor of One dressed up as architecture. Decoupling is how a system stays modifiable by people who did not build it.</p>
+
+  <p style="margin-top:34px"><a href="index.html">&larr; All concepts</a></p>
+</section>
+<footer><div class="wrap">
+  <p><span class="badge">Test phase</span> &nbsp; Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
+</div></footer>
+</body>
+</html>
