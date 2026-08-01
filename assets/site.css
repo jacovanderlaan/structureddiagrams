@@ -44,7 +44,20 @@
   --radius:    16px;
   --shadow:    0 10px 30px rgba(15,23,42,.07);
   --ink-soft:  #475569;   /* secondary text: nav, captions */
-  --ink-faint: #94a3b8;   /* tertiary: metadata, disabled */   /* payoff word ONLY — never a background */
+  --ink-faint: #94a3b8;   /* tertiary: metadata, disabled */
+
+  /* ---- type scale ----
+     From jacovanderlaan-site, which Jaco reads as the stronger-looking site.
+     Measured, the difference was real: its h1 tops out at 64px/6vw/800 where
+     BTM and SD sat at 49.6px/5vw with no extra weight — a quarter smaller.
+     Nothing typographic was shared before, so each site had invented its own
+     heading size and three had drifted apart. */
+  --h1:        clamp(40px, 6vw, 64px);
+  --h1-weight: 800;
+  --h1-track:  -1px;      /* tight tracking is what makes big type look set */
+  --h1-lead:   1.05;
+  --h2:        clamp(26px, 3.2vw, 36px);
+  --lede:      clamp(17px, 1.6vw, 20px);   /* payoff word ONLY — never a background */
 
   /* entity colours — the same three kinds of thing, app and sites alike */
   --e-action:   #2563eb;  /* activities: what the method DOES */
@@ -169,6 +182,18 @@ nav.main a.nav-cta:hover{
     border-radius:0;padding:0;min-width:0;max-width:none;background:transparent}
   .navmenu a{padding:.45rem 0 .45rem 1.1rem;font-size:.9rem}
 }
+
+
+/* ---- headings ----
+   Applied here so a site gets the family's type scale by syncing, rather than
+   by each one redeclaring an h1 and drifting. A site that wants a different
+   voice overrides --h1 etc. in its own stylesheet, not the rule. */
+h1,.hero h1{
+  font-size:var(--h1);font-weight:var(--h1-weight);
+  letter-spacing:var(--h1-track);line-height:var(--h1-lead);
+  text-wrap:balance}
+h2{font-size:var(--h2);line-height:1.15;letter-spacing:-.01em}
+.lede{font-size:var(--lede);line-height:1.55;color:var(--ink-soft)}
 
 
 /* ============================================================================
@@ -342,7 +367,7 @@ body{margin:0;background:var(--bg);color:var(--fg);
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 h1,h2,h3{line-height:1.2;letter-spacing:-.01em;font-weight:700}
-h1{font-size:clamp(2rem,5vw,3.1rem);margin:.2em 0 .3em}
+h1{font-size:var(--h1);margin:.2em 0 .3em;font-weight:var(--h1-weight);letter-spacing:var(--h1-track);line-height:var(--h1-lead)}
 h2{font-size:clamp(1.4rem,3vw,1.9rem);margin:2.4rem 0 .6rem}
 h3{font-size:1.15rem;margin:1.6rem 0 .4rem}
 p{margin:.7em 0}
