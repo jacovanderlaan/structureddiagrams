@@ -104,6 +104,20 @@
    else — ink, surfaces, gold, entity colours — stays shared.
    --------------------------------------------------------------------------- */
 
+/* ---------------------------------------------------------------------------
+   Figures. Shared because every site in the family carries generated
+   illustrations, and four hand-maintained copies of five rules is exactly the
+   drift this file exists to prevent (ADR-128).
+
+   ⚠️ width/height belong on the <img> element, not here: the browser needs the
+   intrinsic ratio in the markup to reserve space before the file lands.
+   Without it the text below jumps when the image arrives.
+   --------------------------------------------------------------------------- */
+figure { margin: 32px 0 }
+figure img { width: 100%; height: auto; border-radius: 10px; display: block }
+figcaption { margin-top: 10px; font-size: .92rem; color: var(--muted) }
+.hero-figure { margin: 36px 0 0 }
+
 
 /* ============================================================================
    Base menu — ONE source for the whole family.
