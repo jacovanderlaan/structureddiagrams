@@ -2,14 +2,12 @@
 <html lang="en"><head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" /><!-- TESTPHASE-NOINDEX -->
-<title>Where this fits — Structured Diagrams</title>
-<meta name="description" content="How Structured Diagrams sits in the family." />
-<link rel="canonical" href="https://structureddiagrams.com/relation/" />
-<meta property="og:title" content="Where this fits — Structured Diagrams" />
-<meta property="og:description" content="How Structured Diagrams sits in the family." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://structureddiagrams.com/relation/" />
-<meta property="og:site_name" content="Structured Diagrams" />
+<title>Patterns — Structured Diagrams</title>
+<meta name="description" content="Patterns on Structured Diagrams — filter, sort and browse." />
+<link rel="canonical" href="https://structureddiagrams.com/patterns/" />
+<meta property="og:title" content="Patterns — Structured Diagrams" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://structureddiagrams.com/patterns/" />
 <meta name="twitter:card" content="summary" />
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="../assets/site.css" /></head>
@@ -44,20 +42,35 @@
 <a href="../relation/index.html">Where this fits</a>
 </span></span>
 <a class="cta" href="https://breakthroughmodeling.com">The method &rarr;</a></nav></div></header>
-<div class="wrap pagewrap">
-<main class="pagebody">
-<div class="eyebrow">About</div>
-<h1>Where this fits</h1>
-
-
-  <p>This is the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>. <a href="https://structuredmetadata.com">Structured Metadata</a> is the model &mdash; <em>what</em> the structure is. This site is the rendering &mdash; <em>how</em> you show it, to whom, in which notation.</p>
-  <div class="cta-row">
-    <a class="btn" href="https://breakthroughmodeling.com">See the method &rarr;</a>
-    <a class="btn ghost" href="https://structuredmetadata.com">See the model</a>
+<div class="hero wrap listing-head">
+  <div class="listing-head-text">
+    <div class="eyebrow">Patterns &amp; anti-patterns</div>
+    <h1>The shapes that work, and the ones that keep failing</h1>
+    <p class="lede">A pattern is a shape you reach for instead of inventing one — a repeatable solution someone already paid to learn. An anti-pattern is the same thing in reverse: a shape that keeps being reached for and keeps failing. Naming both is what makes either usable, so they share a page. Filter by type to see them apart.</p>
   </div>
-</main></div>
-<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp; Structured Diagrams &mdash;
-the visual layer of <a href="https://breakthroughmodeling.com">Breakthrough Modeling</a>.
-Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p>
-<p class="muted">Structure beats magic. &copy; Jaco van der Laan.</p></div></footer>
+  
+</div>
+<section class="wrap">
+<div id="browse" data-page-type="patterns"></div>
+<div class="bw-fallback">
+  <p class="muted">All items:</p>
+  <ul class="artlist">
+    <li><a href="../concepts/gated-knowledge.html">Gated knowledge</a> &mdash; <span class="muted">The anti-pattern: understanding locked behind a person, a licence or a login — access controlled by whoever ho</span></li>
+    <li><a href="../concepts/model-as-drawing.html">Model as drawing</a> &mdash; <span class="muted">The anti-pattern: treating the model as a picture to be drawn rather than knowledge to be captured — so it inf</span></li>
+  </ul>
+</div>
+<script type="module">
+  import { initBrowse } from "../assets/browse.js";
+  initBrowse("#browse", {
+    data: "../data/content_item.parquet",
+    base: "../",
+    assets: "../assets/",
+    pageType: "patterns",
+    itemTypes: ["pattern", "anti-pattern"],
+    defaults: {"view": "cards", "sort": "title"}
+  }).then(() => document.body.classList.add("bw-ready"));
+</script>
+</section>
+<footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
+Part of the <a href="https://structurebeatsmagic.com">Structure Beats Magic</a> family.</p></div></footer>
 </body></html>
