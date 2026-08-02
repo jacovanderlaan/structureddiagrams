@@ -60,7 +60,16 @@
     <div class="bw-side-h">Filter</div>
     <div class="bw-fgroup"><div class="bw-flabel">Kind</div><label class="bw-f"><input type="checkbox" data-filter="kind" value="concept" /><span>Concept</span><span class="bw-n">12</span></label><label class="bw-f"><input type="checkbox" data-filter="kind" value="anti-pattern" /><span>Anti-pattern</span><span class="bw-n">2</span></label><label class="bw-f"><input type="checkbox" data-filter="kind" value="observation" /><span>Observation</span><span class="bw-n">2</span></label></div><div class="bw-fgroup"><div class="bw-flabel">Day</div><label class="bw-f"><input type="checkbox" data-filter="month" value="2026-07-31" /><span>2026-07-31</span><span class="bw-n">15</span></label><label class="bw-f"><input type="checkbox" data-filter="month" value="2026-08-01" /><span>2026-08-01</span><span class="bw-n">1</span></label></div>
   </aside>
-  <div class="tl-main"><article class="tl-entry" data-kind="observation"><div class="tl-meta"><time>2026-08-01</time><span class="tl-kind">Observation</span></div><h3>Patterns and anti-patterns belong on one page</h3><p class="tl-source">Restructuring the site navigation.</p><p>An anti-pattern is only legible against the pattern it fails to be. Splitting them into two pages hid that relationship behind the navigation — several of them are explicit counterparts.</p></article>
+  <div class="tl-body-col">
+    <div class="bw-bar tl-bar">
+      <span class="bw-spacer"></span>
+      <div class="bw-views" role="group" aria-label="Display">
+        <button type="button" data-tlview="list" class="on">List</button>
+        <button type="button" data-tlview="cards">Cards</button>
+        <button type="button" data-tlview="grid">Grid</button>
+      </div>
+    </div>
+    <div class="tl-main"><article class="tl-entry" data-kind="observation"><div class="tl-meta"><time>2026-08-01</time><span class="tl-kind">Observation</span></div><h3>Patterns and anti-patterns belong on one page</h3><p class="tl-source">Restructuring the site navigation.</p><p>An anti-pattern is only legible against the pattern it fails to be. Splitting them into two pages hid that relationship behind the navigation — several of them are explicit counterparts.</p></article>
 <article class="tl-entry" data-kind="concept"><div class="tl-meta"><time>2026-07-31 15:16</time><span class="tl-kind">Concept</span></div><h3><a href="../concepts/metadata-as-code.html">Metadata as code</a></h3></article>
 <article class="tl-entry" data-kind="concept"><div class="tl-meta"><time>2026-07-31 15:11</time><span class="tl-kind">Concept</span></div><h3><a href="../concepts/clickable-diagrams.html">Clickable diagrams</a></h3></article>
 <article class="tl-entry" data-kind="anti-pattern"><div class="tl-meta"><time>2026-07-31 15:10</time><span class="tl-kind">Anti-pattern</span></div><h3><a href="../concepts/gated-knowledge.html">Gated knowledge</a></h3></article>
@@ -76,6 +85,7 @@
 <article class="tl-entry" data-kind="concept"><div class="tl-meta"><time>2026-07-31 13:06</time><span class="tl-kind">Concept</span></div><h3><a href="../concepts/living-diagrams.html">Living diagrams</a></h3></article>
 <article class="tl-entry" data-kind="concept"><div class="tl-meta"><time>2026-07-31 13:06</time><span class="tl-kind">Concept</span></div><h3><a href="../concepts/visual-thinking.html">Visual thinking</a></h3></article>
 <article class="tl-entry" data-kind="observation"><div class="tl-meta"><time>2026-07-31</time><span class="tl-kind">Observation</span></div><h3>The diagrams had to be real</h3><p class="tl-source">Building the notations page.</p><p>A site arguing that diagrams are generated from metadata cannot illustrate the claim with a picture of a diagram — the illustration would be the anti-pattern it attacks. So one source model now renders into Mermaid, draw.io, PlantUML and yEd, all downloadable. The example is the proof.</p></article></div>
+  </div>
 </div>
 </section>
 <footer><div class="wrap"><p><span class="badge">Test phase</span> &nbsp;
@@ -95,5 +105,33 @@ document.querySelectorAll('[data-filter]').forEach(function (cb) {
     });
   });
 });
+
+// Display mode. The entries are one DOM in every mode — only the container
+// class changes — so filtering, deep links and indexability are untouched.
+// Remembered per site, because someone who prefers grid prefers it next time.
+(function () {
+  var main = document.querySelector('.tl-main');
+  var btns = document.querySelectorAll('[data-tlview]');
+  if (!main || !btns.length) return;
+  var KEY = 'tl-view';
+
+  function set(v, remember) {
+    main.className = 'tl-main' + (v === 'list' ? '' : ' view-' + v);
+    btns.forEach(function (b) { b.classList.toggle('on', b.dataset.tlview === v); });
+    if (remember) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () { set(b.dataset.tlview, true); });
+  });
+
+  // ?view=grid wins over the stored preference: a shared link should show what
+  // the sender saw.
+  var q = new URLSearchParams(location.search).get('view');
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  var initial = q || stored;
+  if (initial && ['list', 'cards', 'grid'].indexOf(initial) > -1) set(initial, false);
+}());
 </script>
 </body></html>

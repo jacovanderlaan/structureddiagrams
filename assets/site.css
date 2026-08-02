@@ -357,6 +357,51 @@ html{scroll-behavior:smooth}
   .tl-main{border-left:0;padding-left:0}
   .tl-entry::before{display:none}
 }
+
+/* ---------------------------------------------------------------------------
+   Timeline display modes. The entries are the same DOM in every mode — only
+   the container class changes, so filtering, deep links and indexability
+   (ADR-129) are untouched.
+
+   Timeline is a sequence, so List stays the default: it is the only mode where
+   "what came after what" survives. Cards and Grid trade that for scanning a
+   few hundred entries at once, which is why they exist on the larger sites.
+   --------------------------------------------------------------------------- */
+/* The column that holds the view bar and the entries. Without it the bar would
+   be a flex sibling of the sidebar and sit alongside it rather than above the
+   entries. */
+.tl-body-col { flex: 1; min-width: 0 }
+.tl-bar { margin-bottom: 1rem }
+
+.tl-main.view-cards,
+.tl-main.view-grid { border-left: 0; padding-left: 0 }
+
+.tl-main.view-cards { display: grid; gap: 1rem; grid-template-columns: 1fr }
+.tl-main.view-grid  { display: grid; gap: 1rem;
+                      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)) }
+
+.tl-main.view-cards .tl-entry,
+.tl-main.view-grid .tl-entry {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 1rem 1.1rem; margin: 0;
+}
+/* The dot on the spine belongs to the list; without a spine it is a stray mark. */
+.tl-main.view-cards .tl-entry::before,
+.tl-main.view-grid .tl-entry::before { display: none }
+
+/* Grid cells hold a few hundred entries at a glance, so the body is clamped and
+   the source line dropped — the title, date and kind are what you scan by. */
+.tl-main.view-grid .tl-entry p { font-size: .92rem }
+.tl-main.view-grid .tl-source { display: none }
+.tl-main.view-grid .tl-body {
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  /* One column is one column: the switch is pointless below this width. */
+  .tl-main.view-grid { grid-template-columns: 1fr }
+}
 /* === END shared tokens === */
 
 /* Breakthrough Modeling (BTM) — site.css. No-nonsense, structure-first. Light + dark. */
