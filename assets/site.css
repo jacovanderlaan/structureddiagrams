@@ -146,7 +146,23 @@ nav.main > a,
 nav.main > a:hover,
 .navgroup:hover > .navtop,
 .navgroup:focus-within > .navtop{color:var(--fg);text-decoration:none}
-.navgroup > .navtop.on{color:var(--accent);font-weight:600}
+/* Active section. ⚠️ This used to read `.navgroup > .navtop.on`, which only
+   matched items inside a dropdown — a top-level link like Timeline set the
+   class and got no styling at all, so the reader could not tell which section
+   they were in. Match both shapes.
+
+   The underline is what carries it: colour alone fails for the ~8% of men with
+   a colour vision deficiency, and here the accent is close enough to the body
+   ink that it barely reads for anyone. */
+.navtop.on{color:var(--accent);font-weight:600}
+a.navtop.on{text-decoration:underline;text-underline-offset:6px;
+  text-decoration-thickness:2px}
+.navgroup > .navtop.on{text-decoration:none;border-bottom:2px solid var(--accent);
+  padding-bottom:2px}
+
+/* The brand is a link to the homepage, not a menu item. Browsers underline it
+   by default in some resets, which makes it look like the active section. */
+a.brand{text-decoration:none}
 .navgroup > .navtop::after{content:" \25be";color:var(--muted);font-size:.7em;opacity:.7}
 .navgroup > .navtop:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
 
