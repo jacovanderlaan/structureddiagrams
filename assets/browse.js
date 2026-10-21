@@ -4,7 +4,7 @@
    Shared by every site. Generated in by sync_tokens.py; do not edit a site copy.
 
    Best of both, per Jaco (31 Jul 2026):
-     * from jacovanderlaan.com (Annemarie's WordPress filter): a faceted sidebar
+     * from jacovanderlaan.com (its WordPress filter): a faceted sidebar
        with live COUNTS per facet, free-text search, and the hero image beside
        the item.
      * from the Beacon app: a VIEW SWITCHER — List · Cards · Grid — and the
@@ -22,6 +22,24 @@ export async function initBrowse(mount, opts = {}) {
   const dataUrl = opts.data || "../data/content_item.parquet";
   const base = opts.base || "../";
   const assets = opts.assets || "../assets/";
+  // ⭐ Configurable facets (13 Oct 2026, for Deliberate Way's places and
+  // sources). A page passes `facets: [{key, label}]` naming any column of the
+  // parquet; without it the page keeps the original three, exactly as before.
+  // A configured facet with fewer than two values in this page's scope is
+  // hidden (a one-option checkbox filters nothing) unless it is checked.
+  // A facet may add `tree: true` (optional `sep`, `order: "name"`) to read its
+  // column as a hierarchy path; see "tree facets" below.
+  const custom = Array.isArray(opts.facets) && opts.facets.length > 0;
+  const FACETS = custom
+    ? opts.facets.map((f) => (typeof f === "string" ? { key: f, label: titleCase(f) } : f))
+    : DEFAULT_FACETS;
+  const cfg = {
+    facets: FACETS, custom,
+    chips: opts.chips || ["type", "category"],
+    meta: opts.meta || null,              // null = created + reading time
+    flags: opts.flags !== false,          // false where `created` is not a publication date
+    trees: {},                            // tree facets: key -> {kids, expanded}
+  };
 
   const el = typeof mount === "string" ? document.querySelector(mount) : mount;
   if (!el) return;
@@ -49,10 +67,23 @@ export async function initBrowse(mount, opts = {}) {
   const scope = opts.itemTypes || [];
   if (scope.length) rows = rows.filter((r) => scope.includes(r.type));
 
-  const state = fromHash(opts.defaults || {});
+  const state = fromHash(opts.defaults || {}, FACETS);
+  // The tree's shape comes from every row in scope, once: ticking and
+  // unticking reason about the whole subtree, not only what the other facets
+  // leave visible. The open branches start as the ones leading to a selection
+  // from the URL; a tree with a single root opens that root.
+  for (const f of FACETS) {
+    if (!f.tree) continue;
+    const kids = treeIndex(rows, f);
+    const expanded = new Set();
+    for (const k of state[f.key]) for (const a of ancestors(k, treeSep(f))) expanded.add(a);
+    const roots = kids.get("") || [];
+    if (roots.length === 1) expanded.add(roots[0]);
+    cfg.trees[f.key] = { kids, expanded };
+  }
   let lastSet = [];
   let flagsOn = true;
-  el.innerHTML = shell();
+  el.innerHTML = shell(opts.sorts);
   const $ = (s) => el.querySelector(s);
 
   const wireFacets = () => {
@@ -63,10 +94,26 @@ export async function initBrowse(mount, opts = {}) {
         render();
       };
     });
+    // tree facets: a tick covers the node's whole subtree (see treeToggle)
+    el.querySelectorAll("[data-tree]").forEach((cb) => {
+      if (cb.hasAttribute("data-partial")) cb.indeterminate = true;
+      cb.onchange = () => {
+        const f = FACETS.find((x) => x.key === cb.dataset.tree);
+        treeToggle(state[f.key], cb.value, treeSep(f), cfg.trees[f.key].kids);
+        render();
+      };
+    });
+    el.querySelectorAll("[data-tree-toggle]").forEach((b) => {
+      b.onclick = () => {
+        const open = cfg.trees[b.dataset.treeToggle].expanded;
+        open.has(b.dataset.node) ? open.delete(b.dataset.node) : open.add(b.dataset.node);
+        render();
+      };
+    });
   };
 
   const render = () => {
-    const out = apply(rows, state);
+    const out = apply(rows, state, FACETS);
     // Hand the CURRENT filtered set to the detail page, so prev/next steps
     // through what the reader was actually looking at — not a global ordering.
     // only items WITH a page go into the stepper set: prev/next navigates by
@@ -74,14 +121,14 @@ export async function initBrowse(mount, opts = {}) {
     lastSet = out.filter((r) => r.url)
                  .map((r) => ({ slug: r.slug, title: r.title, url: r.url }));
     // Decide ONCE per render whether flags are meaningful for this set.
-    flagsOn = out.length > 2 &&
+    flagsOn = cfg.flags && out.length > 2 &&
       out.filter((r) => freshness(r)).length <= out.length * FRESH_MAX_SHARE;
-    $(".bw-facets").innerHTML = facets(rows, state, scope);
-    $(".bw-results").innerHTML = results(out, state, base, assets, flagsOn);
+    $(".bw-facets").innerHTML = facets(rows, state, scope, cfg);
+    $(".bw-results").innerHTML = results(out, state, base, assets, flagsOn, cfg);
     $(".bw-count").textContent =
       `${out.length} of ${rows.length}` + (out.length === 1 ? " item" : " items");
     wireFacets();
-    history.replaceState(null, "", location.pathname + toHash(state));
+    history.replaceState(null, "", location.pathname + toHash(state, FACETS));
   };
 
 
@@ -97,13 +144,17 @@ export async function initBrowse(mount, opts = {}) {
         { slugs: lastSet, index: idx,
           // the hash carries the FILTER, so "back to list" returns the reader
           // to the set they were looking at — not to an unfiltered page
-          listUrl: location.pathname + toHash(state) }));
+          listUrl: location.pathname + toHash(state, FACETS) }));
     } catch { /* private mode — the stepper just will not appear */ }
   });
 
   $(".bw-search").oninput = (e) => { state.q = e.target.value.toLowerCase(); render(); };
   $(".bw-sort").onchange = (e) => { state.sort = e.target.value; render(); };
   el.querySelectorAll("[data-view]").forEach((b) => {
+    // ⚠️ The shell marks List as "on" by default; a page whose default (or
+    // #view=) is cards rendered cards under a highlighted List button (SBM
+    // concepts, 13 Oct 2026). Mark the button that matches the actual view.
+    b.classList.toggle("on", b.dataset.view === state.view);
     b.onclick = () => {
       state.view = b.dataset.view;
       el.querySelectorAll("[data-view]").forEach((x) => x.classList.toggle("on", x === b));
@@ -111,43 +162,212 @@ export async function initBrowse(mount, opts = {}) {
     };
   });
   $(".bw-clear").onclick = () => {
-    state.q = ""; state.type.clear(); state.category.clear(); state.topic.clear();
+    state.q = ""; FACETS.forEach((f) => state[f.key].clear());
     $(".bw-search").value = ""; render();
   };
 
+  // the "Clear filters" button inside an empty result set is re-rendered on
+  // every pass, so it is wired by delegation rather than once
+  el.addEventListener("click", (e) => {
+    if (e.target.closest(".bw-results .bw-clear")) $(".bw-side .bw-clear").onclick();
+  });
+
   render();
+}
+
+// The original three. Pages that pass no `facets` get exactly these.
+const DEFAULT_FACETS = [
+  { key: "type", label: "Type" },
+  { key: "category", label: "Category" },
+  { key: "topic", label: "Topic" },
+];
+// hash keys: "category" was always written as "cat"; keep old links working
+const HASH_KEY = { category: "cat" };
+
+const titleCase = (k) => k.charAt(0).toUpperCase() + k.slice(1).replace(/_/g, " ");
+
+// ⭐ A facet value may be MULTI-VALUED: a place visited in 2013 and 2026, a
+// source covering Asia and Africa. The parquet carries those as one string
+// joined with "|" (or a real list); every facet, count and chip splits it.
+// No existing value contains "|", so single-valued columns are unaffected.
+function vals(r, key) {
+  const v = r[key];
+  if (Array.isArray(v)) return v.length ? v.map(String) : ["—"];
+  if (v === null || v === undefined || v === "") return ["—"];
+  const s = String(v);
+  return s.includes("|") ? s.split("|").map((x) => x.trim()).filter(Boolean) : [s];
+}
+
+/* ---- tree facets ----------------------------------------------------------
+   ⭐ 14 Oct 2026, for Deliberate Way's "Where" (continent → country → region
+   → place), but nothing here knows about places. A facet declared as
+     {key: "place_path", label: "Where", tree: true}
+   reads its column as a PATH: "Europe > Cyprus > Paphos" (levels joined with
+   " > ", or the facet's own `sep`), several paths joined with "|" like any
+   multi-valued facet. It renders as a nested checklist with counts that roll
+   up, and ticking a node selects its whole subtree.
+
+   A node is identified by its path from the root ("Europe > Cyprus"), so the
+   selection in the URL hash is a plain list of node keys and stays readable.
+   The selection holds the HIGHEST ticked nodes only: a ticked parent implies
+   its children, which are never stored beside it.
+
+   A facet without `tree` never reaches this code, so pages that declare no
+   tree facet render exactly as before. */
+
+const TREE_SEP = " > ";
+const treeSep = (f) => f.sep || TREE_SEP;
+
+// every proper ancestor key of a node key, root first
+function ancestors(k, sep) {
+  const parts = k.split(sep);
+  const out = [];
+  for (let i = 1; i < parts.length; i++) out.push(parts.slice(0, i).join(sep));
+  return out;
+}
+
+// every node key a row sits under: "Europe", "Europe > Cyprus", … — cached per
+// row, because the facet counts probe each row once per facet per render
+const NODE_CACHE = new WeakMap();
+function nodeKeys(r, f) {
+  let byKey = NODE_CACHE.get(r);
+  if (!byKey) NODE_CACHE.set(r, (byKey = {}));
+  if (byKey[f.key]) return byKey[f.key];
+  const sep = treeSep(f), out = new Set();
+  for (const v of vals(r, f.key)) {
+    if (v === "—") continue;
+    const p = v.split(sep).map((x) => x.trim()).filter(Boolean);
+    for (let i = 1; i <= p.length; i++) out.add(p.slice(0, i).join(sep));
+  }
+  // a row with no path sits under "—", listed last like any missing value
+  if (!out.size) out.add("—");
+  return (byKey[f.key] = out);
+}
+
+// parent key ("" = the root) -> child keys, over every row in scope
+function treeIndex(rows, f) {
+  const sep = treeSep(f), kids = new Map();
+  for (const r of rows) {
+    for (const k of nodeKeys(r, f)) {
+      const anc = ancestors(k, sep);
+      const parent = anc.length ? anc[anc.length - 1] : "";
+      if (!kids.has(parent)) kids.set(parent, []);
+      if (!kids.get(parent).includes(k)) kids.get(parent).push(k);
+    }
+  }
+  return kids;
+}
+
+// Tick or untick one node, keeping the selection to its highest nodes.
+function treeToggle(sel, k, sep, kids) {
+  const anc = ancestors(k, sep);
+  const cover = anc.find((a) => sel.has(a));
+  if (sel.has(k)) { sel.delete(k); return; }
+  if (cover) {
+    // Unticking inside a ticked subtree: the ancestor gives way to the
+    // siblings along the way down, so everything else stays selected.
+    sel.delete(cover);
+    let cur = cover;
+    for (const step of [...anc.slice(anc.indexOf(cover) + 1), k]) {
+      for (const c of kids.get(cur) || []) if (c !== step) sel.add(c);
+      cur = step;
+    }
+    return;
+  }
+  // Ticking: the node now implies its descendants, so drop them…
+  for (const x of [...sel]) if (x.startsWith(k + sep)) sel.delete(x);
+  sel.add(k);
+  // …and when that completes a whole family, tick the parent instead.
+  for (let i = anc.length - 1; i >= 0; i--) {
+    const sibs = kids.get(anc[i]) || [];
+    if (!sibs.length || !sibs.every((c) => sel.has(c))) break;
+    sibs.forEach((c) => sel.delete(c));
+    sel.add(anc[i]);
+  }
+}
+
+function treeGroup(rows, s, f, cfg) {
+  const key = f.key, sep = treeSep(f), sel = s[key];
+  const tree = cfg.trees[key];
+  if (!tree) return "";
+  // a tree with fewer than two nodes in this page's scope filters nothing
+  if (!sel.size) {
+    let n = 0;
+    for (const ks of tree.kids.values()) n += ks.length;
+    if (n < 2) return "";
+  }
+  // counts against everything EXCEPT this facet, rolled up: a row counts once
+  // for every node on its path(s), so a parent reads the size of its subtree
+  const counts = {};
+  const probe = { ...s, [key]: new Set() };
+  for (const r of rows) {
+    if (!apply([r], probe, cfg.facets).length) continue;
+    for (const k of nodeKeys(r, f)) counts[k] = (counts[k] || 0) + 1;
+  }
+  const isOn = (k) => sel.has(k) || ancestors(k, sep).some((a) => sel.has(a));
+  const below = (k) => [...sel].some((x) => x.startsWith(k + sep));
+  // a node with nothing under it right now is hidden, unless it is selected
+  const shown = (k) => counts[k] || isOn(k) || below(k);
+  const order = (a, b) => (a === "—") - (b === "—") ||
+    (f.order === "name" ? 0 : (counts[b] || 0) - (counts[a] || 0)) || a.localeCompare(b);
+
+  const node = (k, depth) => {
+    const name = k.split(sep).pop();
+    const ch = (tree.kids.get(k) || []).filter(shown).sort(order);
+    const open = ch.length && tree.expanded.has(k);
+    const on = isOn(k);
+    const partial = !on && below(k);
+    const tog = ch.length
+      ? `<button type="button" class="bw-ttog" data-tree-toggle="${esc(key)}" data-node="${esc(k)}"
+           aria-expanded="${open ? "true" : "false"}"
+           aria-label="${open ? "Collapse" : "Expand"} ${esc(name)}">${open ? "▾" : "▸"}</button>`
+      : `<span class="bw-ttog-pad"></span>`;
+    return `
+      <div class="bw-trow" style="--d:${depth}">${tog}
+        <label class="bw-f">
+          <input type="checkbox" data-tree="${esc(key)}" value="${esc(k)}"
+                 ${on ? "checked" : ""} ${partial ? "data-partial" : ""} />
+          <span>${esc(name)}</span><span class="bw-n">${counts[k] || 0}</span>
+        </label>
+      </div>` +
+      (open ? `<div class="bw-tkids" role="group">${ch.map((c) => node(c, depth + 1)).join("")}</div>` : "");
+  };
+  const roots = (tree.kids.get("") || []).filter(shown).sort(order);
+  if (!roots.length) return "";
+  return `<div class="bw-fgroup bw-tree"><div class="bw-flabel">${esc(f.label)}</div>` +
+    roots.map((k) => node(k, 0)).join("") + "</div>";
 }
 
 /* ---- filter state in the URL --------------------------------------------
    So a filtered view is linkable, survives a reload, and can be returned to
    from a detail page. The hash is the state; nothing is stored server-side. */
 
-function toHash(s) {
+function toHash(s, facetList = DEFAULT_FACETS) {
   const p = new URLSearchParams();
   if (s.q) p.set("q", s.q);
-  if (s.type.size) p.set("type", [...s.type].join("|"));
-  if (s.category.size) p.set("cat", [...s.category].join("|"));
-  if (s.topic.size) p.set("topic", [...s.topic].join("|"));
+  for (const f of facetList) {
+    if (s[f.key].size) p.set(HASH_KEY[f.key] || f.key, [...s[f.key]].join("|"));
+  }
   if (s.view !== "list") p.set("view", s.view);
   if (s.sort !== "title") p.set("sort", s.sort);
   const q = p.toString();
   return q ? "#" + q : "";
 }
 
-function fromHash(defaults) {
+function fromHash(defaults, facetList = DEFAULT_FACETS) {
   const p = new URLSearchParams((location.hash || "").replace(/^#/, ""));
   const split = (v) => new Set(v ? v.split("|").filter(Boolean) : []);
-  return {
+  const s = {
     q: p.get("q") || "",
-    // ⚠️ Every FACET key must exist here as a Set. Adding "topic" to the facet
-    // list without adding it here made facets() read undefined.has() and the
-    // whole render threw — the chrome painted, the results never did.
-    type: split(p.get("type")),
-    category: split(p.get("cat")),
-    topic: split(p.get("topic")),
     view: p.get("view") || defaults.view || "list",
     sort: p.get("sort") || defaults.sort || "title",
   };
+  // ⚠️ Every FACET key must exist here as a Set. A facet missing from the
+  // state made facets() read undefined.has() and the whole render threw — the
+  // chrome painted, the results never did. Built from the facet list now, so
+  // a configured facet can never be forgotten here.
+  for (const f of facetList) s[f.key] = split(p.get(HASH_KEY[f.key] || f.key));
+  return s;
 }
 
 /* ---- data ---------------------------------------------------------------- */
@@ -184,13 +404,20 @@ async function loadRows(url) {
 
 /* ---- filtering ----------------------------------------------------------- */
 
-function apply(rows, s) {
+function apply(rows, s, facetList = DEFAULT_FACETS) {
   let out = rows.filter((r) => {
-    if (s.type.size && !s.type.has(r.type)) return false;
-    if (s.category.size && !s.category.has(r.category || "—")) return false;
-    if (s.topic.size && !s.topic.has(r.topic || "—")) return false;
+    for (const f of facetList) {
+      const want = s[f.key];
+      if (!want || !want.size) continue;
+      if (f.tree) {
+        // a selected node matches every row on a path through it (its subtree)
+        const ks = nodeKeys(r, f);
+        if (![...want].some((k) => ks.has(k))) return false;
+      } else if (!vals(r, f.key).some((v) => want.has(v))) return false;
+    }
     if (s.q) {
-      const hay = `${r.title} ${r.excerpt} ${r.category} ${r.topic}`.toLowerCase();
+      const extra = facetList.map((f) => vals(r, f.key).join(" ")).join(" ");
+      const hay = `${r.title} ${r.excerpt} ${r.category} ${r.topic} ${extra}`.toLowerCase();
       if (!hay.includes(s.q)) return false;
     }
     return true;
@@ -205,7 +432,13 @@ function apply(rows, s) {
 
 /* ---- markup -------------------------------------------------------------- */
 
-function shell() {
+// Sort options a page may offer; `sorts` limits and orders them. Default: all.
+const SORT_LABEL = { title: "A–Z", newest: "Newest", longest: "Longest" };
+
+function shell(sorts) {
+  const sortOpts = (sorts && sorts.length ? sorts : Object.keys(SORT_LABEL))
+    .filter((k) => SORT_LABEL[k])
+    .map((k) => `<option value="${k}">${SORT_LABEL[k]}</option>`).join("");
   return `
   <div class="bw">
     <aside class="bw-side">
@@ -217,11 +450,7 @@ function shell() {
       <div class="bw-bar">
         <span class="bw-count"></span>
         <span class="bw-spacer"></span>
-        <select class="bw-sort" aria-label="Sort">
-          <option value="title">A–Z</option>
-          <option value="newest">Newest</option>
-          <option value="longest">Longest</option>
-        </select>
+        <select class="bw-sort" aria-label="Sort">${sortOpts}</select>
         <div class="bw-views" role="group" aria-label="View">
           <button type="button" data-view="list" class="on">List</button>
           <button type="button" data-view="cards">Cards</button>
@@ -233,18 +462,26 @@ function shell() {
   </div>`;
 }
 
-function facets(rows, s, scope = []) {
+function facets(rows, s, scope = [], cfg = { facets: DEFAULT_FACETS, custom: false }) {
   const group = (key, label) => {
+    // a configured facet with one value across the whole page filters nothing
+    if (cfg.custom && !s[key].size) {
+      const distinct = new Set();
+      for (const r of rows) for (const v of vals(r, key)) distinct.add(v);
+      if (distinct.size < 2) return "";
+    }
     const counts = {};
     for (const r of rows) {
       // count against everything EXCEPT this facet, so a count never reads zero
-      // for an option you can still usefully pick (Annemarie's filter does this)
+      // for an option you can still usefully pick (the WordPress filter does this)
       const probe = { ...s, [key]: new Set() };
-      if (!apply([r], probe).length) continue;
-      const v = r[key] || "—";
-      counts[v] = (counts[v] || 0) + 1;
+      if (!apply([r], probe, cfg.facets).length) continue;
+      for (const v of vals(r, key)) counts[v] = (counts[v] || 0) + 1;
     }
-    const items = Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    // configured facets put "—" (no value) last: it is the absence of an answer
+    const items = Object.entries(counts).sort((a, b) =>
+      (cfg.custom ? (a[0] === "—") - (b[0] === "—") : 0) ||
+      b[1] - a[1] || a[0].localeCompare(b[0]));
     if (!items.length) return "";
     return `<div class="bw-fgroup"><div class="bw-flabel">${label}</div>` +
       items.map(([v, n]) => `
@@ -256,15 +493,16 @@ function facets(rows, s, scope = []) {
   };
   // A Type facet listing one option is noise: the page already IS that type.
   // With a mixed scope (concepts + activities + anti-patterns) it still helps.
-  const typeFacet = scope.length === 1 ? "" : group("type", "Type");
-  return typeFacet + group("category", "Category") + group("topic", "Topic");
+  return cfg.facets.map((f) =>
+    f.key === "type" && scope.length === 1 ? ""
+      : f.tree ? treeGroup(rows, s, f, cfg) : group(f.key, f.label)).join("");
   // group() already returns "" when a facet has no values, so an empty
   // Topic section never renders.
 }
 
-function results(out, s, base, assets, flagsOn) {
+function results(out, s, base, assets, flagsOn, cfg) {
   if (!out.length) return `<p class="bw-empty">Nothing matches. <button class="bw-clear" type="button">Clear filters</button></p>`;
-  return `<div class="bw-${s.view}">` + out.map((r) => item(r, s.view, base, assets, flagsOn)).join("") + "</div>";
+  return `<div class="bw-${s.view}">` + out.map((r) => item(r, s.view, base, assets, flagsOn, cfg)).join("") + "</div>";
 }
 
 // How recently something appeared or changed — "new" if it was added inside the
@@ -300,7 +538,7 @@ function freshness(r) {
   return "";
 }
 
-function item(r, view, base, assets, flagsOn) {
+function item(r, view, base, assets, flagsOn, cfg = {}) {
   // ⚠️ A row without a url has no page of its own (ideas, skills, glossary
   // terms, decisions live only in this listing). Render it as text — linking to
   // a page that does not exist is a promise the site cannot keep, and it 404s.
@@ -309,11 +547,14 @@ function item(r, view, base, assets, flagsOn) {
   const img = r.hero_image
     ? `<img class="bw-img" src="${assets}${esc(r.hero_image)}" alt="" loading="lazy" />`
     : "";
-  const chips = [r.type, r.category].filter(Boolean)
+  const chips = (cfg.chips || ["type", "category"])
+    .flatMap((k) => vals(r, k)).filter((c) => c && c !== "—")
     .map((c) => `<span class="bw-chip">${esc(c)}</span>`).join("");
   const flag = flagsOn ? freshness(r) : "";
   const badge = flag ? `<span class="bw-flag bw-flag-${flag}">${flag === "new" ? "New" : "Updated"}</span>` : "";
-  const meta = [r.created, r.word_count ? `${Math.max(1, Math.round(r.word_count / 200))} min` : ""]
+  const meta = (cfg.meta
+    ? cfg.meta.map((k) => vals(r, k).filter((v) => v !== "—").join(", "))
+    : [r.created, r.word_count ? `${Math.max(1, Math.round(r.word_count / 200))} min` : ""])
     .filter(Boolean).map(esc).join(" · ");
 
   if (view === "grid") {
