@@ -39,6 +39,10 @@ export async function initBrowse(mount, opts = {}) {
     meta: opts.meta || null,              // null = created + reading time
     flags: opts.flags !== false,          // false where `created` is not a publication date
     trees: {},                            // tree facets: key -> {kids, expanded}
+    // what the count line calls one row: a string ("article" -> "articles") or
+    // {one, many}; default item/items
+    noun: typeof opts.noun === "string" ? { one: opts.noun, many: opts.noun + "s" }
+      : opts.noun || { one: "item", many: "items" },
   };
 
   const el = typeof mount === "string" ? document.querySelector(mount) : mount;
@@ -67,7 +71,11 @@ export async function initBrowse(mount, opts = {}) {
   const scope = opts.itemTypes || [];
   if (scope.length) rows = rows.filter((r) => scope.includes(r.type));
 
-  const state = fromHash(opts.defaults || {}, FACETS);
+  // the page defaults, resolved once: fromHash fills from them and toHash leaves
+  // out exactly these, so the default sort (newest on /articles/) never has to
+  // be spelled out in the URL and A–Z can still be
+  const defs = { view: (opts.defaults || {}).view || "list", sort: (opts.defaults || {}).sort || "title" };
+  const state = fromHash(defs, FACETS);
   // The tree's shape comes from every row in scope, once: ticking and
   // unticking reason about the whole subtree, not only what the other facets
   // leave visible. The open branches start as the ones leading to a selection
@@ -125,10 +133,13 @@ export async function initBrowse(mount, opts = {}) {
       out.filter((r) => freshness(r)).length <= out.length * FRESH_MAX_SHARE;
     $(".bw-facets").innerHTML = facets(rows, state, scope, cfg);
     $(".bw-results").innerHTML = results(out, state, base, assets, flagsOn, cfg);
-    $(".bw-count").textContent =
-      `${out.length} of ${rows.length}` + (out.length === 1 ? " item" : " items");
+    // ⚠️ "1 of 246 item": the noun agrees with the TOTAL, the number it stands
+    // next to. Unfiltered, the "N of N" is noise and reads "246 items".
+    const noun = rows.length === 1 ? cfg.noun.one : cfg.noun.many;
+    $(".bw-count").textContent = out.length === rows.length
+      ? `${rows.length} ${noun}` : `${out.length} of ${rows.length} ${noun}`;
     wireFacets();
-    history.replaceState(null, "", location.pathname + toHash(state, FACETS));
+    history.replaceState(null, "", listUrl());
   };
 
 
@@ -144,11 +155,27 @@ export async function initBrowse(mount, opts = {}) {
         { slugs: lastSet, index: idx,
           // the hash carries the FILTER, so "back to list" returns the reader
           // to the set they were looking at — not to an unfiltered page
-          listUrl: location.pathname + toHash(state, FACETS) }));
+          listUrl: listUrl() }));
     } catch { /* private mode — the stepper just will not appear */ }
   });
 
+  // The URL the current view lives at. The state goes into the hash; query
+  // parameters the state was read from (?series=…, ?sort=…) are dropped, so
+  // unticking a filter that came in through the query really unticks it on
+  // reload. Query parameters that are not ours (utm_…) are kept.
+  const listUrl = () => {
+    const p = new URLSearchParams(location.search);
+    for (const k of stateKeys(FACETS)) p.delete(k);
+    const q = p.toString();
+    return location.pathname + (q ? "?" + q : "") + toHash(state, FACETS, defs);
+  };
+
+  // a search term from the URL shows in the box it filters by
+  $(".bw-search").value = state.q;
   $(".bw-search").oninput = (e) => { state.q = e.target.value.toLowerCase(); render(); };
+  // Same trap as the view buttons below: the select showed its first option (A–Z) while the list was sorted by
+  // the page default or #sort= (newest on jacovanderlaan /articles/, 21 Oct 2026). Show the actual sort.
+  $(".bw-sort").value = state.sort;
   $(".bw-sort").onchange = (e) => { state.sort = e.target.value; render(); };
   el.querySelectorAll("[data-view]").forEach((b) => {
     // ⚠️ The shell marks List as "on" by default; a page whose default (or
@@ -340,25 +367,44 @@ function treeGroup(rows, s, f, cfg) {
 
 /* ---- filter state in the URL --------------------------------------------
    So a filtered view is linkable, survives a reload, and can be returned to
-   from a detail page. The hash is the state; nothing is stored server-side. */
+   from a detail page. The hash is the state; nothing is stored server-side.
 
-function toHash(s, facetList = DEFAULT_FACETS) {
+   ⚠️ A link may also carry the state as a QUERY (/articles/?series=…, from a
+   series page or a newsletter). fromHash reads both, the hash winning per key;
+   the first render then moves it into the hash (listUrl). Reading only the
+   hash left ?series= links showing every article with nothing ticked
+   (21 Oct 2026). */
+
+// every URL key the state reads: q, view, sort and each facet (both "cat" and
+// "category" for the category facet, so either spelling works in a link)
+function stateKeys(facetList = DEFAULT_FACETS) {
+  const ks = ["q", "view", "sort"];
+  for (const f of facetList) ks.push(f.key, ...(HASH_KEY[f.key] ? [HASH_KEY[f.key]] : []));
+  return ks;
+}
+
+// ⚠️ Compares against the PAGE defaults, not "title"/"list". With the
+// hardcoded pair, a page defaulting to newest wrote nothing for A–Z, so a
+// reload or "back to list" fell back to newest (21 Oct 2026).
+function toHash(s, facetList = DEFAULT_FACETS, defs = { view: "list", sort: "title" }) {
   const p = new URLSearchParams();
   if (s.q) p.set("q", s.q);
   for (const f of facetList) {
     if (s[f.key].size) p.set(HASH_KEY[f.key] || f.key, [...s[f.key]].join("|"));
   }
-  if (s.view !== "list") p.set("view", s.view);
-  if (s.sort !== "title") p.set("sort", s.sort);
+  if (s.view !== defs.view) p.set("view", s.view);
+  if (s.sort !== defs.sort) p.set("sort", s.sort);
   const q = p.toString();
   return q ? "#" + q : "";
 }
 
 function fromHash(defaults, facetList = DEFAULT_FACETS) {
-  const p = new URLSearchParams((location.hash || "").replace(/^#/, ""));
+  // query first, hash on top: a key in the hash overrides the same key in the query
+  const p = new URLSearchParams(location.search);
+  for (const [k, v] of new URLSearchParams((location.hash || "").replace(/^#/, ""))) p.set(k, v);
   const split = (v) => new Set(v ? v.split("|").filter(Boolean) : []);
   const s = {
-    q: p.get("q") || "",
+    q: (p.get("q") || "").toLowerCase(),
     view: p.get("view") || defaults.view || "list",
     sort: p.get("sort") || defaults.sort || "title",
   };
@@ -366,7 +412,7 @@ function fromHash(defaults, facetList = DEFAULT_FACETS) {
   // state made facets() read undefined.has() and the whole render threw — the
   // chrome painted, the results never did. Built from the facet list now, so
   // a configured facet can never be forgotten here.
-  for (const f of facetList) s[f.key] = split(p.get(HASH_KEY[f.key] || f.key));
+  for (const f of facetList) s[f.key] = split(p.get(HASH_KEY[f.key] || f.key) ?? p.get(f.key));
   return s;
 }
 
