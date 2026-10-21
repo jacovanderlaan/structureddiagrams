@@ -131,6 +131,38 @@ figcaption { margin-top: 10px; font-size: .92rem; color: var(--muted) }
 .hybrid > .hy-photo { filter: saturate(.88) contrast(1.02) brightness(1.03) }
 .hybrid > .hy-layer { pointer-events: none }
 
+/* ---------------------------------------------------------------------------
+   Photo bands and card images. structurebeatsmagic leads; moved here from its
+   site.css on 21 Oct 2026 so jacovanderlaan.com (and later buildingyourown.ai)
+   share one implementation. Decisions: decision_sbm-homepage-photo-bands-and-layout
+   (12 Oct day folder) and debrief_jvdl-image-system-handover (21 Oct).
+
+   A band is as wide as the content column, rounded, never full-bleed (Jaco,
+   13 Oct 2026). It stands BETWEEN sections and replaces the section's top rule,
+   so the section after it drops its border. Photos are the site's own, of
+   human-made structure, cut by make_headers.py (4:1, 2.6:1 for .tall, 2:1 per
+   half of a .duo). A site needs --maxw, --radius and --line.
+
+   ⚠️ This block is PREPENDED to a site's stylesheet: a site rule of equal
+   specificity further down wins. Change band geometry here, not per site.
+   --------------------------------------------------------------------------- */
+.subject-band { max-width: var(--maxw); margin: 2.4rem auto 0; padding: 0 24px; box-sizing: border-box }
+.subject-band img { display: block; width: 100%; max-width: none; height: clamp(120px, 18vw, 240px); object-fit: cover; border-radius: var(--radius); box-shadow: none }
+/* a taller band for photos whose subject needs height (the whole Erasmus Bridge) */
+.subject-band.tall img { height: auto; aspect-ratio: 2.6/1; max-height: 420px }
+/* two photos side by side, the same height as a single band so every band lines up */
+.subject-band.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.subject-band.duo img { aspect-ratio: auto; max-height: none; height: clamp(120px, 16vw, 220px) }
+.subject-band + section { padding-top: 2.4rem; border-top: 0 }
+@media (max-width: 560px) { .subject-band { padding: 0 16px; margin-top: 1.4rem } }
+
+/* A small image on top of a card (12:5; a site sets 16:9 per card type). */
+.card-thumb { display: block; width: 100%; height: auto; aspect-ratio: 12/5; object-fit: cover; border-radius: 10px; background: #f7f8fa; border: 1px solid var(--line); margin: 0 0 .9rem }
+/* An article card (.post) shows its own hero edge to edge on top: the card's
+   padding (1.6rem) is cancelled with a negative margin. */
+.post { overflow: hidden }
+.post .post-thumb { display: block; width: calc(100% + 3.2rem); max-width: none; margin: -1.6rem -1.6rem 1rem; height: auto; aspect-ratio: 12/5; object-fit: cover; border-radius: var(--radius) var(--radius) 0 0; border-bottom: 1px solid var(--line); background: #f7f8fa }
+
 
 /* ============================================================================
    Base menu — ONE source for the whole family.
