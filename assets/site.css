@@ -350,7 +350,8 @@ h2{font-size:var(--h2);line-height:1.15;letter-spacing:-.01em}
    card density follow the Beacon app.
    ============================================================================ */
 .bw{display:flex;gap:28px;align-items:flex-start}
-.bw-side{flex:0 0 220px;position:sticky;top:76px;font-size:.9rem}
+.bw-side{flex:0 0 220px;position:sticky;top:76px;font-size:.9rem;
+  max-height:calc(100vh - 92px);overflow-y:auto;overscroll-behavior:contain}  /* stays in view; a long facet list scrolls in its own box */
 .bw-side-h{display:flex;justify-content:space-between;align-items:baseline;
   font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.5rem}
 .bw-clear{background:none;border:0;color:var(--accent);cursor:pointer;font-size:.78rem;padding:0}
@@ -379,8 +380,14 @@ h2{font-size:var(--h2);line-height:1.15;letter-spacing:-.01em}
   padding-bottom:.7rem;border-bottom:1px solid var(--line)}
 .bw-count{color:var(--muted);font-size:.86rem}
 .bw-spacer{flex:1}
-.bw-sort{border:1px solid var(--line);border-radius:6px;background:var(--surface);
+.bw-sort,.bw-group{border:1px solid var(--line);border-radius:6px;background:var(--surface);
   color:var(--fg);font:inherit;font-size:.84rem;padding:.3rem .5rem}
+/* grouped results (opts.groupBy): heading + count + rule, as the static category sections */
+.bw-gsec+.bw-gsec{margin-top:2rem}
+.bw-item h3 a,.bw-more,.bw-cell{text-decoration:none}
+.bw-ghead{display:flex;align-items:baseline;gap:.6rem;margin:0 0 .9rem}
+.bw-ghead h3{font-size:1.1rem;font-weight:800;margin:0;white-space:nowrap}
+.bw-ghead .bw-grule{flex:1;height:1px;background:var(--line)}
 .bw-views{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .bw-views button{background:var(--surface);border:0;border-left:1px solid var(--line);
   padding:.35rem .7rem;font:inherit;font-size:.82rem;color:var(--muted);cursor:pointer}
@@ -408,8 +415,12 @@ h2{font-size:var(--h2);line-height:1.15;letter-spacing:-.01em}
 .bw-ready .bw-fallback{display:none}
 @media(max-width:860px){
   .bw{display:block}
-  .bw-side{position:static;width:auto;margin-bottom:1.4rem}
+  .bw-side{position:static;width:auto;margin-bottom:1.4rem;max-height:none;overflow:visible}
   .bw-img{flex-basis:110px;width:110px}
+  /* group + sort + views do not fit one phone row: the count takes its own line */
+  .bw-bar{flex-wrap:wrap}
+  .bw-count{flex:1 0 100%}
+  .bw-spacer{display:none}
 }
 /* prev/next stepper on a detail page — steps through the FILTERED set the
    reader came from, with a route back to that same filtered view */
@@ -682,7 +693,7 @@ html{scroll-behavior:smooth}
 
   /* 8. A search box under 16px makes iOS Safari zoom the whole page on focus,
         and it never zooms back. This is the single most common phone-form bug. */
-  .bw-search,.bw-sort,input,select,textarea{font-size:16px}
+  .bw-search,.bw-sort,.bw-group,input,select,textarea{font-size:16px}
 
   /* 9. ⚠️ Measured: the List/Cards/Grid switcher ran to x=368 on a 360px
         screen, and "clear" was a 14px-tall tap target. The switcher sits on
@@ -699,8 +710,10 @@ html{scroll-behavior:smooth}
 }
 
 /* ⚠️ Belt and braces: nothing may scroll the page sideways, whatever a future
-   listing renders. A table or a code block scrolls INSIDE its own box. */
-html,body{overflow-x:hidden}
+   listing renders. A table or a code block scrolls INSIDE its own box.
+   clip, not hidden (26 Oct 2026): hidden makes body a scroll container and kills position:sticky,
+   so the filter column scrolled away on Concepts, Glossary and Writing. Same trap as article-layout.css. */
+html,body{overflow-x:clip}
 .bw table,.section-hub table,.rule-detail table{display:block;max-width:100%;
   overflow-x:auto}
 .bw pre,.section-hub pre,.rule-detail pre{overflow-x:auto;max-width:100%}

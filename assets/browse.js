@@ -45,6 +45,14 @@ export async function initBrowse(mount, opts = {}) {
       : opts.noun || { one: "item", many: "items" },
   };
 
+  // ⭐ Grouping (21 Oct 2026): `groupBy: ["category"]` (or [{key, label, order}])
+  // adds a "Group by" select; `defaults.group` is the starting choice ("" = none).
+  // The results then render as sections, one per value: in `order` when the page
+  // gives one (its authored category sequence), else the biggest first. A page
+  // without `groupBy` renders exactly as before.
+  cfg.groups = (opts.groupBy || []).map((g) =>
+    (typeof g === "string" ? { key: g, label: titleCase(g) } : g));
+
   const el = typeof mount === "string" ? document.querySelector(mount) : mount;
   if (!el) return;
   el.innerHTML = `<div class="bw-loading">Loading…</div>`;
@@ -74,8 +82,11 @@ export async function initBrowse(mount, opts = {}) {
   // the page defaults, resolved once: fromHash fills from them and toHash leaves
   // out exactly these, so the default sort (newest on /articles/) never has to
   // be spelled out in the URL and A–Z can still be
-  const defs = { view: (opts.defaults || {}).view || "list", sort: (opts.defaults || {}).sort || "title" };
+  const defs = { view: (opts.defaults || {}).view || "list", sort: (opts.defaults || {}).sort || "title",
+                 group: (opts.defaults || {}).group || "" };
   const state = fromHash(defs, FACETS);
+  // a #group= naming a column this page does not group by would render nothing useful
+  if (!cfg.groups.some((g) => g.key === state.group)) state.group = "";
   // The tree's shape comes from every row in scope, once: ticking and
   // unticking reason about the whole subtree, not only what the other facets
   // leave visible. The open branches start as the ones leading to a selection
@@ -91,7 +102,7 @@ export async function initBrowse(mount, opts = {}) {
   }
   let lastSet = [];
   let flagsOn = true;
-  el.innerHTML = shell(opts.sorts);
+  el.innerHTML = shell(opts.sorts, cfg.groups);
   const $ = (s) => el.querySelector(s);
 
   const wireFacets = () => {
@@ -122,17 +133,21 @@ export async function initBrowse(mount, opts = {}) {
 
   const render = () => {
     const out = apply(rows, state, FACETS);
+    const gdef = cfg.groups.find((g) => g.key === state.group);
+    const secs = gdef ? sections(out, gdef) : null;
     // Hand the CURRENT filtered set to the detail page, so prev/next steps
     // through what the reader was actually looking at — not a global ordering.
     // only items WITH a page go into the stepper set: prev/next navigates by
-    // url, and a listing-only row would step the reader into a 404
-    lastSet = out.filter((r) => r.url)
+    // url, and a listing-only row would step the reader into a 404.
+    // Grouped, the reader sees section order, so prev/next follows it (each row once).
+    const shown = secs ? [...new Set(secs.flatMap(([, rs]) => rs))] : out;
+    lastSet = shown.filter((r) => r.url)
                  .map((r) => ({ slug: r.slug, title: r.title, url: r.url }));
     // Decide ONCE per render whether flags are meaningful for this set.
     flagsOn = cfg.flags && out.length > 2 &&
       out.filter((r) => freshness(r)).length <= out.length * FRESH_MAX_SHARE;
     $(".bw-facets").innerHTML = facets(rows, state, scope, cfg);
-    $(".bw-results").innerHTML = results(out, state, base, assets, flagsOn, cfg);
+    $(".bw-results").innerHTML = results(out, state, base, assets, flagsOn, cfg, secs);
     // ⚠️ "1 of 246 item": the noun agrees with the TOTAL, the number it stands
     // next to. Unfiltered, the "N of N" is noise and reads "246 items".
     const noun = rows.length === 1 ? cfg.noun.one : cfg.noun.many;
@@ -177,6 +192,10 @@ export async function initBrowse(mount, opts = {}) {
   // the page default or #sort= (newest on jacovanderlaan /articles/, 21 Oct 2026). Show the actual sort.
   $(".bw-sort").value = state.sort;
   $(".bw-sort").onchange = (e) => { state.sort = e.target.value; render(); };
+  if ($(".bw-group")) {
+    $(".bw-group").value = state.group;
+    $(".bw-group").onchange = (e) => { state.group = e.target.value; render(); };
+  }
   el.querySelectorAll("[data-view]").forEach((b) => {
     // ⚠️ The shell marks List as "on" by default; a page whose default (or
     // #view=) is cards rendered cards under a highlighted List button (SBM
@@ -378,7 +397,7 @@ function treeGroup(rows, s, f, cfg) {
 // every URL key the state reads: q, view, sort and each facet (both "cat" and
 // "category" for the category facet, so either spelling works in a link)
 function stateKeys(facetList = DEFAULT_FACETS) {
-  const ks = ["q", "view", "sort"];
+  const ks = ["q", "view", "sort", "group"];
   for (const f of facetList) ks.push(f.key, ...(HASH_KEY[f.key] ? [HASH_KEY[f.key]] : []));
   return ks;
 }
@@ -394,6 +413,8 @@ function toHash(s, facetList = DEFAULT_FACETS, defs = { view: "list", sort: "tit
   }
   if (s.view !== defs.view) p.set("view", s.view);
   if (s.sort !== defs.sort) p.set("sort", s.sort);
+  // "none" spells out ungrouped, so it survives a reload on a page that groups by default
+  if ((s.group || "") !== (defs.group || "")) p.set("group", s.group || "none");
   const q = p.toString();
   return q ? "#" + q : "";
 }
@@ -407,6 +428,7 @@ function fromHash(defaults, facetList = DEFAULT_FACETS) {
     q: (p.get("q") || "").toLowerCase(),
     view: p.get("view") || defaults.view || "list",
     sort: p.get("sort") || defaults.sort || "title",
+    group: p.get("group") === "none" ? "" : (p.get("group") || defaults.group || ""),
   };
   // ⚠️ Every FACET key must exist here as a Set. A facet missing from the
   // state made facets() read undefined.has() and the whole render threw — the
@@ -481,10 +503,15 @@ function apply(rows, s, facetList = DEFAULT_FACETS) {
 // Sort options a page may offer; `sorts` limits and orders them. Default: all.
 const SORT_LABEL = { title: "A–Z", newest: "Newest", longest: "Longest" };
 
-function shell(sorts) {
+function shell(sorts, groups = []) {
   const sortOpts = (sorts && sorts.length ? sorts : Object.keys(SORT_LABEL))
     .filter((k) => SORT_LABEL[k])
     .map((k) => `<option value="${k}">${SORT_LABEL[k]}</option>`).join("");
+  const groupSel = groups.length
+    ? `<select class="bw-group" aria-label="Group by"><option value="">No grouping</option>` +
+      groups.map((g) => `<option value="${esc(g.key)}">By ${esc(g.label.toLowerCase())}</option>`).join("") +
+      `</select>`
+    : "";
   return `
   <div class="bw">
     <aside class="bw-side">
@@ -496,6 +523,7 @@ function shell(sorts) {
       <div class="bw-bar">
         <span class="bw-count"></span>
         <span class="bw-spacer"></span>
+        ${groupSel}
         <select class="bw-sort" aria-label="Sort">${sortOpts}</select>
         <div class="bw-views" role="group" aria-label="View">
           <button type="button" data-view="list" class="on">List</button>
@@ -546,9 +574,31 @@ function facets(rows, s, scope = [], cfg = { facets: DEFAULT_FACETS, custom: fal
   // Topic section never renders.
 }
 
-function results(out, s, base, assets, flagsOn, cfg) {
+// The filtered rows bucketed by one column: [[value, rows]]. A multi-valued
+// row appears under each of its values. Order: the group's authored `order`,
+// then the biggest section first; "no value" is always last, labelled Other.
+function sections(out, g) {
+  const by = new Map();
+  for (const r of out) for (const v of vals(r, g.key)) {
+    if (!by.has(v)) by.set(v, []);
+    by.get(v).push(r);
+  }
+  const ord = g.order || [];
+  const rank = (k) => (ord.includes(k) ? ord.indexOf(k) : ord.length);
+  return [...by.entries()].sort((a, b) =>
+    (a[0] === "—") - (b[0] === "—") || rank(a[0]) - rank(b[0]) ||
+    b[1].length - a[1].length || a[0].localeCompare(b[0]));
+}
+
+function results(out, s, base, assets, flagsOn, cfg, secs = null) {
   if (!out.length) return `<p class="bw-empty">Nothing matches. <button class="bw-clear" type="button">Clear filters</button></p>`;
-  return `<div class="bw-${s.view}">` + out.map((r) => item(r, s.view, base, assets, flagsOn, cfg)).join("") + "</div>";
+  const list = (rs) => `<div class="bw-${s.view}">` +
+    rs.map((r) => item(r, s.view, base, assets, flagsOn, cfg)).join("") + "</div>";
+  if (!secs) return list(out);
+  return secs.map(([k, rs]) => `<div class="bw-gsec">
+    <div class="bw-ghead"><h3>${esc(k === "—" ? "Other" : k)}</h3><span class="bw-n">${rs.length}</span><span class="bw-grule"></span></div>
+    ${list(rs)}
+  </div>`).join("");
 }
 
 // How recently something appeared or changed — "new" if it was added inside the
