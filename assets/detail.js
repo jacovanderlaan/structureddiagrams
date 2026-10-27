@@ -59,8 +59,21 @@ function buildToc({ body = "main, .pagebody, section.wrap", slot = ".toc, #toc" 
     // no dedicated slot on this template — create one beside the content
     host = document.createElement("aside");
     host.className = "toc";
-    main.parentNode.insertBefore(host, main);
-    main.parentNode.classList.add("pagewrap");
+    const parent = main.parentNode;
+    if (parent === document.body || parent.children.length > 1) {
+      // ⚠️ 27 Oct 2026: main sits among siblings (header, hero, footer). Making THEIR parent a flex row laid the whole
+      // page out sideways on breakthroughmodeling's concept pages, the moment a page had two headings. Give the
+      // content its own row instead; a .wrap keeps its page width by moving to the row.
+      const row = document.createElement("div");
+      row.className = "pagewrap";
+      if (main.classList.contains("wrap")) { row.classList.add("wrap"); main.classList.remove("wrap"); }
+      parent.insertBefore(row, main);
+      main.classList.add("pagebody");
+      row.append(host, main);
+    } else {
+      parent.insertBefore(host, main);
+      parent.classList.add("pagewrap");
+    }
   }
   host.innerHTML = `
     <button class="toc-toggle" aria-expanded="true" aria-controls="toc-list"
